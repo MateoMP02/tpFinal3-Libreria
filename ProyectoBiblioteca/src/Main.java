@@ -11,28 +11,32 @@ public class Main {
     static Scanner scanner = new Scanner(System.in);
     public static void main(String[] args) {
 
-        Biblioteca nueva = new Biblioteca("Mi Biblioteca");
 
         // Cargar libros desde un archivo JSON
-        nueva.cargarLibrosDesdeJson("libros");
+        biblioteca.cargarLibrosDesdeJson("libros");
+
 
         // Mostrar todos los libros cargados
-        HashMap<Integer, Libro> libros = nueva.getHashMapDeLibros();
+        HashMap<Integer, Libro> libros = biblioteca.getHashMapDeLibros();
         for (Libro libro : libros.values()) {
             System.out.println(libro);
         }
 
         //Cargar clientes desde un JSON
-        nueva.cargarClientesDesdeJson("clientes");
+        biblioteca.cargarClientesDesdeJson("clientes");
 
         // Muestra todos los clientes cargados
-        HashMap<Integer, Cliente> clienteHashMap= nueva.getHashMapDeClientes();
+        HashMap<Integer, Cliente> clienteHashMap= biblioteca.getHashMapDeClientes();
         for (Cliente cliente : clienteHashMap.values())
         {
             System.out.println(cliente);
         }
 
         generarListaDeLibros(biblioteca);
+
+
+        //generarListaDeLibros(biblioteca);
+
         System.out.println(biblioteca.getHashMapDeLibros());
         int opcion;
 

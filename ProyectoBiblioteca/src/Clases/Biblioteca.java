@@ -29,8 +29,31 @@ public class Biblioteca implements Serializable {
     }
 
     public void agregarLibro(Integer ISBN, Libro libro) {
-        hashMapDeLibros.agregar(ISBN,libro);
+        hashMapDeLibros.agregar(ISBN, libro);
+        guardarLibrosEnJSON(); // Llamar a la función para guardar en JSON
     }
+    private void guardarLibrosEnJSON() {
+        JSONArray jsonArray = new JSONArray();
+
+        // Convertir cada libro en el mapa a un objeto JSON y agregarlo al JSONArray
+        for (Libro libro : hashMapDeLibros.obtenerTodos().values()) {
+            JSONObject jsonLibro = new JSONObject();
+            try {
+                jsonLibro.put("ISBN", libro.getISBN());
+                jsonLibro.put("titulo", libro.getTitulo());
+                jsonLibro.put("autor", libro.getAutor());
+                jsonLibro.put("genero", libro.getGenero());
+                jsonLibro.put("precio", libro.getPrecio());
+                jsonArray.put(jsonLibro);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // Escribir el JSONArray al archivo JSON
+        JsonUtiles.grabar(jsonArray, "libros");
+    }
+
 
     public Libro buscarLibros(Integer ISBN) {
         return hashMapDeLibros.buscar(ISBN);
