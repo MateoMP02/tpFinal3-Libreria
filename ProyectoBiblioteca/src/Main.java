@@ -11,7 +11,7 @@ public class Main {
     static Scanner scanner = new Scanner(System.in);
     public static void main(String[] args) {
 
-        Biblioteca nueva = new Biblioteca("Mi Biblioteca");
+        Biblioteca nueva = new Biblioteca("Falskdnalksds");
 
         // Cargar libros desde un archivo JSON
         nueva.cargarLibrosDesdeJson("libros");

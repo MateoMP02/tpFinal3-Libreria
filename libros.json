@@ -1,0 +1,212 @@
+[
+  {
+    "ISBN": 9780451524935,
+    "titulo": "The Hobbit",
+    "autor": "J.R.R. Tolkien",
+    "genero": "Fantasía",
+    "precio": 12.99
+  },
+  {
+    "ISBN": 9780544003415,
+    "titulo": "The Lord of the Rings",
+    "autor": "J.R.R. Tolkien",
+    "genero": "Fantasía",
+    "precio": 29.99
+  },
+  {
+    "ISBN": 9780062678105,
+    "titulo": "Harry Potter and the Sorcerer's Stone",
+    "autor": "J.K. Rowling",
+    "genero": "Fantasía",
+    "precio": 10.99
+  },
+  {
+    "ISBN": 9780316491444,
+    "titulo": "A Court of Thorns and Roses",
+    "autor": "Sarah J. Maas",
+    "genero": "Fantasía",
+    "precio": 16.99
+  },
+  {
+    "ISBN": 9780061120084,
+    "titulo": "American Gods",
+    "autor": "Neil Gaiman",
+    "genero": "Fantasía",
+    "precio": 14.99
+  },
+  {
+    "ISBN": 9780345342966,
+    "titulo": "Jurassic Park",
+    "autor": "Michael Crichton",
+    "genero": "Aventura",
+    "precio": 8.99
+  },
+  {
+    "ISBN": 9780439139595,
+    "titulo": "Harry Potter and the Chamber of Secrets",
+    "autor": "J.K. Rowling",
+    "genero": "Fantasía",
+    "precio": 11.99
+  },
+  {
+    "ISBN": 9780439655484,
+    "titulo": "Harry Potter and the Prisoner of Azkaban",
+    "autor": "J.K. Rowling",
+    "genero": "Fantasía",
+    "precio": 12.99
+  },
+  {
+    "ISBN": 9780739319190,
+    "titulo": "Outlander",
+    "autor": "Diana Gabaldon",
+    "genero": "Romance",
+    "precio": 9.99
+  },
+  {
+    "ISBN": 9780385344671,
+    "titulo": "The Night Circus",
+    "autor": "Erin Morgenstern",
+    "genero": "Fantasía",
+    "precio": 13.99
+  },
+  {
+    "ISBN": 9780743273565,
+    "titulo": "The Da Vinci Code",
+    "autor": "Dan Brown",
+    "genero": "Misterio",
+    "precio": 7.99
+  },
+  {
+    "ISBN": 9780062387240,
+    "titulo": "Me Before You",
+    "autor": "Jojo Moyes",
+    "genero": "Romance",
+    "precio": 11.99
+  },
+  {
+    "ISBN": 9780743273565,
+    "titulo": "The Alchemist",
+    "autor": "Paulo Coelho",
+    "genero": "Ficción",
+    "precio": 10.99
+  },
+  {
+    "ISBN": 9780765311788,
+    "titulo": "Eragon",
+    "autor": "Christopher Paolini",
+    "genero": "Fantasía",
+    "precio": 11.99
+  },
+  {
+    "ISBN": 9780380813810,
+    "titulo": "The Princess Bride",
+    "autor": "William Goldman",
+    "genero": "Aventura",
+    "precio": 9.99
+  },
+  {
+    "ISBN": 9780739343201,
+    "titulo": "Twilight",
+    "autor": "Stephenie Meyer",
+    "genero": "Romance",
+    "precio": 8.99
+  },
+  {
+    "ISBN": 9780765311788,
+    "titulo": "The Hunger Games",
+    "autor": "Suzanne Collins",
+    "genero": "Aventura",
+    "precio": 12.99
+  },
+  {
+    "ISBN": 9780060517793,
+    "titulo": "Stardust",
+    "autor": "Neil Gaiman",
+    "genero": "Fantasía",
+    "precio": 14.99
+  },
+  {
+    "ISBN": 9780451524935,
+    "titulo": "Jane Eyre",
+    "autor": "Charlotte Brontë",
+    "genero": "Romance",
+    "precio": 6.99
+  },
+  {
+    "ISBN": 9780804169308,
+    "titulo": "The Girl with the Dragon Tattoo",
+    "autor": "Stieg Larsson",
+    "genero": "Misterio",
+    "precio": 11.99
+  },
+  {
+    "ISBN": 9780743273565,
+    "titulo": "Gone with the Wind",
+    "autor": "Margaret Mitchell",
+    "genero": "Histórico",
+    "precio": 15.99
+  },
+  {
+    "ISBN": 9781451635626,
+    "titulo": "The Help",
+    "autor": "Kathryn Stockett",
+    "genero": "Drama",
+    "precio": 9.99
+  },
+  {
+    "ISBN": 9780446310789,
+    "titulo": "To Kill a Mockingbird",
+    "autor": "Harper Lee",
+    "genero": "Drama",
+    "precio": 7.99
+  },
+  {
+    "ISBN": 9780316219266,
+    "titulo": "The Martian",
+    "autor": "Andy Weir",
+    "genero": "Ciencia Ficción",
+    "precio": 10.99
+  },
+  {
+    "ISBN": 9780141439587,
+    "titulo": "Pride and Prejudice",
+    "autor": "Jane Austen",
+    "genero": "Romance",
+    "precio": 8.99
+  },
+  {
+    "ISBN": 9780545582933,
+    "titulo": "The Maze Runner",
+    "autor": "James Dashner",
+    "genero": "Aventura",
+    "precio": 11.99
+  },
+  {
+    "ISBN": 9781401216672,
+    "titulo": "Watchmen",
+    "autor": "Alan Moore",
+    "genero": "Novela Gráfica",
+    "precio": 15.99
+  },
+  {
+    "ISBN": 9780143038583,
+    "titulo": "Life of Pi",
+    "autor": "Yann Martel",
+    "genero": "Aventura",
+    "precio": 12.99
+  },
+  {
+    "ISBN": 9780316015844,
+    "titulo": "Eat, Pray, Love",
+    "autor": "Elizabeth Gilbert",
+    "genero": "Memoir",
+    "precio": 9.99
+  },
+  {
+    "ISBN": 9780547928210,
+    "titulo": "Divergent",
+    "autor": "Veronica Roth",
+    "genero": "Aventura",
+    "precio": 10.99
+  }
+]
