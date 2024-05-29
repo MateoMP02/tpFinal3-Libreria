@@ -1,6 +1,7 @@
 import Clases.*;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
@@ -72,6 +73,16 @@ public class Main {
                     biblioteca.eliminarLibro(isbnEliminar);
                     System.out.println("Libro eliminado exitosamente.");
                     break;
+                case 7 :
+                    System.out.println("Ingrese el genero a buscar: ");
+                    String generoBuscado = scanner.nextLine();
+                    try {
+                        ArrayList<Libro> librosPorGenero = biblioteca.buscarLibrosPorGenero(generoBuscado);
+                        System.out.println(librosPorGenero);
+                    }catch (NullPointerException e){
+                        System.out.println(e.getMessage());
+                    }
+                    break;
                 case 0:
                     System.out.println("Saliendo...");
                     break;
@@ -92,6 +103,7 @@ public class Main {
         System.out.println("4. Buscar libro por ISBN");
         System.out.println("5. Eliminar cliente por ID");
         System.out.println("6. Eliminar libro por ISBN");
+        System.out.println("7. Buscar libros por genero");
         System.out.println("0. Salir");
         System.out.print("Seleccione una opción: ");
     }

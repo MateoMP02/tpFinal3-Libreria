@@ -4,8 +4,10 @@ package Clases;
 import Generics.GestorHashMap;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import Generics.GestorHashMap;
 import org.json.JSONArray;
@@ -91,6 +93,17 @@ public class Biblioteca implements Serializable {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public ArrayList<Libro>  buscarLibrosPorGenero(String genero) {
+
+        ArrayList<Libro> librosXgenero = new ArrayList<>();
+        for (Libro libro : hashMapDeLibros.obtenerTodos().values()) {
+            if (libro.getGenero().equalsIgnoreCase(genero)) {
+                librosXgenero.add(libro);
+            }
+        }
+        return librosXgenero;
     }
 
 }
