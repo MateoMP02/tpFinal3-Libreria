@@ -1,4 +1,5 @@
 import Clases.*;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +10,19 @@ public class Main {
     private static Biblioteca biblioteca = new Biblioteca("Mi Biblioteca");
     static Scanner scanner = new Scanner(System.in);
     public static void main(String[] args) {
+
+        Biblioteca nueva = new Biblioteca("Mi Biblioteca");
+
+        // Cargar libros desde un archivo JSON
+        nueva.cargarLibrosDesdeJson("libros");
+
+        // Mostrar todos los libros cargados
+        HashMap<Integer, Libro> libros = nueva.getHashMapDeLibros();
+        for (Libro libro : libros.values()) {
+            System.out.println(libro);
+        }
+
+
 
         generarListaDeLibros(biblioteca);
         System.out.println(biblioteca.getHashMapDeLibros());

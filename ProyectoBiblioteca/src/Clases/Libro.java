@@ -1,9 +1,13 @@
 package Clases;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Libro {
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class Libro implements Serializable {
     private Integer ISBN;
     private String titulo;
     private String autor;
@@ -103,5 +107,71 @@ public class Libro {
     @Override
     public int hashCode() {
         return Objects.hash(ISBN);
+    }
+
+    // Método para convertir el objeto a un JSONObject
+    public JSONObject toJson() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("ISBN", ISBN);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            jsonObject.put("titulo", titulo);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            jsonObject.put("autor", autor);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            jsonObject.put("genero", genero);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            jsonObject.put("precio", precio);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        return jsonObject;
+    }
+
+    // Método estático para crear un objeto Libro desde un JSONObject
+    public static Libro fromJson(JSONObject jsonObject) {
+        int ISBN = 0;
+        try {
+            ISBN = jsonObject.getInt("ISBN");
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        String titulo = null;
+        try {
+            titulo = jsonObject.getString("titulo");
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        String autor = null;
+        try {
+            autor = jsonObject.getString("autor");
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        String genero = null;
+        try {
+            genero = jsonObject.getString("genero");
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        double precio = 0;
+        try {
+            precio = jsonObject.getDouble("precio");
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        return new Libro(ISBN, titulo, autor, genero, precio);
     }
 }

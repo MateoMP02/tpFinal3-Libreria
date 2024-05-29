@@ -1,10 +1,22 @@
 package Clases;
 
+
 import Generics.GestorHashMap;
+
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 
-public class Biblioteca {
+import Generics.GestorHashMap;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONException;
+
+
+
+
+
+public class Biblioteca implements Serializable {
 
     private String nombreBiblioteca;
     private GestorHashMap<Integer,Libro> hashMapDeLibros;
@@ -42,6 +54,20 @@ public class Biblioteca {
 
     public HashMap<Integer, Libro> getHashMapDeLibros() {
         return hashMapDeLibros.obtenerTodos();
+    }
+
+    public void cargarLibrosDesdeJson(String archivoJson) {
+        String contenido = JsonUtiles.leer(archivoJson);
+        try {
+            JSONArray jsonArray = new JSONArray(contenido);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                Libro libro = Libro.fromJson(jsonObject);
+                this.agregarLibro(libro.getISBN(), libro);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 }

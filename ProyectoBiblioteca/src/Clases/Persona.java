@@ -1,7 +1,5 @@
 package Clases;
 
-import javax.print.Doc;
-
 public abstract class Persona {
     private String nombreYapellido;
     private int edad;

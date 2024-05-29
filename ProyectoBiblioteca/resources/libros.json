@@ -1,0 +1,37 @@
+[
+  {
+    "ISBN": 9780134685991,
+    "titulo": "Effective Java",
+    "autor": "Joshua Bloch",
+    "genero": "Programming",
+    "precio": 45.00
+  },
+  {
+    "ISBN": 9780596009205,
+    "titulo": "Head First Java",
+    "autor": "Kathy Sierra, Bert Bates",
+    "genero": "Programming",
+    "precio": 35.00
+  },
+  {
+    "ISBN": 9781617294945,
+    "titulo": "Java Concurrency in Practice",
+    "autor": "Brian Goetz",
+    "genero": "Programming",
+    "precio": 55.00
+  },
+  {
+    "ISBN": 9780132350884,
+    "titulo": "Clean Code",
+    "autor": "Robert C. Martin",
+    "genero": "Programming",
+    "precio": 50.00
+  },
+  {
+    "ISBN": 9780134494166,
+    "titulo": "Core Java Volume I",
+    "autor": "Cay S. Horstmann",
+    "genero": "Programming",
+    "precio": 60.00
+  }
+]
