@@ -56,6 +56,9 @@ public class Biblioteca implements Serializable {
         return hashMapDeLibros.obtenerTodos();
     }
 
+    public HashMap<Integer, Cliente> getHashMapDeClientes() {
+        return hashMapClientes.obtenerTodos();
+    }
     public void cargarLibrosDesdeJson(String archivoJson) {
         String contenido = JsonUtiles.leer(archivoJson);
         try {
@@ -70,4 +73,19 @@ public class Biblioteca implements Serializable {
         }
     }
 
+    public void cargarClientesDesdeJson(String archivoJson)
+    {
+        String contenido = JsonUtiles.leer(archivoJson);
+        try {
+            JSONObject jsonObject = new JSONObject(contenido);
+            JSONArray jsonArray = jsonObject.getJSONArray("clientes");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject clienteObj = jsonArray.getJSONObject(i);
+                Cliente cliente = Cliente.fromJson(clienteObj);
+                this.agregarCliente(cliente.getIdCliente(), cliente);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 }

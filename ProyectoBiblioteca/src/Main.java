@@ -22,7 +22,15 @@ public class Main {
             System.out.println(libro);
         }
 
+        //Cargar clientes desde un JSON
+        nueva.cargarClientesDesdeJson("clientes");
 
+        // Muestra todos los clientes cargados
+        HashMap<Integer, Cliente> clienteHashMap= nueva.getHashMapDeClientes();
+        for (Cliente cliente : clienteHashMap.values())
+        {
+            System.out.println(cliente);
+        }
 
         generarListaDeLibros(biblioteca);
         System.out.println(biblioteca.getHashMapDeLibros());
