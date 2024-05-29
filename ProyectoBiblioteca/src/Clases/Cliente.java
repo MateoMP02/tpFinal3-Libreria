@@ -54,4 +54,20 @@ public class Cliente extends Persona{
 
         return new Cliente(nombreYapellido,edad,new Domicilio(calleYaltura,ciudad,pais,provincia),idCliente,correoElectronico);
     }
+
+    public JSONObject toJson() throws JSONException {
+        JSONObject jsonObject1 = new JSONObject();
+        jsonObject1.put("idCliente",getIdCliente());
+        jsonObject1.put("correoElectronico",getCorreoElectronico());
+        jsonObject1.put("saldo",getSaldo());
+        jsonObject1.put("edad",getEdad());
+        jsonObject1.put("nombreYapellido",getNombreYapellido());
+        JSONObject domicilio = new JSONObject();
+        domicilio.put("pais",getDomicilio().getPais());
+        domicilio.put("provincia",getDomicilio().getProvincia());
+        domicilio.put("ciudad",getDomicilio().getCiudad());
+        domicilio.put("calleYaltura",getDomicilio().getCalleYaltura());
+        jsonObject1.put("domicilio",domicilio);
+        return jsonObject1;
+    }
 }
