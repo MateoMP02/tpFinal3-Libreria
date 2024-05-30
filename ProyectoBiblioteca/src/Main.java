@@ -86,9 +86,7 @@ public class Main {
                     } else {
                         System.out.println("El libro con ISBN " + ISBN + " no se encontró en la biblioteca.");
                     }
-
-                    // Guardar el estado actualizado de la biblioteca en el archivo JSON
-                    biblioteca.guardarLibrosEnJSON();
+                    
 
                     break;
                 case 0:
