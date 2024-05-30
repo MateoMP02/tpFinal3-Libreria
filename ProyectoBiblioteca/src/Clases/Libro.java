@@ -22,6 +22,15 @@ public class Libro {
         this.copias = 1; // Se establece la cantidad inicial de copias en 1
     }
 
+    public Libro(Integer ISBN, String titulo, String autor, String genero, double precio,int copias) {
+        this.ISBN = ISBN;
+        this.titulo = titulo;
+        this.autor = autor;
+        this.genero = genero;
+        this.precio = precio;
+        this.copias = copias; // Se establece la cantidad inicial de copias en 1
+    }
+
     public Integer getISBN() {
         return ISBN;
     }
@@ -103,6 +112,7 @@ public class Libro {
             jsonObject.put("autor", autor);
             jsonObject.put("genero", genero);
             jsonObject.put("precio", precio);
+            jsonObject.put("copias",copias);
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
@@ -116,7 +126,8 @@ public class Libro {
             String autor = jsonObject.getString("autor");
             String genero = jsonObject.getString("genero");
             double precio = jsonObject.getDouble("precio");
-            return new Libro(ISBN, titulo, autor, genero, precio);
+            int copias = jsonObject.getInt("copias");
+            return new Libro(ISBN, titulo, autor, genero, precio,copias);
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
