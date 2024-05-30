@@ -18,31 +18,6 @@ public class Main {
         // Cargar libros desde un archivo JSON
         biblioteca.cargarLibrosDesdeJson("libros");
 
-        /*
-        // Mostrar todos los libros cargados
-        HashMap<Integer, Libro> libros = biblioteca.getHashMapDeLibros();
-        for (Libro libro : libros.values()) {
-            System.out.println(libro);
-        }
-
-        //Cargar clientes desde un JSON
-        biblioteca.cargarClientesDesdeJson("clientes");
-
-        // Muestra todos los clientes cargados
-        HashMap<Integer, Cliente> clienteHashMap= biblioteca.getHashMapDeClientes();
-        for (Cliente cliente : clienteHashMap.values())
-        {
-            System.out.println(cliente);
-        }
-
-        generarListaDeLibros(biblioteca);
-
-
-        //generarListaDeLibros(biblioteca);
-
-    */
-
-        //generarListaDeLibros(biblioteca);
         System.out.println(biblioteca.getHashMapDeLibros());
         int opcion;
 
@@ -100,6 +75,22 @@ public class Main {
                         System.out.println(e.getMessage());
                     }
                     break;
+                case 8 :
+                    System.out.println("Ingrese el ISBN del libro que quiera agregar copias");
+                    int ISBN = scanner.nextInt();
+                    biblioteca.agregarCopiaDeLibro(ISBN);
+                    // Mostrar el número de copias del libro actualizado
+                    Libro libroActualizado = biblioteca.buscarLibros(ISBN);
+                    if (libroActualizado != null) {
+                        System.out.println("Número de copias del libro con ISBN " + ISBN + ": " + libroActualizado.getCopias());
+                    } else {
+                        System.out.println("El libro con ISBN " + ISBN + " no se encontró en la biblioteca.");
+                    }
+
+                    // Guardar el estado actualizado de la biblioteca en el archivo JSON
+                    biblioteca.guardarLibrosEnJSON();
+
+                    break;
                 case 0:
                     System.out.println("Saliendo...");
                     break;
@@ -121,6 +112,7 @@ public class Main {
         System.out.println("5. Eliminar cliente por ID");
         System.out.println("6. Eliminar libro por ISBN");
         System.out.println("7. Buscar libros por genero");
+        System.out.println("8. Agrega una copia de un libro");
         System.out.println("0. Salir");
         System.out.print("Seleccione una opción: ");
     }
@@ -186,30 +178,5 @@ public class Main {
         } while (precio <= 0);
 
         return new Libro(ISBN, titulo, autor, genero, precio);
-    }
-
-
-    public static void generarListaDeLibros(Biblioteca biblioteca) {
-        String[] titulos = {
-                "El Quijote", "Cien Años de Soledad", "Don Juan Tenorio", "La Odisea",
-                "Hamlet", "El Principito", "Moby Dick", "Orgullo y Prejuicio",
-                "Crimen y Castigo", "1984", "Drácula", "Frankenstein"
-        };
-        String[] autores = {
-                "Miguel de Cervantes", "Gabriel Garcia Marquez", "José Zorrilla", "Homero",
-                "William Shakespeare", "Antoine de Saint-Exupéry", "Herman Melville", "Jane Austen",
-                "Fyodor Dostoevsky", "George Orwell", "Bram Stoker", "Mary Shelley"
-        };
-        String[] generos = {
-                "Aventura", "Aventura", "Aventura", "Ciencia Ficción", "Ciencia Ficción",
-                "Ciencia Ficción", "Drama", "Drama", "Drama", "Terror", "Terror", "Terror"
-        };
-        double[] precios = {19.99, 25.99, 14.99, 29.99, 9.99, 17.99, 21.99, 13.99, 18.99, 16.99, 22.99, 20.99};
-
-        for (int i = 0; i < titulos.length; i++) {
-            int isbn = 1000000 + i + 1;  // Incremental ISBN
-            Libro libro = new Libro(isbn, titulos[i], autores[i], generos[i], precios[i]);
-            biblioteca.agregarLibro(isbn, libro);
-        }
     }
 }
