@@ -15,7 +15,7 @@ public class Domicilio {
 
     @Override
     public String toString() {
-        return  "Pais'" + pais +"\n"+
+        return  "Pais: " + pais +"\n"+
                 "Provincia: "+ provincia +"\n"+
                 "Ciudad: "+ ciudad +"\n"+
                 "Calle y Altura: "+ calleYaltura;

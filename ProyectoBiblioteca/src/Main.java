@@ -12,9 +12,11 @@ public class Main {
     static Scanner scanner = new Scanner(System.in);
     public static void main(String[] args) {
 
-
         //Cargar clientes desde un JSON
         biblioteca.cargarClientesDesdeJson("clientes");
+        Cliente a = crearNuevoCliente(scanner);
+        biblioteca.agregarCliente(a.getIdCliente(),a);
+        biblioteca.cargarClientesToJson("clientes");
 
         // Muestra todos los clientes cargados
         HashMap<Integer, Cliente> clienteHashMap= biblioteca.getHashMapDeClientes();
@@ -22,6 +24,7 @@ public class Main {
         {
             System.out.println(cliente);
         }
+
 
         // Cargar libros desde un archivo JSON
         biblioteca.cargarLibrosDesdeJson("libros");
@@ -145,7 +148,9 @@ public class Main {
         scanner.nextLine(); // Consumir el salto de línea
         System.out.print("Ingrese el correo electrónico del cliente: ");
         String correoElectronico = scanner.nextLine();
-        return new Cliente(nombreYapellido, edad, domicilio, idCliente, correoElectronico);
+        System.out.println("Ingrese el saldo del cliente: ");
+        float saldo = scanner.nextFloat();
+        return new Cliente(nombreYapellido, edad, domicilio, idCliente, correoElectronico, saldo);
     }
 
 
