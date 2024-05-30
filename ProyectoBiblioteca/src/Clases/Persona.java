@@ -15,18 +15,6 @@ public abstract class Persona {
         this.domicilio = domicilio;
     }
 
-    public String getNombreYapellido() {
-        return nombreYapellido;
-    }
-
-    public int getEdad() {
-        return edad;
-    }
-
-    public Domicilio getDomicilio() {
-        return domicilio;
-    }
-
     @Override
     public String toString() {
         return "Datos Personales:\n" +

@@ -13,22 +13,6 @@ public class Domicilio {
         this.provincia = provincia;
     }
 
-    public String getPais() {
-        return pais;
-    }
-
-    public String getProvincia() {
-        return provincia;
-    }
-
-    public String getCiudad() {
-        return ciudad;
-    }
-
-    public String getCalleYaltura() {
-        return calleYaltura;
-    }
-
     @Override
     public String toString() {
         return  "Pais'" + pais +"\n"+

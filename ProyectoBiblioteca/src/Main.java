@@ -13,6 +13,16 @@ public class Main {
     public static void main(String[] args) {
 
 
+        //Cargar clientes desde un JSON
+        biblioteca.cargarClientesDesdeJson("clientes");
+
+        // Muestra todos los clientes cargados
+        HashMap<Integer, Cliente> clienteHashMap= biblioteca.getHashMapDeClientes();
+        for (Cliente cliente : clienteHashMap.values())
+        {
+            System.out.println(cliente);
+        }
+
         // Cargar libros desde un archivo JSON
         biblioteca.cargarLibrosDesdeJson("libros");
 
@@ -84,7 +94,9 @@ public class Main {
                     } else {
                         System.out.println("El libro con ISBN " + ISBN + " no se encontró en la biblioteca.");
                     }
-                    
+
+                    // Guardar el estado actualizado de la biblioteca en el archivo JSON
+                    biblioteca.guardarLibrosEnJSON();
 
                     break;
                 case 0:
