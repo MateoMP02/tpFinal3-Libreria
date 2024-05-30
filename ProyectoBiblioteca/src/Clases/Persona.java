@@ -22,4 +22,24 @@ public abstract class Persona {
                 "Edad: "+edad +"\n"+
                 "Domicilio: "+ domicilio;
     }
+
+    public String getNombreYapellido() {
+        return nombreYapellido;
+    }
+
+    public void setNombreYapellido(String nombreYapellido) {
+        this.nombreYapellido = nombreYapellido;
+    }
+
+    public int getEdad() {
+        return edad;
+    }
+
+    public void setEdad(int edad) {
+        this.edad = edad;
+    }
+
+    public Domicilio getDomicilio() {
+        return domicilio;
+    }
 }

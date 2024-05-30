@@ -21,4 +21,36 @@ public class Domicilio {
                 "Calle y Altura: "+ calleYaltura;
 
     }
+
+    public String getPais() {
+        return pais;
+    }
+
+    public void setPais(String pais) {
+        this.pais = pais;
+    }
+
+    public String getProvincia() {
+        return provincia;
+    }
+
+    public void setProvincia(String provincia) {
+        this.provincia = provincia;
+    }
+
+    public String getCalleYaltura() {
+        return calleYaltura;
+    }
+
+    public void setCalleYaltura(String calleYaltura) {
+        this.calleYaltura = calleYaltura;
+    }
+
+    public String getCiudad() {
+        return ciudad;
+    }
+
+    public void setCiudad(String ciudad) {
+        this.ciudad = ciudad;
+    }
 }

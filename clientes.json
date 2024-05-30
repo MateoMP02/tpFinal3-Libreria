@@ -1,0 +1,199 @@
+{
+  "clientes": [
+    {
+      "idCliente": "1001",
+      "correoElectronico": "cliente1@example.com",
+      "saldo": "500.00",
+      "nombreYapellido": "María García",
+      "edad": 35,
+      "domicilio": {
+        "pais": "España",
+        "provincia": "Madrid",
+        "ciudad": "Madrid",
+        "calleYaltura": "Calle Mayor 10"
+      }
+    },
+    {
+      "idCliente": "1002",
+      "correoElectronico": "cliente2@example.com",
+      "saldo": "700.50",
+      "nombreYapellido": "Carlos Martínez",
+      "edad": 28,
+      "domicilio": {
+        "pais": "México",
+        "provincia": "Ciudad de México",
+        "ciudad": "Ciudad de México",
+        "calleYaltura": "Av. Reforma 123"
+      }
+    },
+    {
+      "idCliente": "1003",
+      "correoElectronico": "cliente3@example.com",
+      "saldo": "1200.75",
+      "nombreYapellido": "Ana Rodríguez",
+      "edad": 42,
+      "domicilio": {
+        "pais": "Argentina",
+        "provincia": "Buenos Aires",
+        "ciudad": "Buenos Aires",
+        "calleYaltura": "Av. Corrientes 789"
+      }
+    },
+    {
+      "idCliente": "1004",
+      "correoElectronico": "cliente4@example.com",
+      "saldo": "900.25",
+      "nombreYapellido": "Pedro López",
+      "edad": 31,
+      "domicilio": {
+        "pais": "Colombia",
+        "provincia": "Bogotá",
+        "ciudad": "Bogotá",
+        "calleYaltura": "Cra. 7 # 45-67"
+      }
+    },
+    {
+      "idCliente": "1005",
+      "correoElectronico": "cliente5@example.com",
+      "saldo": "1500.00",
+      "nombreYapellido": "Laura Fernández",
+      "edad": 25,
+      "domicilio": {
+        "pais": "Perú",
+        "provincia": "Lima",
+        "ciudad": "Lima",
+        "calleYaltura": "Av. Arequipa 1234"
+      }
+    },
+    {
+      "idCliente": "1006",
+      "correoElectronico": "cliente6@example.com",
+      "saldo": "300.50",
+      "nombreYapellido": "Jorge González",
+      "edad": 40,
+      "domicilio": {
+        "pais": "Chile",
+        "provincia": "Santiago",
+        "ciudad": "Santiago",
+        "calleYaltura": "Av. Libertador Bernardo O'Higgins 678"
+      }
+    },
+    {
+      "idCliente": "1007",
+      "correoElectronico": "cliente7@example.com",
+      "saldo": "2000.00",
+      "nombreYapellido": "Isabel Martínez",
+      "edad": 37,
+      "domicilio": {
+        "pais": "España",
+        "provincia": "Barcelona",
+        "ciudad": "Barcelona",
+        "calleYaltura": "Carrer de Balmes 456"
+      }
+    },
+    {
+      "idCliente": "1008",
+      "correoElectronico": "cliente8@example.com",
+      "saldo": "850.75",
+      "nombreYapellido": "Luis Pérez",
+      "edad": 29,
+      "domicilio": {
+        "pais": "México",
+        "provincia": "Guadalajara",
+        "ciudad": "Guadalajara",
+        "calleYaltura": "Av. Juárez 234"
+      }
+    },
+    {
+      "idCliente": "1009",
+      "correoElectronico": "cliente9@example.com",
+      "saldo": "1100.20",
+      "nombreYapellido": "Elena Sánchez",
+      "edad": 33,
+      "domicilio": {
+        "pais": "Argentina",
+        "provincia": "Córdoba",
+        "ciudad": "Córdoba",
+        "calleYaltura": "Av. Colón 789"
+      }
+    },
+    {
+      "idCliente": "1010",
+      "correoElectronico": "cliente10@example.com",
+      "saldo": "950.30",
+      "nombreYapellido": "Mario Rodríguez",
+      "edad": 45,
+      "domicilio": {
+        "pais": "Colombia",
+        "provincia": "Medellín",
+        "ciudad": "Medellín",
+        "calleYaltura": "Cra. 70 # 45-89"
+      }
+    },
+    {
+      "idCliente": "1011",
+      "correoElectronico": "cliente11@example.com",
+      "saldo": "1800.50",
+      "nombreYapellido": "Ana María Gómez",
+      "edad": 27,
+      "domicilio": {
+        "pais": "Perú",
+        "provincia": "Arequipa",
+        "ciudad": "Arequipa",
+        "calleYaltura": "Av. Ejemplo 123"
+      }
+    },
+    {
+      "idCliente": "1012",
+      "correoElectronico": "cliente12@example.com",
+      "saldo": "750.00",
+      "nombreYapellido": "José García",
+      "edad": 39,
+      "domicilio": {
+        "pais": "Chile",
+        "provincia": "Valparaíso",
+        "ciudad": "Valparaíso",
+        "calleYaltura": "Av. Alemania 456"
+      }
+    },
+    {
+      "idCliente": "1013",
+      "correoElectronico": "cliente13@example.com",
+      "saldo": "600.25",
+      "nombreYapellido": "Carolina Martínez",
+      "edad": 32,
+      "domicilio": {
+        "pais": "España",
+        "provincia": "Valencia",
+        "ciudad": "Valencia",
+        "calleYaltura": "Calle del Ejemplo 789"
+      }
+    },
+    {
+      "idCliente": "1014",
+      "correoElectronico": "cliente14@example.com",
+      "saldo": "1300.75",
+      "nombreYapellido": "Andrés López",
+      "edad": 34,
+      "domicilio": {
+        "pais": "México",
+        "provincia": "Monterrey",
+        "ciudad": "Monterrey",
+        "calleYaltura": "Av. de la Independencia 123"
+      }
+    },
+    {
+      "idCliente": "1015",
+      "correoElectronico": "cliente15@example.com",
+      "saldo": "1400.50",
+      "nombreYapellido": "Sofía Fernández",
+      "edad": 26,
+      "domicilio": {
+        "pais": "Colombia",
+        "provincia": "Barranquilla",
+        "ciudad": "Barranquilla",
+        "calleYaltura": "Cra. 50 # 67-89"
+      }
+    }
+  ]
+}
