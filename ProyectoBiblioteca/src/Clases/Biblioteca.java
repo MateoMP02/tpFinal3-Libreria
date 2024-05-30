@@ -1,13 +1,19 @@
 package Clases;
 
+
+import Generics.GestorHashMap;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import Generics.GestorHashMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONException;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Biblioteca implements Serializable {
 
@@ -26,23 +32,27 @@ public class Biblioteca implements Serializable {
         guardarLibrosEnJSON(); // Llamar a la función para guardar en JSON
     }
 
-    public void agregarCopiaDeLibro(Integer ISBN) {
-        Libro libro = hashMapDeLibros.buscar(ISBN);
-        if (libro != null) {
-            libro.agregarCopiaLibro();
-            guardarLibrosEnJSON();
-        }
-    }
-
-    public void guardarLibrosEnJSON() {
+    private void guardarLibrosEnJSON() {
         JSONArray jsonArray = new JSONArray();
+
+        // Convertir cada libro en el mapa a un objeto JSON y agregarlo al JSONArray
         for (Libro libro : hashMapDeLibros.obtenerTodos().values()) {
-            JSONObject jsonLibro = libro.toJson();
-            jsonArray.put(jsonLibro);
+            JSONObject jsonLibro = new JSONObject();
+            try {
+                jsonLibro.put("ISBN", libro.getISBN());
+                jsonLibro.put("titulo", libro.getTitulo());
+                jsonLibro.put("autor", libro.getAutor());
+                jsonLibro.put("genero", libro.getGenero());
+                jsonLibro.put("precio", libro.getPrecio());
+                jsonArray.put(jsonLibro);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
+
+        // Escribir el JSONArray al archivo JSON
         JsonUtiles.grabar(jsonArray, "libros");
     }
-
 
 
     public Libro buscarLibros(Integer ISBN) {
@@ -51,7 +61,6 @@ public class Biblioteca implements Serializable {
 
     public void eliminarLibro(Integer ISBN) {
         hashMapDeLibros.eliminar(ISBN);
-        guardarLibrosEnJSON(); // Asegurarse de actualizar el archivo JSON
     }
 
     public void agregarCliente(Integer idCliente, Cliente cliente) {
@@ -70,6 +79,10 @@ public class Biblioteca implements Serializable {
         return hashMapDeLibros.obtenerTodos();
     }
 
+    public HashMap<Integer, Cliente> getHashMapDeClientes() {
+        return hashMapClientes.obtenerTodos();
+    }
+
     public void cargarLibrosDesdeJson(String archivoJson) {
         String contenido = JsonUtiles.leer(archivoJson);
         try {
@@ -85,6 +98,7 @@ public class Biblioteca implements Serializable {
     }
 
     public ArrayList<Libro> buscarLibrosPorGenero(String genero) {
+
         ArrayList<Libro> librosXgenero = new ArrayList<>();
         for (Libro libro : hashMapDeLibros.obtenerTodos().values()) {
             if (libro.getGenero().equalsIgnoreCase(genero)) {
