@@ -1,13 +1,12 @@
 package Clases;
 
-import java.io.Serializable;
+import org.json.JSONObject;
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-public class Libro implements Serializable {
+public class Libro implements Cloneable {
     private Integer ISBN;
     private String titulo;
     private String autor;
@@ -24,7 +23,6 @@ public class Libro implements Serializable {
         this.copias = new ArrayList<>();
     }
 
-    // Getters y Setters
     public Integer getISBN() {
         return ISBN;
     }
@@ -92,6 +90,11 @@ public class Libro implements Serializable {
     }
 
     @Override
+    public int hashCode() {
+        return Objects.hash(ISBN);
+    }
+
+    @Override
     public String toString() {
         return "Libro {" +
                 "\n\tISBN: " + ISBN +
@@ -99,40 +102,17 @@ public class Libro implements Serializable {
                 "\n\tAutor: " + autor +
                 "\n\tGénero: " + genero +
                 "\n\tPrecio: " + precio +
+                "\n\tCantidad de copias: " + obtenerNumeroDeCopias() +
                 "\n}";
     }
 
-
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(ISBN);
-    }
-
-    // Método para convertir el objeto a un JSONObject
     public JSONObject toJson() {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("ISBN", ISBN);
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
-        try {
             jsonObject.put("titulo", titulo);
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
-        try {
             jsonObject.put("autor", autor);
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
-        try {
             jsonObject.put("genero", genero);
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
-        try {
             jsonObject.put("precio", precio);
         } catch (JSONException e) {
             throw new RuntimeException(e);
@@ -140,38 +120,16 @@ public class Libro implements Serializable {
         return jsonObject;
     }
 
-    // Método estático para crear un objeto Libro desde un JSONObject
     public static Libro fromJson(JSONObject jsonObject) {
-        int ISBN = 0;
         try {
-            ISBN = jsonObject.getInt("ISBN");
+            int ISBN = jsonObject.getInt("ISBN");
+            String titulo = jsonObject.getString("titulo");
+            String autor = jsonObject.getString("autor");
+            String genero = jsonObject.getString("genero");
+            double precio = jsonObject.getDouble("precio");
+            return new Libro(ISBN, titulo, autor, genero, precio);
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
-        String titulo = null;
-        try {
-            titulo = jsonObject.getString("titulo");
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
-        String autor = null;
-        try {
-            autor = jsonObject.getString("autor");
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
-        String genero = null;
-        try {
-            genero = jsonObject.getString("genero");
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
-        double precio = 0;
-        try {
-            precio = jsonObject.getDouble("precio");
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
-        return new Libro(ISBN, titulo, autor, genero, precio);
     }
 }
