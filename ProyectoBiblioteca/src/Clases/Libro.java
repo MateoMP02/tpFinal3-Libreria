@@ -1,19 +1,17 @@
 package Clases;
 
-import java.io.Serializable;
-import java.util.ArrayList;
+import org.json.JSONObject;
+import org.json.JSONException;
+
 import java.util.Objects;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-public class Libro implements Serializable {
+public class Libro {
     private Integer ISBN;
     private String titulo;
     private String autor;
     private String genero;
     private double precio;
-    private final ArrayList<Libro> copias;
+    private int copias; // Nuevo atributo para llevar el registro de las copias
 
     public Libro(Integer ISBN, String titulo, String autor, String genero, double precio) {
         this.ISBN = ISBN;
@@ -21,10 +19,18 @@ public class Libro implements Serializable {
         this.autor = autor;
         this.genero = genero;
         this.precio = precio;
-        this.copias = new ArrayList<>();
+        this.copias = 1; // Se establece la cantidad inicial de copias en 1
     }
 
-    // Getters y Setters
+    public Libro(Integer ISBN, String titulo, String autor, String genero, double precio,int copias) {
+        this.ISBN = ISBN;
+        this.titulo = titulo;
+        this.autor = autor;
+        this.genero = genero;
+        this.precio = precio;
+        this.copias = copias; // Se establece la cantidad inicial de copias en 1
+    }
+
     public Integer getISBN() {
         return ISBN;
     }
@@ -65,22 +71,12 @@ public class Libro implements Serializable {
         this.precio = precio;
     }
 
+    public int getCopias() {
+        return copias;
+    }
+
     public void agregarCopiaLibro() {
-        try {
-            Libro copia = (Libro) this.clone();
-            copias.add(copia);
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    protected Object clone() throws CloneNotSupportedException {
-        return super.clone();
-    }
-
-    public int obtenerNumeroDeCopias() {
-        return copias.size();
+        copias++; // Incrementa la cantidad de copias
     }
 
     @Override
@@ -92,6 +88,11 @@ public class Libro implements Serializable {
     }
 
     @Override
+    public int hashCode() {
+        return Objects.hash(ISBN);
+    }
+
+    @Override
     public String toString() {
         return "Libro {" +
                 "\n\tISBN: " + ISBN +
@@ -99,79 +100,36 @@ public class Libro implements Serializable {
                 "\n\tAutor: " + autor +
                 "\n\tGénero: " + genero +
                 "\n\tPrecio: " + precio +
+                "\n\tCantidad de copias: " + copias +
                 "\n}";
     }
 
-
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(ISBN);
-    }
-
-    // Método para convertir el objeto a un JSONObject
     public JSONObject toJson() {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("ISBN", ISBN);
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
-        try {
             jsonObject.put("titulo", titulo);
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
-        try {
             jsonObject.put("autor", autor);
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
-        try {
             jsonObject.put("genero", genero);
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
-        try {
             jsonObject.put("precio", precio);
+            jsonObject.put("copias",copias);
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
         return jsonObject;
     }
 
-    // Método estático para crear un objeto Libro desde un JSONObject
     public static Libro fromJson(JSONObject jsonObject) {
-        int ISBN = 0;
         try {
-            ISBN = jsonObject.getInt("ISBN");
+            int ISBN = jsonObject.getInt("ISBN");
+            String titulo = jsonObject.getString("titulo");
+            String autor = jsonObject.getString("autor");
+            String genero = jsonObject.getString("genero");
+            double precio = jsonObject.getDouble("precio");
+            int copias = jsonObject.getInt("copias");
+            return new Libro(ISBN, titulo, autor, genero, precio,copias);
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
-        String titulo = null;
-        try {
-            titulo = jsonObject.getString("titulo");
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
-        String autor = null;
-        try {
-            autor = jsonObject.getString("autor");
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
-        String genero = null;
-        try {
-            genero = jsonObject.getString("genero");
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
-        double precio = 0;
-        try {
-            precio = jsonObject.getDouble("precio");
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
-        return new Libro(ISBN, titulo, autor, genero, precio);
     }
 }
