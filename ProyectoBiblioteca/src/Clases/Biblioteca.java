@@ -4,8 +4,10 @@ package Clases;
 import Generics.GestorHashMap;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import Generics.GestorHashMap;
 import org.json.JSONArray;
@@ -13,14 +15,11 @@ import org.json.JSONObject;
 import org.json.JSONException;
 
 
-
-
-
 public class Biblioteca implements Serializable {
 
     private String nombreBiblioteca;
-    private GestorHashMap<Integer,Libro> hashMapDeLibros;
-    private GestorHashMap<Integer,Cliente> hashMapClientes;
+    private GestorHashMap<Integer, Libro> hashMapDeLibros;
+    private GestorHashMap<Integer, Cliente> hashMapClientes;
 
     public Biblioteca(String nombreBiblioteca) {
         this.nombreBiblioteca = nombreBiblioteca;
@@ -32,6 +31,7 @@ public class Biblioteca implements Serializable {
         hashMapDeLibros.agregar(ISBN, libro);
         guardarLibrosEnJSON(); // Llamar a la función para guardar en JSON
     }
+
     private void guardarLibrosEnJSON() {
         JSONArray jsonArray = new JSONArray();
 
@@ -82,6 +82,7 @@ public class Biblioteca implements Serializable {
     public HashMap<Integer, Cliente> getHashMapDeClientes() {
         return hashMapClientes.obtenerTodos();
     }
+
     public void cargarLibrosDesdeJson(String archivoJson) {
         String contenido = JsonUtiles.leer(archivoJson);
         try {
@@ -96,8 +97,18 @@ public class Biblioteca implements Serializable {
         }
     }
 
-    public void cargarClientesDesdeJson(String archivoJson)
-    {
+    public ArrayList<Libro> buscarLibrosPorGenero(String genero) {
+
+        ArrayList<Libro> librosXgenero = new ArrayList<>();
+        for (Libro libro : hashMapDeLibros.obtenerTodos().values()) {
+            if (libro.getGenero().equalsIgnoreCase(genero)) {
+                librosXgenero.add(libro);
+            }
+        }
+        return librosXgenero;
+    }
+
+    public void cargarClientesDesdeJson(String archivoJson) {
         String contenido = JsonUtiles.leer(archivoJson);
         try {
             JSONObject jsonObject = new JSONObject(contenido);
