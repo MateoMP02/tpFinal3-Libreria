@@ -7,20 +7,18 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    //Estoy comentando en la rama fede
+    
     private static Biblioteca biblioteca = new Biblioteca("Mi Biblioteca");
     static Scanner scanner = new Scanner(System.in);
     public static void main(String[] args) {
 
-        //Estoy mergenando la rama de fede
-        //Estoy comentando desde la rama de prueba
 
         // Cargar libros desde un archivo JSON
         biblioteca.cargarLibrosDesdeJson("libros");
-        // comentario ivan
+
         System.out.println(biblioteca.getHashMapDeLibros());
         int opcion;
-        // comentario 3 ivan
+
         do {
             mostrarMenu();
             opcion = scanner.nextInt();
