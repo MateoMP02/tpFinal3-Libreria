@@ -80,7 +80,7 @@ public class Main {
                     // Mostrar el número de copias del libro actualizado
                     Libro libroActualizado = biblioteca.buscarLibros(ISBN);
                     if (libroActualizado != null) {
-                        System.out.println("Número de copias del libro con ISBN " + ISBN + ": " + libroActualizado.obtenerNumeroDeCopias());
+                        System.out.println("Número de copias del libro con ISBN " + ISBN + ": " + libroActualizado.getCopias());
                     } else {
                         System.out.println("El libro con ISBN " + ISBN + " no se encontró en la biblioteca.");
                     }

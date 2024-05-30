@@ -3,16 +3,15 @@ package Clases;
 import org.json.JSONObject;
 import org.json.JSONException;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
-public class Libro implements Cloneable {
+public class Libro {
     private Integer ISBN;
     private String titulo;
     private String autor;
     private String genero;
     private double precio;
-    private final ArrayList<Libro> copias;
+    private int copias; // Nuevo atributo para llevar el registro de las copias
 
     public Libro(Integer ISBN, String titulo, String autor, String genero, double precio) {
         this.ISBN = ISBN;
@@ -20,7 +19,7 @@ public class Libro implements Cloneable {
         this.autor = autor;
         this.genero = genero;
         this.precio = precio;
-        this.copias = new ArrayList<>();
+        this.copias = 1; // Se establece la cantidad inicial de copias en 1
     }
 
     public Integer getISBN() {
@@ -63,22 +62,12 @@ public class Libro implements Cloneable {
         this.precio = precio;
     }
 
+    public int getCopias() {
+        return copias;
+    }
+
     public void agregarCopiaLibro() {
-        try {
-            Libro copia = (Libro) this.clone();
-            copias.add(copia);
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    protected Object clone() throws CloneNotSupportedException {
-        return super.clone();
-    }
-
-    public int obtenerNumeroDeCopias() {
-        return copias.size();
+        copias++; // Incrementa la cantidad de copias
     }
 
     @Override
@@ -102,7 +91,7 @@ public class Libro implements Cloneable {
                 "\n\tAutor: " + autor +
                 "\n\tGénero: " + genero +
                 "\n\tPrecio: " + precio +
-                "\n\tCantidad de copias: " + obtenerNumeroDeCopias() +
+                "\n\tCantidad de copias: " + copias +
                 "\n}";
     }
 
