@@ -54,7 +54,6 @@ public class Cliente extends Persona{
 
         return new Cliente(nombreYapellido,edad,new Domicilio(calleYaltura,ciudad,pais,provincia),idCliente,correoElectronico);
     }
-
     public JSONObject toJson() throws JSONException {
         JSONObject jsonObject1 = new JSONObject();
         jsonObject1.put("idCliente",getIdCliente());
