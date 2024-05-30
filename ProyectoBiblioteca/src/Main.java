@@ -20,7 +20,7 @@ public class Main {
         // comentario ivan
         System.out.println(biblioteca.getHashMapDeLibros());
         int opcion;
-        // comentario 2 ivan
+        // comentario 3 ivan
         do {
             mostrarMenu();
             opcion = scanner.nextInt();
