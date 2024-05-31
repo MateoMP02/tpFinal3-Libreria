@@ -10,11 +10,10 @@ public class Cliente extends Persona{
     private String correoElectronico;
     private float saldo;
 
-    public Cliente(String nombreYapellido, int edad, Domicilio domicilio, Integer idCliente, String correoElectronico, float saldo) {
+    public Cliente(String nombreYapellido, int edad, Domicilio domicilio, Integer idCliente, String correoElectronico) {
         super(nombreYapellido, edad, domicilio);
         this.idCliente = idCliente;
         this.correoElectronico = correoElectronico;
-        this.saldo = saldo;
     }
 
     public void modificarDomicilio (Domicilio domicilio){
@@ -26,8 +25,7 @@ public class Cliente extends Persona{
         return super.toString()+"\n"+
                 "Datos Lector:"+"\n"+
                 "idCliente: "+idCliente+"\n"+
-                "Correo electronico: "+ correoElectronico+"\n"+
-                "Saldo: "+saldo+"\n";
+                "Correo electronico: "+ correoElectronico+"\n";
     }
 
     public Integer getIdCliente() {
@@ -44,7 +42,7 @@ public class Cliente extends Persona{
 
 
 
-    public static Cliente fromJson(JSONObject jsonObject) throws JSONException { //Devuelve un nuevo Cliente con los datos obtenidos de un jsonObject
+    public static Cliente fromJson(JSONObject jsonObject) throws JSONException {
         int idCliente=jsonObject.getInt("idCliente");
         String correoElectronico= jsonObject.getString("correoElectronico");
         float saldo = (float) jsonObject.getDouble("saldo");
@@ -56,9 +54,9 @@ public class Cliente extends Persona{
         String ciudad = domicilio.getString("ciudad");
         String calleYaltura = domicilio.getString("calleYaltura");
 
-        return new Cliente(nombreYapellido,edad,new Domicilio(calleYaltura,ciudad,pais,provincia),idCliente,correoElectronico,saldo);
+        return new Cliente(nombreYapellido,edad,new Domicilio(calleYaltura,ciudad,pais,provincia),idCliente,correoElectronico);
     }
-    public JSONObject toJson() throws JSONException {  //Devuelve un jsonObject con todos los datos del cliente
+    public JSONObject toJson() throws JSONException {
         JSONObject jsonObject1 = new JSONObject();
         jsonObject1.put("idCliente",getIdCliente());
         jsonObject1.put("correoElectronico",getCorreoElectronico());

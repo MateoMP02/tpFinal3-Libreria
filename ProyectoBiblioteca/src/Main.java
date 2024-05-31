@@ -1,25 +1,27 @@
 import Clases.*;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
 
     private static Biblioteca biblioteca = new Biblioteca("Mi Biblioteca");
     static Scanner scanner = new Scanner(System.in);
-
     public static void main(String[] args) {
 
         //Cargar clientes desde un JSON
         biblioteca.cargarClientesDesdeJson("clientes");
         Cliente a = crearNuevoCliente(scanner);
-        biblioteca.agregarCliente(a.getIdCliente(), a);
+        biblioteca.agregarCliente(a.getIdCliente(),a);
         biblioteca.cargarClientesToJson("clientes");
 
         // Muestra todos los clientes cargados
-        HashMap<Integer, Cliente> clienteHashMap = biblioteca.getHashMapDeClientes();
-        for (Cliente cliente : clienteHashMap.values()) {
+        HashMap<Integer, Cliente> clienteHashMap= biblioteca.getHashMapDeClientes();
+        for (Cliente cliente : clienteHashMap.values())
+        {
             System.out.println(cliente);
         }
 
@@ -42,7 +44,7 @@ public class Main {
                     System.out.println("Cliente agregado exitosamente.");
                     break;
                 case 2:
-                    Libro nuevoLibro = crearNuevoLibro(scanner, biblioteca);
+                    Libro nuevoLibro = crearNuevoLibro(scanner,biblioteca);
                     biblioteca.agregarLibro(nuevoLibro.getISBN(), nuevoLibro);
                     System.out.println("Libro agregado exitosamente.");
                     break;
@@ -74,17 +76,17 @@ public class Main {
                     biblioteca.eliminarLibro(isbnEliminar);
                     System.out.println("Libro eliminado exitosamente.");
                     break;
-                case 7:
+                case 7 :
                     System.out.println("Ingrese el genero a buscar: ");
                     String generoBuscado = scanner.nextLine();
                     try {
                         ArrayList<Libro> librosPorGenero = biblioteca.buscarLibrosPorGenero(generoBuscado);
                         System.out.println(librosPorGenero);
-                    } catch (NullPointerException e) {
+                    }catch (NullPointerException e){
                         System.out.println(e.getMessage());
                     }
                     break;
-                case 8:
+                case 8 :
                     System.out.println("Ingrese el ISBN del libro que quiera agregar copias");
                     int ISBN = scanner.nextInt();
                     biblioteca.agregarCopiaDeLibro(ISBN);
@@ -127,61 +129,30 @@ public class Main {
     }
 
     private static Cliente crearNuevoCliente(Scanner scanner) {
-        boolean existeID, comprobarFormatoMail = false;
-
         System.out.print("Ingrese el nombre y apellido del cliente: ");
         String nombreYapellido = scanner.nextLine();
-
         System.out.print("Ingrese la edad del cliente: ");
         int edad = scanner.nextInt();
-
         scanner.nextLine(); // Consumir el salto de línea
-
         System.out.print("Ingrese el país: ");
         String pais = scanner.nextLine();
-
         System.out.print("Ingrese la provincia: ");
         String provincia = scanner.nextLine();
-
         System.out.print("Ingrese la ciudad: ");
         String ciudad = scanner.nextLine();
-
         System.out.print("Ingrese la calle y altura: ");
         String calleYaltura = scanner.nextLine();
-
         Domicilio domicilio = new Domicilio(calleYaltura, ciudad, pais, provincia);
-
         System.out.print("Ingrese el ID del cliente: ");
-        int idCliente;
-        do {
-            idCliente = scanner.nextInt();
-            existeID = biblioteca.buscarCliente(idCliente) != null;
-
-            if (existeID) {
-                System.out.println("El id ya existe, vuelva a ingresar");
-            }
-        } while (existeID);
+        int idCliente = scanner.nextInt();
         scanner.nextLine(); // Consumir el salto de línea
-        String correoElectronico;
-        do {
-            System.out.print("Ingrese el correo electrónico del cliente: ");
-            correoElectronico = scanner.nextLine();
-
-            if (validarCorreo(correoElectronico)) //comprueba que el formato sea correcto
-            {
-                comprobarFormatoMail = true;
-            }
-            if (!comprobarFormatoMail)
-            {
-                System.out.println("Formato de correo electronico incorrecto, vuelva a ingresar");
-            }
-        } while (!comprobarFormatoMail);
-
+        System.out.print("Ingrese el correo electrónico del cliente: ");
+        String correoElectronico = scanner.nextLine();
         System.out.println("Ingrese el saldo del cliente: ");
         float saldo = scanner.nextFloat();
-
         return new Cliente(nombreYapellido, edad, domicilio, idCliente, correoElectronico, saldo);
     }
+
 
 
     public static Libro crearNuevoLibro(Scanner scanner, Biblioteca biblioteca) {
@@ -220,10 +191,5 @@ public class Main {
         } while (precio <= 0);
 
         return new Libro(ISBN, titulo, autor, genero, precio);
-    }
-
-    public static boolean validarCorreo (String correoElectronico) //comprueba que el formato del correo sea el correcto
-    {
-        return correoElectronico.contains("@") && correoElectronico.contains(".com") && (correoElectronico.contains("gmail") || correoElectronico.contains("outlook") || correoElectronico.contains("hotmail"));
     }
 }

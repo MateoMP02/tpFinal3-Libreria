@@ -8,6 +8,7 @@ import org.json.JSONException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class Biblioteca implements Serializable {
 
@@ -68,7 +69,6 @@ public class Biblioteca implements Serializable {
 
     public void eliminarCliente(Integer idCliente) {
         hashMapClientes.eliminar(idCliente);
-
     }
 
     public HashMap<Integer, Libro> getHashMapDeLibros() {
@@ -89,6 +89,27 @@ public class Biblioteca implements Serializable {
         }
     }
 
+    // Function to get all unique genres available in the library
+    public ArrayList<String> obtenerGenerosDisponibles() {
+        HashSet<String> generos = new HashSet<>();
+        for (Libro libro : hashMapDeLibros.obtenerTodos().values()) {
+            generos.add(libro.getGenero());
+        }
+        return new ArrayList<>(generos);
+    }
+
+    // Function to search books by author
+    public ArrayList<Libro> buscarLibrosPorAutor(String autor) {
+        ArrayList<Libro> librosPorAutor = new ArrayList<>();
+        for (Libro libro : hashMapDeLibros.obtenerTodos().values()) {
+            if (libro.getAutor().equalsIgnoreCase(autor)) {
+                librosPorAutor.add(libro);
+            }
+        }
+        return librosPorAutor;
+    }
+
+
     public ArrayList<Libro> buscarLibrosPorGenero(String genero) {
         ArrayList<Libro> librosXgenero = new ArrayList<>();
         for (Libro libro : hashMapDeLibros.obtenerTodos().values()) {
@@ -99,7 +120,7 @@ public class Biblioteca implements Serializable {
         return librosXgenero;
     }
 
-    public void cargarClientesDesdeJson(String archivoJson) { //agrega al hashMap todos los clientes que se encuentran en el archivo JSON
+    public void cargarClientesDesdeJson(String archivoJson) {
         String contenido = JsonUtiles.leer(archivoJson);
         try {
             JSONObject jsonObject = new JSONObject(contenido);
@@ -112,22 +133,5 @@ public class Biblioteca implements Serializable {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-    public void cargarClientesToJson (String archivoJson) //Carga todos los clientes que contiene el hashMap al archivo JSON
-    {
-        try {
-            JSONArray jsonArray = new JSONArray();
-            for (Cliente cliente: hashMapClientes.obtenerTodos().values())
-            {
-                jsonArray.put(cliente.toJson());
-            }
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("clientes",jsonArray);
-            JsonUtiles.grabar(jsonObject,archivoJson);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
     }
 }
