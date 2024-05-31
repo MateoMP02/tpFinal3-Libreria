@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import static Clases.Constantes.NOMBRE_ARCHIVO_LIBROS;
+
 public class Biblioteca implements Serializable {
 
     private String nombreBiblioteca;
@@ -45,7 +47,7 @@ public class Biblioteca implements Serializable {
             JSONObject jsonLibro = libro.toJson();
             jsonArray.put(jsonLibro);
         }
-        JsonUtiles.grabar(jsonArray, "libros");
+        JsonUtiles.grabar(jsonArray, NOMBRE_ARCHIVO_LIBROS);
     }
 
 
