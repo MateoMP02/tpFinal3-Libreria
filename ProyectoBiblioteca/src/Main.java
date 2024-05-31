@@ -162,26 +162,65 @@ public class Main {
     }
 
     private static Cliente crearNuevoCliente(Scanner scanner) {
+        boolean existeID, comprobarFormatoMail = false;
+
         System.out.print("Ingrese el nombre y apellido del cliente: ");
         String nombreYapellido = scanner.nextLine();
+
         System.out.print("Ingrese la edad del cliente: ");
         int edad = scanner.nextInt();
+
         scanner.nextLine(); // Consumir el salto de línea
+
         System.out.print("Ingrese el país: ");
         String pais = scanner.nextLine();
+
         System.out.print("Ingrese la provincia: ");
         String provincia = scanner.nextLine();
+
         System.out.print("Ingrese la ciudad: ");
         String ciudad = scanner.nextLine();
+
         System.out.print("Ingrese la calle y altura: ");
         String calleYaltura = scanner.nextLine();
+
         Domicilio domicilio = new Domicilio(calleYaltura, ciudad, pais, provincia);
+
         System.out.print("Ingrese el ID del cliente: ");
-        int idCliente = scanner.nextInt();
+        int idCliente;
+        do {
+            idCliente = scanner.nextInt();
+            existeID = biblioteca.buscarCliente(idCliente) != null;
+
+            if (existeID) {
+                System.out.println("El id ya existe, vuelva a ingresar");
+            }
+        } while (existeID);
         scanner.nextLine(); // Consumir el salto de línea
-        System.out.print("Ingrese el correo electrónico del cliente: ");
-        String correoElectronico = scanner.nextLine();
-        return new Cliente(nombreYapellido, edad, domicilio, idCliente, correoElectronico);
+        String correoElectronico;
+        do {
+            System.out.print("Ingrese el correo electrónico del cliente: ");
+            correoElectronico = scanner.nextLine();
+
+            if (validarCorreo(correoElectronico)) //comprueba que el formato sea correcto
+            {
+                comprobarFormatoMail = true;
+            }
+            if (!comprobarFormatoMail)
+            {
+                System.out.println("Formato de correo electronico incorrecto, vuelva a ingresar");
+            }
+        } while (!comprobarFormatoMail);
+
+        System.out.println("Ingrese el saldo del cliente: ");
+        float saldo = scanner.nextFloat();
+
+        return new Cliente(nombreYapellido, edad, domicilio, idCliente, correoElectronico, saldo);
+    }
+
+    public static boolean validarCorreo (String correoElectronico) //comprueba que el formato del correo sea el correcto
+    {
+        return correoElectronico.contains("@") && correoElectronico.contains(".com") && (correoElectronico.contains("gmail") || correoElectronico.contains("outlook") || correoElectronico.contains("hotmail"));
     }
 
 

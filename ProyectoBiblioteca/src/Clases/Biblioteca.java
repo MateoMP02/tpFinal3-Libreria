@@ -134,4 +134,22 @@ public class Biblioteca implements Serializable {
             e.printStackTrace();
         }
     }
+
+    public void cargarClientesToJson (String archivoJson) //Carga todos los clientes que contiene el hashMap al archivo JSON
+    {
+        try {
+            JSONArray jsonArray = new JSONArray();
+            for (Cliente cliente: hashMapClientes.obtenerTodos().values())
+            {
+                jsonArray.put(cliente.toJson());
+            }
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("clientes",jsonArray);
+            JsonUtiles.grabar(jsonObject,archivoJson);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }
