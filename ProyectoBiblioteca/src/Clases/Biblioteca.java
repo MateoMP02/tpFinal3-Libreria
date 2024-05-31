@@ -91,6 +91,17 @@ public class Biblioteca implements Serializable {
         }
     }
 
+    //Carga todos los libros del hashmap al archivo
+    public void cargarLibrosToJson(String archivoJson)
+    {
+        JSONArray jsonArray = new JSONArray();
+        for (Libro libro: hashMapDeLibros.obtenerTodos().values())
+        {
+            jsonArray.put(libro.toJson());
+        }
+        JsonUtiles.grabar(jsonArray,archivoJson);
+    }
+
     // Function to get all unique genres available in the library
     public ArrayList<String> obtenerGenerosDisponibles() {
         HashSet<String> generos = new HashSet<>();
