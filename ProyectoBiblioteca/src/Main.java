@@ -52,14 +52,7 @@ public class Main {
                     System.out.println(cliente != null ? cliente : "Cliente no encontrado.");
                     break;
                 case 4:
-                    System.out.print("Ingrese el ISBN del libro a buscar: ");
-                    int isbn = scanner.nextInt();
-                    Libro abuscar = biblioteca.buscarLibros(isbn);
-                    if (abuscar != null) {
-                        System.out.println(abuscar);
-                    } else {
-                        System.out.println("Libro no encontrado.");
-                    }
+
                     break;
                 case 5:
                     System.out.print("Ingrese el ID del cliente a eliminar: ");
@@ -78,6 +71,7 @@ public class Main {
                     System.out.println("Ingrese la opcion de busqueda");
                     System.out.println("1. Por genero");
                     System.out.println("2. Por autor");
+                    System.out.println("3. Por ISBN");
                     System.out.println("0. Volver");
                     op = scanner.nextInt();
                     switch (op){
@@ -112,6 +106,16 @@ public class Main {
                                 for (Libro libro : librosPorAutor) {
                                     System.out.println(libro);
                                 }
+                            }
+                            break;
+                        case 3:
+                            System.out.print("Ingrese el ISBN del libro a buscar: ");
+                            int isbn = scanner.nextInt();
+                            Libro abuscar = biblioteca.buscarLibros(isbn);
+                            if (abuscar != null) {
+                                System.out.println(abuscar);
+                            } else {
+                                System.out.println("Libro no encontrado.");
                             }
                             break;
                         default:
@@ -160,6 +164,7 @@ public class Main {
         System.out.println("0. Salir");
         System.out.print("Seleccione una opción: ");
     }
+
 
     private static Cliente crearNuevoCliente(Scanner scanner) {
         boolean existeID, comprobarFormatoMail = false;
