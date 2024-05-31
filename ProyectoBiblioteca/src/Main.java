@@ -24,6 +24,7 @@ public class Main {
 
         // Muestra todos los clientes cargados
         HashMap<Integer, Cliente> clienteHashMap= biblioteca.getHashMapDeClientes();
+
         for (Cliente cliente : clienteHashMap.values())
         {
             System.out.println(cliente);
@@ -66,6 +67,7 @@ public class Main {
                     }
                     // Guardar el estado actualizado de la biblioteca en el archivo JSON
                     biblioteca.guardarLibrosEnJSON();
+                    //biblioteca.cargarLibrosToJson(NOMBRE_ARCHIVO_LIBROS);
                     break;
                 case 0:
                     System.out.println("Saliendo...");
@@ -107,6 +109,7 @@ public class Main {
             case 2:
                 Libro nuevoLibro = crearNuevoLibro(scanner, biblioteca);
                 biblioteca.agregarLibro(nuevoLibro.getISBN(), nuevoLibro);
+                biblioteca.cargarLibrosToJson(NOMBRE_ARCHIVO_LIBROS);
                 System.out.println("Libro agregado exitosamente.");
                 break;
             case 0:
