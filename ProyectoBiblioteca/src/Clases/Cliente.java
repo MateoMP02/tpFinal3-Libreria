@@ -6,9 +6,13 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class Cliente extends Persona{
+
+
+
     private Integer idCliente;
     private String correoElectronico;
     private float saldo;
+
 
     public Cliente(String nombreYapellido, int edad, Domicilio domicilio, Integer idCliente, String correoElectronico, float saldo) {
         super(nombreYapellido, edad, domicilio);
@@ -58,7 +62,7 @@ public class Cliente extends Persona{
 
         return new Cliente(nombreYapellido,edad,new Domicilio(calleYaltura,ciudad,pais,provincia),idCliente,correoElectronico,saldo);
     }
-    public JSONObject toJson() throws JSONException {  //Devuelve un jsonObject con todos los datos del cliente
+    public JSONObject toJson() throws JSONException {
         JSONObject jsonObject1 = new JSONObject();
         jsonObject1.put("idCliente",getIdCliente());
         jsonObject1.put("correoElectronico",getCorreoElectronico());
