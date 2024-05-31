@@ -74,13 +74,49 @@ public class Main {
                     System.out.println("Libro eliminado exitosamente.");
                     break;
                 case 7 :
-                    System.out.println("Ingrese el genero a buscar: ");
-                    String generoBuscado = scanner.nextLine();
-                    try {
-                        ArrayList<Libro> librosPorGenero = biblioteca.buscarLibrosPorGenero(generoBuscado);
-                        System.out.println(librosPorGenero);
-                    }catch (NullPointerException e){
-                        System.out.println(e.getMessage());
+                    int op;
+                    System.out.println("Ingrese la opcion de busqueda");
+                    System.out.println("1. Por genero");
+                    System.out.println("2. Por autor");
+                    System.out.println("0. Volver");
+                    op = scanner.nextInt();
+                    switch (op){
+                        case 1:
+                            ArrayList<String> generos = biblioteca.obtenerGenerosDisponibles();
+                            System.out.println("Géneros disponibles:");
+                            for (String genero : generos) {
+                                System.out.println("- " + genero);
+                            }
+                            System.out.print("Ingrese el género que desea buscar: ");
+                            scanner.nextLine();
+                            String generoBuscado = scanner.nextLine();
+                            ArrayList<Libro> librosPorGenero = biblioteca.buscarLibrosPorGenero(generoBuscado);
+                            if (librosPorGenero.isEmpty()) {
+                                System.out.println("No se encontraron libros para el género " + generoBuscado);
+                            } else {
+                                System.out.println("Libros encontrados:");
+                                for (Libro libro : librosPorGenero) {
+                                    System.out.println(libro);
+                                }
+                            }
+                            break;
+                        case 2:
+                            System.out.print("Ingrese el autor que desea buscar: ");
+                            scanner.nextLine();
+                            String autorBuscado = scanner.nextLine();
+                            ArrayList<Libro> librosPorAutor = biblioteca.buscarLibrosPorAutor(autorBuscado);
+                            if (librosPorAutor.isEmpty()) {
+                                System.out.println("No se encontraron libros del autor " + autorBuscado);
+                            } else {
+                                System.out.println("Libros encontrados:");
+                                for (Libro libro : librosPorAutor) {
+                                    System.out.println(libro);
+                                }
+                            }
+                            break;
+                        default:
+                            System.out.println("Opcion invalida");
+                            break;
                     }
                     break;
                 case 8 :
@@ -119,7 +155,7 @@ public class Main {
         System.out.println("4. Buscar libro por ISBN");
         System.out.println("5. Eliminar cliente por ID");
         System.out.println("6. Eliminar libro por ISBN");
-        System.out.println("7. Buscar libros por genero");
+        System.out.println("7. Buscar libros por ...");
         System.out.println("8. Agrega una copia de un libro");
         System.out.println("0. Salir");
         System.out.print("Seleccione una opción: ");
