@@ -213,12 +213,14 @@ public class Main {
                 System.out.print("Ingrese el ID del cliente a eliminar: ");
                 int idClienteEliminar = scanner.nextInt();
                 biblioteca.eliminarCliente(idClienteEliminar);
+                biblioteca.cargarClientesToJson(NOMBRE_ARCHIVO_CLIENTES);
                 System.out.println("Cliente eliminado exitosamente.");
                 break;
             case 2:
                 System.out.print("Ingrese el ISBN del libro a eliminar: ");
                 int isbnEliminar = scanner.nextInt();
                 biblioteca.eliminarLibro(isbnEliminar);
+                biblioteca.cargarLibrosToJson(NOMBRE_ARCHIVO_LIBROS);
                 System.out.println("Libro eliminado exitosamente.");
                 break;
             case 0:
