@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import org.json.JSONException;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -17,11 +18,13 @@ public class Biblioteca implements Serializable {
     private String nombreBiblioteca;
     private GestorHashMap<Integer, Libro> hashMapDeLibros;
     private GestorHashMap<Integer, Cliente> hashMapClientes;
+    private GestorHashMap<Integer, RegistroAlquiler> hashMapAlquileres;
 
     public Biblioteca(String nombreBiblioteca) {
         this.nombreBiblioteca = nombreBiblioteca;
         this.hashMapClientes = new GestorHashMap<>();
         this.hashMapDeLibros = new GestorHashMap<>();
+        this.hashMapAlquileres = new GestorHashMap<>();
     }
 
     public void agregarLibro(Integer ISBN, Libro libro) {
@@ -73,8 +76,22 @@ public class Biblioteca implements Serializable {
         hashMapClientes.eliminar(idCliente);
     }
 
+    public void agregarRegistro(RegistroAlquiler registro)
+    {
+        hashMapAlquileres.agregar(registro.getIdAlquiler(),registro);
+    }
+
+    public RegistroAlquiler buscarRegistro(Integer idAlquiler)
+    {
+        return hashMapAlquileres.buscar(idAlquiler);
+    }
+
     public HashMap<Integer, Libro> getHashMapDeLibros() {
         return hashMapDeLibros.obtenerTodos();
+    }
+
+    public GestorHashMap<Integer, RegistroAlquiler> getHashMapAlquileres() {
+        return hashMapAlquileres;
     }
 
     public void cargarLibrosDesdeJson(String archivoJson) {
@@ -165,4 +182,35 @@ public class Biblioteca implements Serializable {
     }
 
 
+    public void cargarRegistroAlquileresToJson (String archivoJson) throws JSONException {
+        JSONArray jsonArray = new JSONArray();
+        for (RegistroAlquiler registroAlquiler : hashMapAlquileres.obtenerTodos().values())
+        {
+            int idAlquiler = registroAlquiler.getIdAlquiler();
+            JSONObject jsonLibro=registroAlquiler.getLibroAlquilado().toJson();
+            JSONObject jsonCliente = registroAlquiler.getCliente().toJson();
+            String fechaAlquiler = registroAlquiler.getFechaAlquiler();
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("idAlquiler",idAlquiler);
+            jsonObject.put("libroAlquilado",jsonLibro);
+            jsonObject.put("cliente",jsonCliente);
+            jsonObject.put("fechaAlquiler",fechaAlquiler);
+            jsonArray.put(jsonObject);
+        }
+        JsonUtiles.grabar(jsonArray,archivoJson);
+    }
+
+    public void cargarRegistroAlquilerDesdeJson(String archivoJson) throws JSONException {
+        String contenido = JsonUtiles.leer(archivoJson);
+        JSONArray jsonArray = new JSONArray(contenido);
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
+            int idAlquiler=jsonObject.getInt("idAlquiler");
+            Libro libro = Libro.fromJson(jsonObject.getJSONObject("libroAlquilado"));
+            Cliente cliente = Cliente.fromJson(jsonObject.getJSONObject("cliente"));
+            String fechaAlquiler = jsonObject.getString("fechaAlquiler");
+            this.agregarRegistro(new RegistroAlquiler(idAlquiler,libro,cliente,fechaAlquiler));
+        }
+    }
 }
