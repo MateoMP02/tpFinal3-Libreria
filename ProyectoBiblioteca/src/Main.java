@@ -1,4 +1,5 @@
 import Clases.*;
+import Excepciones.*;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -105,16 +106,26 @@ public class Main {
     }
 
     private static void AlquilarLibro(){
+
         Libro libro=biblioteca.buscarLibros(284756472);
         Cliente cliente=biblioteca.buscarCliente(789456);
-
-        biblioteca.agregarRegistro(new RegistroAlquiler(123,libro,cliente));//esto pasa si se alquila correctamente
+        int diasDeAlquiler = scanner.nextInt();
         try {
-            biblioteca.cargarRegistroAlquileresToJson("alquileres");
-            biblioteca.cargarRegistroAlquilerDesdeJson("alquileres");
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
+            biblioteca.alquilarLibro(libro, cliente, diasDeAlquiler);
+            biblioteca.agregarRegistro(new RegistroAlquiler(123,libro,cliente));//esto pasa si se alquila correctamente
+            try {
+                biblioteca.cargarRegistroAlquileresToJson("alquileres");
+                biblioteca.cargarRegistroAlquilerDesdeJson("alquileres");
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+            System.out.println("Alquiler exitoso");
+        } catch (ClienteNoEncontradoException | LibroNoEncontradoException | CopiasInsuficientesException |
+                 SaldoInsuficienteException |
+                 LimiteAlquilerException e) {
+            System.out.println(e.getMessage());
         }
+
 
         System.out.println(biblioteca.getHashMapAlquileres().obtenerTodos());
     }

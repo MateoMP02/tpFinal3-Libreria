@@ -1,5 +1,6 @@
 package Clases;
 
+import Excepciones.*;
 import Generics.GestorHashMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -215,43 +216,39 @@ public class Biblioteca implements Serializable {
         }
     }
 
-    public String alquilarLibro( Libro libro,Cliente cliente,int diasDealquiler) {
+    public void alquilarLibro(Libro libro, Cliente cliente, int diasDeAlquiler) throws ClienteNoEncontradoException, LibroNoEncontradoException, CopiasInsuficientesException, SaldoInsuficienteException, LimiteAlquilerException {
 
         LocalDateTime localDateTime = LocalDateTime.now();
-        LocalDateTime localDateTime1 = localDateTime.plusDays(diasDealquiler);
+        LocalDateTime localDateTime1 = localDateTime.plusDays(diasDeAlquiler);
 
-
-        cliente=buscarCliente(cliente.getIdCliente());
-        if((cliente == null)){
-            return "Cliente no encontrado";
+        cliente = buscarCliente(cliente.getIdCliente());
+        if (cliente == null) {
+            throw new ClienteNoEncontradoException("Cliente no encontrado");
         }
 
-        if(libro == null){
-            return "Libro no encontrado";
+        if (libro == null) {
+            throw new LibroNoEncontradoException("Libro no encontrado");
         }
 
-        if( libro.getCopias() < 1){
-            //No disponible por falta de copias
+        if (libro.getCopias() < 1) {
+            throw new CopiasInsuficientesException("No disponible por falta de copias");
         }
 
         long daysBetween = ChronoUnit.DAYS.between(localDateTime, localDateTime1);
         float precioAlquiler = (float) (daysBetween * libro.getPrecio());
 
-        if ( cliente.getSaldo() < precioAlquiler) {
-            return "Saldo insuficiente para el alquiler";
+        if (cliente.getSaldo() < precioAlquiler) {
+            throw new SaldoInsuficienteException("Saldo insuficiente para el alquiler");
         }
-
-
-        //Si llego hasta aca alquilo
 
         if (!cliente.availableToRent()) {
-            return "El cliente cuenta con mas de 2 libros alquilados"+cliente.getLibrosEnPosecion();
-        } else {
-                cliente.getLibrosEnPosecion().add(libro);
-                libro.restarUnaCopia();
-                cliente.restarSaldoXAlquiler(precioAlquiler);
-
-                return "Alquiler exitoso";
+            throw new LimiteAlquilerException("El cliente cuenta con más de 2 libros alquilados: " + cliente.getLibrosEnPosecion());
         }
+
+        // Si llego hasta acá alquilo
+        cliente.getLibrosEnPosecion().add(libro);
+        libro.restarUnaCopia();
+        cliente.restarSaldoXAlquiler(precioAlquiler);
     }
+
 }
