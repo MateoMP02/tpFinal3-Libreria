@@ -8,7 +8,7 @@ public class RegistroAlquiler {
 
     LocalDateTime now = LocalDateTime.now();
 
-    private int idAlquiler;
+    private int idAlquiler; // crear funcion automatica en biblioteca
     private Libro libroAlquilado;
     private Cliente cliente;
     private String fechaAlquiler;
@@ -42,12 +42,18 @@ public class RegistroAlquiler {
 
     @Override
     public String toString() {
-        return "RegistroAlquiler{" +
-                "idAlquiler=" + idAlquiler +
-                ", libroAlquilado=" + libroAlquilado +
-                ", cliente=" + cliente +
-                ", fechaAlquiler=" + fechaAlquiler +
-                '}';
+        return "\nRegistroAlquiler {" +
+                "\nidAlquiler=" + idAlquiler +
+                "\nLibro{"+
+                "\nTitulo= " + libroAlquilado.getTitulo() +
+                "\nISBN= "+ libroAlquilado.getISBN()+
+                "\n}"+
+                "\nCliente{"+
+                "\nID del cliente= " + cliente.getIdCliente() +
+                "\nNombre y apellido del cliente= "+ cliente.getNombreYapellido()+
+                "\n}"+
+                "\n\nfechaAlquiler=" + fechaAlquiler +
+                "\n}";
     }
 
     public int getIdAlquiler() {

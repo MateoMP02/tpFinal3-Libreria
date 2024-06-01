@@ -35,10 +35,9 @@ public class Main {
         biblioteca.cargarLibrosDesdeJson(NOMBRE_ARCHIVO_LIBROS);
 
         Libro libro=biblioteca.buscarLibros(284756472);
-
         Cliente cliente=biblioteca.buscarCliente(789456);
 
-        biblioteca.agregarRegistro(new RegistroAlquiler(123,libro,cliente));
+        biblioteca.agregarRegistro(new RegistroAlquiler(123,libro,cliente));//esto pasa si se alquila correctamente
         try {
             biblioteca.cargarRegistroAlquileresToJson("alquileres");
             biblioteca.cargarRegistroAlquilerDesdeJson("alquileres");
