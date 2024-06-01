@@ -77,4 +77,5 @@ public class Cliente extends Persona{
         jsonObject1.put("domicilio",domicilio);
         return jsonObject1;
     }
+
 }

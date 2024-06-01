@@ -34,18 +34,7 @@ public class Main {
         // Cargar libros desde un archivo JSON
         biblioteca.cargarLibrosDesdeJson(NOMBRE_ARCHIVO_LIBROS);
 
-        Libro libro=biblioteca.buscarLibros(284756472);
-        Cliente cliente=biblioteca.buscarCliente(789456);
 
-        biblioteca.agregarRegistro(new RegistroAlquiler(123,libro,cliente));//esto pasa si se alquila correctamente
-        try {
-            biblioteca.cargarRegistroAlquileresToJson("alquileres");
-            biblioteca.cargarRegistroAlquilerDesdeJson("alquileres");
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
-
-        System.out.println(biblioteca.getHashMapAlquileres().obtenerTodos());
 
         /*System.out.println(biblioteca.getHashMapDeLibros());*/
         int opcion;
@@ -83,6 +72,9 @@ public class Main {
                     biblioteca.guardarLibrosEnJSON();
                     //biblioteca.cargarLibrosToJson(NOMBRE_ARCHIVO_LIBROS);
                     break;
+                case 6:
+                    AlquilarLibro();
+                    break;
                 case 0:
                     System.out.println("Saliendo...");
                     break;
@@ -102,6 +94,7 @@ public class Main {
         System.out.println("3. Bajar cliente/libro");
         System.out.println("4. Buscar libro por ...");
         System.out.println("5. Agregar copia de libro");
+        System.out.println("6. Alquilar Libro");
         System.out.println("0. Salir");
         System.out.print("Seleccione una opción: ");
     }
@@ -133,6 +126,21 @@ public class Main {
                 System.out.println("Opcion no valida");
                 break;
         }
+    }
+
+    private static void AlquilarLibro(){
+        Libro libro=biblioteca.buscarLibros(284756472);
+        Cliente cliente=biblioteca.buscarCliente(789456);
+
+        biblioteca.agregarRegistro(new RegistroAlquiler(123,libro,cliente));//esto pasa si se alquila correctamente
+        try {
+            biblioteca.cargarRegistroAlquileresToJson("alquileres");
+            biblioteca.cargarRegistroAlquilerDesdeJson("alquileres");
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+
+        System.out.println(biblioteca.getHashMapAlquileres().obtenerTodos());
     }
 
     private static void busquedaCliente(){
