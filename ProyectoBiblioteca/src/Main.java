@@ -1,4 +1,5 @@
 import Clases.*;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -22,18 +23,32 @@ public class Main {
         //Cargar clientes desde un JSON
         biblioteca.cargarClientesDesdeJson(NOMBRE_ARCHIVO_CLIENTES);
 
-        // Muestra todos los clientes cargados
+        /*// Muestra todos los clientes cargados
         HashMap<Integer, Cliente> clienteHashMap= biblioteca.getHashMapDeClientes();
 
         for (Cliente cliente : clienteHashMap.values())
         {
             System.out.println(cliente);
-        }
+        }*/
 
         // Cargar libros desde un archivo JSON
         biblioteca.cargarLibrosDesdeJson(NOMBRE_ARCHIVO_LIBROS);
 
-        System.out.println(biblioteca.getHashMapDeLibros());
+        Libro libro=biblioteca.buscarLibros(284756472);
+
+        Cliente cliente=biblioteca.buscarCliente(789456);
+
+        biblioteca.agregarRegistro(new RegistroAlquiler(123,libro,cliente));
+        try {
+            biblioteca.cargarRegistroAlquileresToJson("alquileres");
+            biblioteca.cargarRegistroAlquilerDesdeJson("alquileres");
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+
+        System.out.println(biblioteca.getHashMapAlquileres().obtenerTodos());
+
+        /*System.out.println(biblioteca.getHashMapDeLibros());*/
         int opcion;
 
         do {
