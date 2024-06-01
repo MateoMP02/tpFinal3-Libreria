@@ -22,21 +22,9 @@ public class Main {
 
         //Cargar clientes desde un JSON
         biblioteca.cargarClientesDesdeJson(NOMBRE_ARCHIVO_CLIENTES);
-
-        /*// Muestra todos los clientes cargados
-        HashMap<Integer, Cliente> clienteHashMap= biblioteca.getHashMapDeClientes();
-
-        for (Cliente cliente : clienteHashMap.values())
-        {
-            System.out.println(cliente);
-        }*/
-
         // Cargar libros desde un archivo JSON
         biblioteca.cargarLibrosDesdeJson(NOMBRE_ARCHIVO_LIBROS);
 
-
-
-        /*System.out.println(biblioteca.getHashMapDeLibros());*/
         int opcion;
 
         do {
@@ -58,19 +46,7 @@ public class Main {
                     busquedaLibros();
                     break;
                 case 5 :
-                    System.out.println("Ingrese el ISBN del libro que quiera agregar copias");
-                    int ISBN = scanner.nextInt();
-                    biblioteca.agregarCopiaDeLibro(ISBN);
-                    // Mostrar el número de copias del libro actualizado
-                    Libro libroActualizado = biblioteca.buscarLibros(ISBN);
-                    if (libroActualizado != null) {
-                        System.out.println("Número de copias del libro con ISBN " + ISBN + ": " + libroActualizado.getCopias());
-                    } else {
-                        System.out.println("El libro con ISBN " + ISBN + " no se encontró en la biblioteca.");
-                    }
-                    // Guardar el estado actualizado de la biblioteca en el archivo JSON
-                    biblioteca.guardarLibrosEnJSON();
-                    //biblioteca.cargarLibrosToJson(NOMBRE_ARCHIVO_LIBROS);
+                    agregarCopias();
                     break;
                 case 6:
                     AlquilarLibro();
@@ -141,6 +117,22 @@ public class Main {
         }
 
         System.out.println(biblioteca.getHashMapAlquileres().obtenerTodos());
+    }
+
+    private static void agregarCopias(){
+        System.out.println("Ingrese el ISBN del libro que quiera agregar copias");
+        int ISBN = scanner.nextInt();
+        biblioteca.agregarCopiaDeLibro(ISBN);
+        // Mostrar el número de copias del libro actualizado
+        Libro libroActualizado = biblioteca.buscarLibros(ISBN);
+        if (libroActualizado != null) {
+            System.out.println("Número de copias del libro con ISBN " + ISBN + ": " + libroActualizado.getCopias());
+        } else {
+            System.out.println("El libro con ISBN " + ISBN + " no se encontró en la biblioteca.");
+        }
+        // Guardar el estado actualizado de la biblioteca en el archivo JSON
+        biblioteca.guardarLibrosEnJSON();
+        //biblioteca.cargarLibrosToJson(NOMBRE_ARCHIVO_LIBROS);
     }
 
     private static void busquedaCliente(){

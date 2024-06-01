@@ -79,6 +79,10 @@ public class Libro {
         copias++; // Incrementa la cantidad de copias
     }
 
+    public void restarUnaCopia(){
+        copias--;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

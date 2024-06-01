@@ -7,6 +7,7 @@ import org.json.JSONException;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -211,6 +212,46 @@ public class Biblioteca implements Serializable {
             Cliente cliente = Cliente.fromJson(jsonObject.getJSONObject("cliente"));
             String fechaAlquiler = jsonObject.getString("fechaAlquiler");
             this.agregarRegistro(new RegistroAlquiler(idAlquiler,libro,cliente,fechaAlquiler));
+        }
+    }
+
+    public String alquilarLibro( Libro libro,Cliente cliente,int diasDealquiler) {
+
+        LocalDateTime localDateTime = LocalDateTime.now();
+        LocalDateTime localDateTime1 = localDateTime.plusDays(diasDealquiler);
+
+
+        cliente=buscarCliente(cliente.getIdCliente());
+        if((cliente == null)){
+            return "Cliente no encontrado";
+        }
+
+        if(libro == null){
+            return "Libro no encontrado";
+        }
+
+        if( libro.getCopias() < 1){
+            //No disponible por falta de copias
+        }
+
+        long daysBetween = ChronoUnit.DAYS.between(localDateTime, localDateTime1);
+        float precioAlquiler = (float) (daysBetween * libro.getPrecio());
+
+        if ( cliente.getSaldo() < precioAlquiler) {
+            return "Saldo insuficiente para el alquiler";
+        }
+
+
+        //Si llego hasta aca alquilo
+
+        if (!cliente.availableToRent()) {
+            return "El cliente cuenta con mas de 2 libros alquilados"+cliente.getLibrosEnPosecion();
+        } else {
+                cliente.getLibrosEnPosecion().add(libro);
+                libro.restarUnaCopia();
+                cliente.restarSaldoXAlquiler(precioAlquiler);
+
+                return "Alquiler exitoso";
         }
     }
 }
