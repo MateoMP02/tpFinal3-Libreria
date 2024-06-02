@@ -31,7 +31,7 @@ public class Cliente extends Persona{
 
     public boolean availableToRent(){
         boolean rta = true;
-        if(librosEnPosecion.size() < 2){
+        if(librosEnPosecion.size() > 2){
             rta = false;
         }
         return rta;
@@ -43,6 +43,7 @@ public class Cliente extends Persona{
                 "Datos Lector:"+"\n"+
                 "idCliente: "+idCliente+"\n"+
                 "Correo electronico: "+ correoElectronico+"\n"+
+                "libros alquilados:"+getLibrosEnPosecion()+"\n"+
                 "Saldo: "+saldo+"\n";
     }
 

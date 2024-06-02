@@ -25,6 +25,8 @@ public class Main {
         biblioteca.cargarClientesDesdeJson(NOMBRE_ARCHIVO_CLIENTES);
         // Cargar libros desde un archivo JSON
         biblioteca.cargarLibrosDesdeJson(NOMBRE_ARCHIVO_LIBROS);
+        System.out.println(biblioteca.getHashMapDeLibros());
+        System.out.println(biblioteca.getHashMapDeClientes());
 
         int opcion;
 
@@ -116,6 +118,8 @@ public class Main {
             try {
                 biblioteca.cargarRegistroAlquileresToJson("alquileres");
                 biblioteca.cargarRegistroAlquilerDesdeJson("alquileres");
+                biblioteca.cargarClientesToJson(NOMBRE_ARCHIVO_CLIENTES);
+
             } catch (JSONException e) {
                 throw new RuntimeException(e);
             }
