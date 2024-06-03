@@ -70,6 +70,7 @@ public class Biblioteca implements Serializable {
     public HashMap<Integer, Libro> getHashMapDeLibros() {
         return hashMapDeLibros.obtenerTodos();
     }
+
     public HashMap<Integer, Cliente> getHashMapDeClientes() {
         return hashMapClientes.obtenerTodos();
     }
@@ -77,9 +78,6 @@ public class Biblioteca implements Serializable {
     public HashMap<Integer, RegistroAlquiler> getHashMapAlquileres() {
         return hashMapAlquileres.obtenerTodos();
     }
-
-
-
 
 
     // Devuelve todos los tipos de generos que posee la libreria
@@ -153,9 +151,9 @@ public class Biblioteca implements Serializable {
             e.printStackTrace();
         }
     }
+
     // Carga todos los clientes que contiene el hashMap clientes al archivo JSON
-    public void guardarClientesEnJSON(String archivoJson)
-    {
+    public void guardarClientesEnJSON(String archivoJson) {
         try {
             JSONArray jsonArray = new JSONArray();
             for (Cliente cliente : hashMapClientes.obtenerTodos().values()) {
@@ -173,29 +171,15 @@ public class Biblioteca implements Serializable {
     public void guardarRegistroAlquilerEnJSON(String archivoJson) {
         JSONArray jsonArray = new JSONArray();
         for (RegistroAlquiler registroAlquiler : hashMapAlquileres.obtenerTodos().values()) {
-            int idAlquiler = registroAlquiler.getIdAlquiler();
-
             try {
-                JSONObject jsonLibro = registroAlquiler.getLibroAlquilado().toJson();
-                JSONObject jsonCliente = registroAlquiler.getCliente().toJson();
-                String fechaAlquiler = registroAlquiler.getFechaAlquiler();
-                String fechaDeDevolucionEsperada = registroAlquiler.getFechaDeDevolucionEsperada();
-                int diasAlquilados = registroAlquiler.getDiasAlquilados();
-
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("idAlquiler", idAlquiler);
-                jsonObject.put("libroAlquilado", jsonLibro);
-                jsonObject.put("cliente", jsonCliente);
-                jsonObject.put("fechaAlquiler", fechaAlquiler);
-                jsonObject.put("fechaDeDevolucionEsperada", fechaDeDevolucionEsperada);
-                jsonObject.put("diasAlquilados",diasAlquilados);
-                jsonArray.put(jsonObject);
-            }catch (JSONException e) {
-                throw new RuntimeException(e);
+                jsonArray.put(registroAlquiler.toJson());
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
         }
         JsonUtiles.grabar(jsonArray, archivoJson);
     }
+
     // Agrega todos los registros de alquiler del archivo JSON al hashmap alquileres
     public void cargarRegistroAlquilerDesdeJson(String archivoJson) {
         String contenido = JsonUtiles.leer(archivoJson);
@@ -203,13 +187,8 @@ public class Biblioteca implements Serializable {
             JSONArray jsonArray = new JSONArray(contenido);
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-                int idAlquiler = jsonObject.getInt("idAlquiler");
-                Libro libro = Libro.fromJson(jsonObject.getJSONObject("libroAlquilado"));
-                Cliente cliente = Cliente.fromJson(jsonObject.getJSONObject("cliente"));
-                String fechaAlquiler = jsonObject.getString("fechaAlquiler");
-                String fechaDeDevolucionEsperada = jsonObject.getString("fechaDeDevolucionEsperada");
-                int diasAlquilados = jsonObject.getInt("diasAlquilados");
-                this.agregarRegistro(new RegistroAlquiler(idAlquiler, libro, cliente, fechaAlquiler,fechaDeDevolucionEsperada,diasAlquilados));
+                RegistroAlquiler registro = RegistroAlquiler.fromJson(jsonObject);
+                agregarRegistro(registro);
             }
         } catch (JSONException e) {
             throw new RuntimeException(e);
@@ -221,13 +200,12 @@ public class Biblioteca implements Serializable {
         int mayor = -1;
         if (hashMapAlquileres.obtenerTodos() != null) {
             for (RegistroAlquiler alquiler : hashMapAlquileres.obtenerTodos().values()) {
-                if(mayor < alquiler.getIdAlquiler())
-                {
+                if (mayor < alquiler.getIdAlquiler()) {
                     mayor = alquiler.getIdAlquiler();
                 }
             }
         }
-        return mayor+1;
+        return mayor + 1;
     }
 
 
@@ -268,7 +246,7 @@ public class Biblioteca implements Serializable {
         String fecha2 = localDateTime1.toString(); //Fecha de devolucion esperada
         // Agrega el registro del alquiler
         int id = generarIdRegistroAlquiler();
-        agregarRegistro(new RegistroAlquiler(id,libro,cliente,fecha1,fecha2,diasDeAlquiler));
+        agregarRegistro(new RegistroAlquiler(id, libro, cliente, fecha1, fecha2));
     }
 
     public void devolverLibro(Libro libro, Cliente cliente) throws ClienteNoEncontradoException, LibroNoEncontradoException, LibroNoAlquiladoException {
@@ -290,35 +268,36 @@ public class Biblioteca implements Serializable {
         // Devolver el libro
         cliente.getLibrosEnPosesion().remove(libro);
         libro.agregarCopiaLibro();
-        System.out.println("LLegue hasta aca");;// Aumentar la cantidad de copias disponibles
+        System.out.println("LLegue hasta aca");
+        ;// Aumentar la cantidad de copias disponibles
         RegistroAlquiler buscado = null;
         LocalDateTime fecha1 = null;
         LocalDateTime fecha2 = null;
         long daysBefore = 0;
-        for(RegistroAlquiler registroAlquiler : hashMapAlquileres.obtenerTodos().values()){
-            System.out.println("A comparar:" +registroAlquiler.getCliente().getNombreYapellido()+" a comprar: "+ cliente.getNombreYapellido());
+        for (RegistroAlquiler registroAlquiler : hashMapAlquileres.obtenerTodos().values()) {
+            System.out.println("A comparar:" + registroAlquiler.getCliente().getNombreYapellido() + " a comprar: " + cliente.getNombreYapellido());
 
-            if(registroAlquiler.getCliente().getNombreYapellido().equalsIgnoreCase(cliente.getNombreYapellido())){
+            if (registroAlquiler.getCliente().getNombreYapellido().equalsIgnoreCase(cliente.getNombreYapellido())) {
                 System.out.println("Estoy buscando");
                 buscado = registroAlquiler;
                 fecha1 = LocalDateTime.now();
                 LocalDateTime fechaEspecifica = LocalDateTime.of(2024, 6, 06, 14, 30, 0);
 
                 fecha2 = LocalDateTime.parse(buscado.getFechaDeDevolucionEsperada());
-                daysBefore = ChronoUnit.DAYS.between(fecha2,fechaEspecifica);
+                daysBefore = ChronoUnit.DAYS.between(fecha2, fechaEspecifica);
 
 
             }
         }
 
-        if(daysBefore == 1){
+        if (daysBefore == 1) {
             System.out.println("WARNING LA PROXIMA TE VIOLO");
-        }else if (daysBefore > 1 ){
+        } else if (daysBefore > 1) {
             System.out.println("Paga la multa");
-            System.out.println("Dias pasados : "+ daysBefore);
+            System.out.println("Dias pasados : " + daysBefore);
             float multa = (float) ((float) daysBefore * libro.getPrecio());
-            System.out.println("Multa es de : "+ multa);
-        }else {
+            System.out.println("Multa es de : " + multa);
+        } else {
             System.out.println("Devuelto en tiempo y forma");
         }
 

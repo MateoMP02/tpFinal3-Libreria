@@ -1,5 +1,9 @@
 package Clases;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -13,7 +17,7 @@ public class RegistroAlquiler {
     private Cliente cliente;
     private String fechaAlquiler;
     private String fechaDeDevolucionEsperada;
-    private int diasAlquilados;
+
 
     //Constructor sin fecha
     public RegistroAlquiler(int idAlquiler, Libro libroAlquilado, Cliente cliente) {
@@ -24,13 +28,12 @@ public class RegistroAlquiler {
     }
 
     //Constructor sin alquiler
-    public RegistroAlquiler(int idAlquiler, Libro libroAlquilado, Cliente cliente, String fechaAlquiler,String fechaDeDevolucionEsperada, int diasAlquilados) {
+    public RegistroAlquiler(int idAlquiler, Libro libroAlquilado, Cliente cliente, String fechaAlquiler,String fechaDeDevolucionEsperada) {
         this.idAlquiler = idAlquiler;
         this.libroAlquilado = libroAlquilado;
         this.cliente = cliente;
         this.fechaAlquiler = fechaAlquiler;
         this.fechaDeDevolucionEsperada = fechaDeDevolucionEsperada;
-        this.diasAlquilados = diasAlquilados;
     }
 
     public String getFechaDeDevolucionEsperada() {
@@ -41,9 +44,6 @@ public class RegistroAlquiler {
         return libroAlquilado;
     }
 
-    public int getDiasAlquilados() {
-        return diasAlquilados;
-    }
 
     public Cliente getCliente() {
         return cliente;
@@ -68,11 +68,35 @@ public class RegistroAlquiler {
                 "\n}"+
                 "\n\nfechaAlquiler=" + fechaAlquiler +
                 "\n\nFecha devolucion=" + fechaDeDevolucionEsperada +
-                "\n\nDias de prestamo=" + diasAlquilados +
                 "\n}";
     }
 
+    //Crea un jsonObject a partir de un registroAlquiler y lo devuelve
+    public JSONObject toJson() throws JSONException {
+        JSONObject jsonLibro = getLibroAlquilado().toJson();
+        JSONObject jsonCliente = getCliente().toJson();
+        String fechaAlquiler = getFechaAlquiler();
+        String fechaDeDevolucionEsperada = getFechaDeDevolucionEsperada();
 
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("idAlquiler", idAlquiler);
+        jsonObject.put("libroAlquilado", jsonLibro);
+        jsonObject.put("cliente", jsonCliente);
+        jsonObject.put("fechaAlquiler", fechaAlquiler);
+        jsonObject.put("fechaDeDevolucionEsperada", fechaDeDevolucionEsperada);
+        return jsonObject;
+    }
+
+    //Traduce el archivo JSON y devuelve un objeto RegistroAlquiler
+    public static RegistroAlquiler fromJson(JSONObject jsonObject) throws JSONException {
+        int idAlquiler = jsonObject.getInt("idAlquiler");
+        Libro libro = Libro.fromJson(jsonObject.getJSONObject("libroAlquilado"));
+        Cliente cliente = Cliente.fromJson(jsonObject.getJSONObject("cliente"));
+        String fechaAlquiler = jsonObject.getString("fechaAlquiler");
+        String fechaDeDevolucionEsperada = jsonObject.getString("fechaDeDevolucionEsperada");
+
+        return (new RegistroAlquiler(idAlquiler, libro, cliente, fechaAlquiler, fechaDeDevolucionEsperada));
+    }
 
     public boolean equals(Object o) {
         boolean rta = false;
