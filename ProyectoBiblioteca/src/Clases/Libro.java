@@ -107,7 +107,7 @@ public class Libro {
                 "\n\tCantidad de copias: " + copias +
                 "\n}";
     }
-
+    //Crea un jsonObject y lo devuelve a partir de un objeto Libro
     public JSONObject toJson() {
         JSONObject jsonObject = new JSONObject();
         try {
@@ -122,7 +122,7 @@ public class Libro {
         }
         return jsonObject;
     }
-    //
+    //Traduce el archivo JSON y devuelve un objeto Libro
     public static Libro fromJson(JSONObject jsonObject) {
         try {
             int ISBN = jsonObject.getInt("ISBN");

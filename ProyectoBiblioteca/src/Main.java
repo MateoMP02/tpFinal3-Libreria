@@ -1,15 +1,11 @@
 import Clases.*;
 import Excepciones.*;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Scanner;
 
-import static Clases.Constantes.NOMBRE_ARCHIVO_CLIENTES;
-import static Clases.Constantes.NOMBRE_ARCHIVO_LIBROS;
+import static Clases.Constantes.*;
 
 public class Main {
 
@@ -21,16 +17,20 @@ public class Main {
     public static void main(String[] args) {
 
 
-        //Cargar clientes desde un JSON
-        biblioteca.cargarClientesDesdeJson(NOMBRE_ARCHIVO_CLIENTES);
-        // Cargar libros desde un archivo JSON
-        biblioteca.cargarLibrosDesdeJson(NOMBRE_ARCHIVO_LIBROS);
-        System.out.println(biblioteca.getHashMapDeLibros());
-        System.out.println(biblioteca.getHashMapDeClientes());
+
 
         int opcion;
 
         do {
+            //Cargar clientes desde un JSON
+            biblioteca.cargarClientesDesdeJson(NOMBRE_ARCHIVO_CLIENTES);
+            // Cargar libros desde un archivo JSON
+            biblioteca.cargarLibrosDesdeJson(NOMBRE_ARCHIVO_LIBROS);
+
+            biblioteca.cargarRegistroAlquilerDesdeJson(NOMBRE_ARCHIVO_ALQUILERES);
+
+            System.out.println(biblioteca.getHashMapDeClientes());
+
             mostrarMenu();
             opcion = scanner.nextInt();
             scanner.nextLine();  // Consumir el salto de línea
@@ -61,6 +61,10 @@ public class Main {
                     System.out.println("Opción no válida. Intente de nuevo.");
                     break;
             }
+            biblioteca.guardarLibrosEnJSON(NOMBRE_ARCHIVO_LIBROS);
+            biblioteca.guardarClientesEnJSON(NOMBRE_ARCHIVO_CLIENTES);
+            biblioteca.guardarRegistroAlquilerEnJSON(NOMBRE_ARCHIVO_ALQUILERES);
+            //Aca agregaria los toJSON
         } while (opcion != 0);
 
         scanner.close();
@@ -89,13 +93,12 @@ public class Main {
             case 1:
                 Cliente nuevoCliente = crearNuevoCliente(scanner);
                 biblioteca.agregarCliente(nuevoCliente.getIdCliente(), nuevoCliente);
-                biblioteca.cargarClientesToJson(NOMBRE_ARCHIVO_CLIENTES);
                 System.out.println("Cliente agregado exitosamente.");
                 break;
             case 2:
                 Libro nuevoLibro = crearNuevoLibro(scanner, biblioteca);
                 biblioteca.agregarLibro(nuevoLibro.getISBN(), nuevoLibro);
-                biblioteca.cargarLibrosToJson(NOMBRE_ARCHIVO_LIBROS);
+                biblioteca.guardarLibrosEnJSON(NOMBRE_ARCHIVO_LIBROS);
                 System.out.println("Libro agregado exitosamente.");
                 break;
             case 0:
@@ -115,14 +118,6 @@ public class Main {
         try {
             biblioteca.alquilarLibro(libro, cliente, diasDeAlquiler);
             biblioteca.agregarRegistro(new RegistroAlquiler(123,libro,cliente));//esto pasa si se alquila correctamente
-            try {
-                biblioteca.cargarRegistroAlquileresToJson("alquileres");
-                biblioteca.cargarRegistroAlquilerDesdeJson("alquileres");
-                biblioteca.cargarClientesToJson(NOMBRE_ARCHIVO_CLIENTES);
-
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
-            }
             System.out.println("Alquiler exitoso");
         } catch (ClienteNoEncontradoException | LibroNoEncontradoException | CopiasInsuficientesException |
                  SaldoInsuficienteException |
@@ -130,8 +125,7 @@ public class Main {
             System.out.println(e.getMessage());
         }
 
-
-        System.out.println(biblioteca.getHashMapAlquileres().obtenerTodos());
+        System.out.println(biblioteca.getHashMapAlquileres());
     }
 
     private static void agregarCopias(){
@@ -145,9 +139,6 @@ public class Main {
         } else {
             System.out.println("El libro con ISBN " + ISBN + " no se encontró en la biblioteca.");
         }
-        // Guardar el estado actualizado de la biblioteca en el archivo JSON
-        biblioteca.guardarLibrosEnJSON();
-        //biblioteca.cargarLibrosToJson(NOMBRE_ARCHIVO_LIBROS);
     }
 
     private static void busquedaCliente(){
@@ -227,14 +218,12 @@ public class Main {
                 System.out.print("Ingrese el ID del cliente a eliminar: ");
                 int idClienteEliminar = scanner.nextInt();
                 biblioteca.eliminarCliente(idClienteEliminar);
-                biblioteca.cargarClientesToJson(NOMBRE_ARCHIVO_CLIENTES);
                 System.out.println("Cliente eliminado exitosamente.");
                 break;
             case 2:
                 System.out.print("Ingrese el ISBN del libro a eliminar: ");
                 int isbnEliminar = scanner.nextInt();
                 biblioteca.eliminarLibro(isbnEliminar);
-                biblioteca.cargarLibrosToJson(NOMBRE_ARCHIVO_LIBROS);
                 System.out.println("Libro eliminado exitosamente.");
                 break;
             case 0:

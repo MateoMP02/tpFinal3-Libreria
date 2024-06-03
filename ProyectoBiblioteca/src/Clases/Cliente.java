@@ -14,7 +14,7 @@ public class Cliente extends Persona{
     private Integer idCliente;
     private String correoElectronico;
     private float saldo;
-    private ArrayList<Libro> librosEnPosecion;
+    private ArrayList<Libro> librosEnPosesion;
 
 
     public Cliente(String nombreYapellido, int edad, Domicilio domicilio, Integer idCliente, String correoElectronico, float saldo) {
@@ -22,16 +22,17 @@ public class Cliente extends Persona{
         this.idCliente = idCliente;
         this.correoElectronico = correoElectronico;
         this.saldo = saldo;
-        this.librosEnPosecion = new ArrayList<>();
+        this.librosEnPosesion = new ArrayList<>();
     }
 
     public void modificarDomicilio (Domicilio domicilio){
         super.setDomicilio(domicilio);
     }
 
+    //Devuelve true si el cliente posee menos de 3 libros alquilados, false si posee 3 o mas
     public boolean availableToRent(){
         boolean rta = true;
-        if(librosEnPosecion.size() > 2){
+        if(librosEnPosesion.size() > 2){
             rta = false;
         }
         return rta;
@@ -43,7 +44,7 @@ public class Cliente extends Persona{
                 "Datos Lector:"+"\n"+
                 "idCliente: "+idCliente+"\n"+
                 "Correo electronico: "+ correoElectronico+"\n"+
-                "libros alquilados:"+getLibrosEnPosecion()+"\n"+
+                "libros alquilados:\n"+getLibrosEnPosesion()+"\n"+
                 "Saldo: "+saldo+"\n";
     }
 
@@ -59,8 +60,7 @@ public class Cliente extends Persona{
         return saldo;
     }
 
-
-
+    //Traduce el archivo JSON y devuelve un objeto Cliente
     public static Cliente fromJson(JSONObject jsonObject) throws JSONException {
         int idCliente = jsonObject.getInt("idCliente");
         String correoElectronico = jsonObject.getString("correoElectronico");
@@ -77,17 +77,18 @@ public class Cliente extends Persona{
 
         Cliente cliente = new Cliente(nombreYapellido, edad, domicilio, idCliente, correoElectronico, saldo);
 
-        // Deserializar librosEnPosecion
-        JSONArray librosArray = jsonObject.getJSONArray("librosEnPosecion");
+        // Deserializar librosEnPosesion
+        JSONArray librosArray = jsonObject.getJSONArray("librosEnPosesion");
         for (int i = 0; i < librosArray.length(); i++) {
             JSONObject libroJson = librosArray.getJSONObject(i);
             Libro libro = Libro.fromJson(libroJson);
-            cliente.getLibrosEnPosecion().add(libro);
+            cliente.getLibrosEnPosesion().add(libro);
         }
 
         return cliente;
     }
 
+    //Crea un jsonObject a partir de un Cliente y lo devuelve
     public JSONObject toJson() throws JSONException {
         JSONObject jsonObject1 = new JSONObject();
         jsonObject1.put("idCliente", getIdCliente());
@@ -103,22 +104,23 @@ public class Cliente extends Persona{
         domicilio.put("calleYaltura", getDomicilio().getCalleYaltura());
         jsonObject1.put("domicilio", domicilio);
 
-        // Serializar librosEnPosecion
+        // Serializar librosEnPosesion
         JSONArray librosArray = new JSONArray();
-        for (Libro libro : librosEnPosecion) {
+        for (Libro libro : librosEnPosesion) {
             librosArray.put(libro.toJson());
         }
-        jsonObject1.put("librosEnPosecion", librosArray);
+        jsonObject1.put("librosEnPosesion", librosArray);
 
         return jsonObject1;
     }
 
+    //Resta el precio del libro alquilado al saldo total del cliente
     public void restarSaldoXAlquiler(float precioAlquiler){
         saldo-=precioAlquiler;
     }
 
-    public ArrayList<Libro> getLibrosEnPosecion() {
-        return librosEnPosecion;
+    public ArrayList<Libro> getLibrosEnPosesion() {
+        return librosEnPosesion;
     }
 
 }

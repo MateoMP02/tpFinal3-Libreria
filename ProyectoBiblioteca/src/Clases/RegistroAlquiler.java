@@ -1,6 +1,4 @@
 package Clases;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.time.LocalDateTime;
 
@@ -13,7 +11,7 @@ public class RegistroAlquiler {
     private Cliente cliente;
     private String fechaAlquiler;
 
-
+    //Constructor sin fecha
     public RegistroAlquiler(int idAlquiler, Libro libroAlquilado, Cliente cliente) {
         this.idAlquiler = idAlquiler;
         this.libroAlquilado = libroAlquilado;
@@ -21,6 +19,7 @@ public class RegistroAlquiler {
         this.cliente = cliente;
     }
 
+    //Constructor sin alquiler
     public RegistroAlquiler(int idAlquiler, Libro libroAlquilado, Cliente cliente, String fechaAlquiler) {
         this.idAlquiler = idAlquiler;
         this.libroAlquilado = libroAlquilado;
@@ -40,9 +39,10 @@ public class RegistroAlquiler {
         return fechaAlquiler;
     }
 
+    //Muestra id y fecha de alquiler.Muestra titulo y ISBN de libro. Muestra nombre y apellido e ID del cliente
     @Override
     public String toString() {
-        return "\nRegistroAlquiler {" +
+        return "RegistroAlquiler {" +
                 "\nidAlquiler=" + idAlquiler +
                 "\nLibro{"+
                 "\nTitulo= " + libroAlquilado.getTitulo() +

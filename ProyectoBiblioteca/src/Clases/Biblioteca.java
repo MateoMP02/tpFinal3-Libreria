@@ -13,8 +13,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import static Clases.Constantes.NOMBRE_ARCHIVO_LIBROS;
-
 public class Biblioteca implements Serializable {
 
     private String nombreBiblioteca;
@@ -31,31 +29,15 @@ public class Biblioteca implements Serializable {
 
     public void agregarLibro(Integer ISBN, Libro libro) {
         hashMapDeLibros.agregar(ISBN, libro);
-        guardarLibrosEnJSON(); // Llamar a la función para guardar en JSON
     }
 
-    public HashMap<Integer, Cliente> getHashMapDeClientes() {
-        return hashMapClientes.obtenerTodos();
-    }
 
     public void agregarCopiaDeLibro(Integer ISBN) {
         Libro libro = hashMapDeLibros.buscar(ISBN);
         if (libro != null) {
             libro.agregarCopiaLibro();
-            guardarLibrosEnJSON();
         }
     }
-
-    public void guardarLibrosEnJSON() {
-        JSONArray jsonArray = new JSONArray();
-        for (Libro libro : hashMapDeLibros.obtenerTodos().values()) {
-            JSONObject jsonLibro = libro.toJson();
-            jsonArray.put(jsonLibro);
-        }
-        JsonUtiles.grabar(jsonArray, NOMBRE_ARCHIVO_LIBROS);
-    }
-
-
 
     public Libro buscarLibros(Integer ISBN) {
         return hashMapDeLibros.buscar(ISBN);
@@ -63,7 +45,6 @@ public class Biblioteca implements Serializable {
 
     public void eliminarLibro(Integer ISBN) {
         hashMapDeLibros.eliminar(ISBN);
-        guardarLibrosEnJSON(); // Asegurarse de actualizar el archivo JSON
     }
 
     public void agregarCliente(Integer idCliente, Cliente cliente) {
@@ -78,24 +59,61 @@ public class Biblioteca implements Serializable {
         hashMapClientes.eliminar(idCliente);
     }
 
-    public void agregarRegistro(RegistroAlquiler registro)
-    {
-        hashMapAlquileres.agregar(registro.getIdAlquiler(),registro);
+    public void agregarRegistro(RegistroAlquiler registro) {
+        hashMapAlquileres.agregar(registro.getIdAlquiler(), registro);
     }
 
-    public RegistroAlquiler buscarRegistro(Integer idAlquiler)
-    {
+    public RegistroAlquiler buscarRegistro(Integer idAlquiler) {
         return hashMapAlquileres.buscar(idAlquiler);
     }
 
     public HashMap<Integer, Libro> getHashMapDeLibros() {
         return hashMapDeLibros.obtenerTodos();
     }
-
-    public GestorHashMap<Integer, RegistroAlquiler> getHashMapAlquileres() {
-        return hashMapAlquileres;
+    public HashMap<Integer, Cliente> getHashMapDeClientes() {
+        return hashMapClientes.obtenerTodos();
     }
 
+    public HashMap<Integer, RegistroAlquiler> getHashMapAlquileres() {
+        return hashMapAlquileres.obtenerTodos();
+    }
+
+
+
+
+
+    // Devuelve todos los tipos de generos que posee la libreria
+    public ArrayList<String> obtenerGenerosDisponibles() {
+        HashSet<String> generos = new HashSet<>();
+        for (Libro libro : hashMapDeLibros.obtenerTodos().values()) {
+            generos.add(libro.getGenero());
+        }
+        return new ArrayList<>(generos);
+    }
+
+    // Devuelve todos los libros de un autor
+    public ArrayList<Libro> buscarLibrosPorAutor(String autor) {
+        ArrayList<Libro> librosPorAutor = new ArrayList<>();
+        for (Libro libro : hashMapDeLibros.obtenerTodos().values()) {
+            if (libro.getAutor().equalsIgnoreCase(autor)) {
+                librosPorAutor.add(libro);
+            }
+        }
+        return librosPorAutor;
+    }
+
+    // Devuelve todos los libros de un genero enviado por parametro
+    public ArrayList<Libro> buscarLibrosPorGenero(String genero) {
+        ArrayList<Libro> librosXgenero = new ArrayList<>();
+        for (Libro libro : hashMapDeLibros.obtenerTodos().values()) {
+            if (libro.getGenero().equalsIgnoreCase(genero)) {
+                librosXgenero.add(libro);
+            }
+        }
+        return librosXgenero;
+    }
+
+    // Carga los libros del archivo JSON al hashmap
     public void cargarLibrosDesdeJson(String archivoJson) {
         String contenido = JsonUtiles.leer(archivoJson);
         try {
@@ -110,48 +128,17 @@ public class Biblioteca implements Serializable {
         }
     }
 
-    //Carga todos los libros del hashmap al archivo
-    public void cargarLibrosToJson(String archivoJson)
-    {
+    // Carga al archivo JSON todos los libros del hashmap
+    public void guardarLibrosEnJSON(String archivoJSON) {
         JSONArray jsonArray = new JSONArray();
-        for (Libro libro: hashMapDeLibros.obtenerTodos().values())
-        {
-            jsonArray.put(libro.toJson());
-        }
-        JsonUtiles.grabar(jsonArray,archivoJson);
-    }
-
-    // Function to get all unique genres available in the library
-    public ArrayList<String> obtenerGenerosDisponibles() {
-        HashSet<String> generos = new HashSet<>();
         for (Libro libro : hashMapDeLibros.obtenerTodos().values()) {
-            generos.add(libro.getGenero());
+            JSONObject jsonLibro = libro.toJson();
+            jsonArray.put(jsonLibro);
         }
-        return new ArrayList<>(generos);
+        JsonUtiles.grabar(jsonArray, archivoJSON);
     }
 
-    // Function to search books by author
-    public ArrayList<Libro> buscarLibrosPorAutor(String autor) {
-        ArrayList<Libro> librosPorAutor = new ArrayList<>();
-        for (Libro libro : hashMapDeLibros.obtenerTodos().values()) {
-            if (libro.getAutor().equalsIgnoreCase(autor)) {
-                librosPorAutor.add(libro);
-            }
-        }
-        return librosPorAutor;
-    }
-
-
-    public ArrayList<Libro> buscarLibrosPorGenero(String genero) {
-        ArrayList<Libro> librosXgenero = new ArrayList<>();
-        for (Libro libro : hashMapDeLibros.obtenerTodos().values()) {
-            if (libro.getGenero().equalsIgnoreCase(genero)) {
-                librosXgenero.add(libro);
-            }
-        }
-        return librosXgenero;
-    }
-
+    // Agrega al hashmap todos los clientes del archivo JSON
     public void cargarClientesDesdeJson(String archivoJson) {
         String contenido = JsonUtiles.leer(archivoJson);
         try {
@@ -166,55 +153,77 @@ public class Biblioteca implements Serializable {
             e.printStackTrace();
         }
     }
-
-    public void cargarClientesToJson (String archivoJson) //Carga todos los clientes que contiene el hashMap al archivo JSON
+    // Carga todos los clientes que contiene el hashMap clientes al archivo JSON
+    public void guardarClientesEnJSON(String archivoJson)
     {
         try {
             JSONArray jsonArray = new JSONArray();
-            for (Cliente cliente: hashMapClientes.obtenerTodos().values())
-            {
+            for (Cliente cliente : hashMapClientes.obtenerTodos().values()) {
                 jsonArray.put(cliente.toJson());
             }
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("clientes",jsonArray);
-            JsonUtiles.grabar(jsonObject,archivoJson);
+            jsonObject.put("clientes", jsonArray);
+            JsonUtiles.grabar(jsonObject, archivoJson);
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-
-    public void cargarRegistroAlquileresToJson (String archivoJson) throws JSONException {
+    // Agrega al archivo JSON todos los elementos del hashmap de registro de alquileres
+    public void guardarRegistroAlquilerEnJSON(String archivoJson) {
         JSONArray jsonArray = new JSONArray();
-        for (RegistroAlquiler registroAlquiler : hashMapAlquileres.obtenerTodos().values())
-        {
+        for (RegistroAlquiler registroAlquiler : hashMapAlquileres.obtenerTodos().values()) {
             int idAlquiler = registroAlquiler.getIdAlquiler();
-            JSONObject jsonLibro=registroAlquiler.getLibroAlquilado().toJson();
-            JSONObject jsonCliente = registroAlquiler.getCliente().toJson();
-            String fechaAlquiler = registroAlquiler.getFechaAlquiler();
 
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("idAlquiler",idAlquiler);
-            jsonObject.put("libroAlquilado",jsonLibro);
-            jsonObject.put("cliente",jsonCliente);
-            jsonObject.put("fechaAlquiler",fechaAlquiler);
-            jsonArray.put(jsonObject);
+            try {
+                JSONObject jsonLibro = registroAlquiler.getLibroAlquilado().toJson();
+                JSONObject jsonCliente = registroAlquiler.getCliente().toJson();
+                String fechaAlquiler = registroAlquiler.getFechaAlquiler();
+
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("idAlquiler", idAlquiler);
+                jsonObject.put("libroAlquilado", jsonLibro);
+                jsonObject.put("cliente", jsonCliente);
+                jsonObject.put("fechaAlquiler", fechaAlquiler);
+                jsonArray.put(jsonObject);
+            }catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
         }
-        JsonUtiles.grabar(jsonArray,archivoJson);
+        JsonUtiles.grabar(jsonArray, archivoJson);
     }
-
-    public void cargarRegistroAlquilerDesdeJson(String archivoJson) throws JSONException {
+    // Agrega todos los registros de alquiler del archivo JSON al hashmap alquileres
+    public void cargarRegistroAlquilerDesdeJson(String archivoJson) {
         String contenido = JsonUtiles.leer(archivoJson);
-        JSONArray jsonArray = new JSONArray(contenido);
-        for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject jsonObject = jsonArray.getJSONObject(i);
-            int idAlquiler=jsonObject.getInt("idAlquiler");
-            Libro libro = Libro.fromJson(jsonObject.getJSONObject("libroAlquilado"));
-            Cliente cliente = Cliente.fromJson(jsonObject.getJSONObject("cliente"));
-            String fechaAlquiler = jsonObject.getString("fechaAlquiler");
-            this.agregarRegistro(new RegistroAlquiler(idAlquiler,libro,cliente,fechaAlquiler));
+        try {
+            JSONArray jsonArray = new JSONArray(contenido);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                int idAlquiler = jsonObject.getInt("idAlquiler");
+                Libro libro = Libro.fromJson(jsonObject.getJSONObject("libroAlquilado"));
+                Cliente cliente = Cliente.fromJson(jsonObject.getJSONObject("cliente"));
+                String fechaAlquiler = jsonObject.getString("fechaAlquiler");
+                this.agregarRegistro(new RegistroAlquiler(idAlquiler, libro, cliente, fechaAlquiler));
+            }
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
         }
     }
+
+    // Genera un id que no existe en el hashmap alquileres
+    public int generarIdRegistroAlquiler() {
+        int mayor = -1;
+        if (hashMapAlquileres.obtenerTodos() != null) {
+            for (RegistroAlquiler alquiler : hashMapAlquileres.obtenerTodos().values()) {
+                if(mayor < alquiler.getIdAlquiler())
+                {
+                    mayor = alquiler.getIdAlquiler();
+                }
+            }
+        }
+        return mayor+1;
+    }
+
 
     public void alquilarLibro(Libro libro, Cliente cliente, int diasDeAlquiler) throws ClienteNoEncontradoException, LibroNoEncontradoException, CopiasInsuficientesException, SaldoInsuficienteException, LimiteAlquilerException {
 
@@ -242,13 +251,17 @@ public class Biblioteca implements Serializable {
         }
 
         if (!cliente.availableToRent()) {
-            throw new LimiteAlquilerException("El cliente cuenta con más de 2 libros alquilados: " + cliente.getLibrosEnPosecion());
+            throw new LimiteAlquilerException("El cliente cuenta con más de 2 libros alquilados: " + cliente.getLibrosEnPosesion());
         }
 
         // Si llego hasta acá alquilo
-        cliente.getLibrosEnPosecion().add(libro);
         libro.restarUnaCopia();
         cliente.restarSaldoXAlquiler(precioAlquiler);
+        cliente.getLibrosEnPosesion().add(libro);
+
+        // Agrega el registro del alquiler
+        int id = generarIdRegistroAlquiler();
+        agregarRegistro(new RegistroAlquiler(id,libro,cliente));
     }
 
 }
