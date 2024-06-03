@@ -179,12 +179,16 @@ public class Biblioteca implements Serializable {
                 JSONObject jsonLibro = registroAlquiler.getLibroAlquilado().toJson();
                 JSONObject jsonCliente = registroAlquiler.getCliente().toJson();
                 String fechaAlquiler = registroAlquiler.getFechaAlquiler();
+                String fechaDeDevolucionEsperada = registroAlquiler.getFechaDeDevolucionEsperada();
+                int diasAlquilados = registroAlquiler.getDiasAlquilados();
 
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("idAlquiler", idAlquiler);
                 jsonObject.put("libroAlquilado", jsonLibro);
                 jsonObject.put("cliente", jsonCliente);
                 jsonObject.put("fechaAlquiler", fechaAlquiler);
+                jsonObject.put("fechaDeDevolucionEsperada", fechaDeDevolucionEsperada);
+                jsonObject.put("diasAlquilados",diasAlquilados);
                 jsonArray.put(jsonObject);
             }catch (JSONException e) {
                 throw new RuntimeException(e);
@@ -203,7 +207,9 @@ public class Biblioteca implements Serializable {
                 Libro libro = Libro.fromJson(jsonObject.getJSONObject("libroAlquilado"));
                 Cliente cliente = Cliente.fromJson(jsonObject.getJSONObject("cliente"));
                 String fechaAlquiler = jsonObject.getString("fechaAlquiler");
-                this.agregarRegistro(new RegistroAlquiler(idAlquiler, libro, cliente, fechaAlquiler));
+                String fechaDeDevolucionEsperada = jsonObject.getString("fechaDeDevolucionEsperada");
+                int diasAlquilados = jsonObject.getInt("diasAlquilados");
+                this.agregarRegistro(new RegistroAlquiler(idAlquiler, libro, cliente, fechaAlquiler,fechaDeDevolucionEsperada,diasAlquilados));
             }
         } catch (JSONException e) {
             throw new RuntimeException(e);
@@ -258,10 +264,11 @@ public class Biblioteca implements Serializable {
         libro.restarUnaCopia();
         cliente.restarSaldoXAlquiler(precioAlquiler);
         cliente.getLibrosEnPosesion().add(libro);
-
+        String fecha1 = localDateTime.toString(); //Fecha de alquiler
+        String fecha2 = localDateTime1.toString(); //Fecha de devolucion esperada
         // Agrega el registro del alquiler
         int id = generarIdRegistroAlquiler();
-        agregarRegistro(new RegistroAlquiler(id,libro,cliente));
+        agregarRegistro(new RegistroAlquiler(id,libro,cliente,fecha1,fecha2,diasDeAlquiler));
     }
 
     public void devolverLibro(Libro libro, Cliente cliente) throws ClienteNoEncontradoException, LibroNoEncontradoException, LibroNoAlquiladoException {
@@ -282,7 +289,30 @@ public class Biblioteca implements Serializable {
 
         // Devolver el libro
         cliente.getLibrosEnPosesion().remove(libro);
-        libro.agregarCopiaLibro();  // Aumentar la cantidad de copias disponibles
+        libro.agregarCopiaLibro();
+        System.out.println("LLegue hasta aca");;// Aumentar la cantidad de copias disponibles
+        RegistroAlquiler buscado = null;
+        LocalDateTime fecha1 = null;
+        LocalDateTime fecha2 = null;
+        long daysBefore = 0;
+        for(RegistroAlquiler registroAlquiler : hashMapAlquileres.obtenerTodos().values()){
+            System.out.println("A comparar:" +registroAlquiler.getCliente().getNombreYapellido()+" a comprar: "+ cliente.getNombreYapellido());
+
+            if(registroAlquiler.getCliente().getNombreYapellido().equalsIgnoreCase(cliente.getNombreYapellido())){
+                System.out.println("Estoy buscando");
+                buscado = registroAlquiler;
+                fecha1 = LocalDateTime.parse(buscado.getFechaAlquiler());
+                fecha2 = LocalDateTime.parse(buscado.getFechaDeDevolucionEsperada());
+                daysBefore = ChronoUnit.DAYS.between(fecha1,fecha2);
+
+                System.out.println("Dias pasados : "+ daysBefore);
+            }
+        }
+
+        if(daysBefore > buscado.getDiasAlquilados()){
+            System.out.println("PAGA LA MULTA CARETA");
+        }
+
     }
 
 }

@@ -59,16 +59,15 @@ public class Main {
                     break;
                 case 7:
                     // Verificar si el cliente existe
-                    Cliente clienteEncontrado = biblioteca.buscarCliente(1001);
+                    Cliente clienteEncontrado = biblioteca.buscarCliente(123456);
                     // Verificar si el libro existe
-                    Libro libroEncontrado = biblioteca.buscarLibros(1124778796);
+                    Libro libroEncontrado = biblioteca.buscarLibros(476339284);
                     try {
                         biblioteca.devolverLibro(libroEncontrado,clienteEncontrado);
                         System.out.println("Libro devuelto correctamente");
                     } catch (ClienteNoEncontradoException | LibroNoEncontradoException | LibroNoAlquiladoException e) {
                         System.out.println(e.getMessage());
                     }
-                    System.out.println(biblioteca.getHashMapDeClientes());
                     break;
                 case 0:
                     System.out.println("Saliendo...");
@@ -93,6 +92,7 @@ public class Main {
         System.out.println("4. Buscar libro por ...");
         System.out.println("5. Agregar copia de libro");
         System.out.println("6. Alquilar Libro");
+        System.out.println("7. Devolver Libro");
         System.out.println("0. Salir");
         System.out.print("Seleccione una opción: ");
     }
@@ -127,8 +127,9 @@ public class Main {
 
     private static void AlquilarLibro() {
 
-        Libro libro = biblioteca.buscarLibros(1124778796);
-        Cliente cliente = biblioteca.buscarCliente(1001);
+        Libro libro = biblioteca.buscarLibros(476339284);
+        Cliente cliente = biblioteca.buscarCliente(123456);
+        System.out.println("Dias a alquilar: ");
         int diasDeAlquiler = scanner.nextInt();
         try {
             biblioteca.alquilarLibro(libro, cliente, diasDeAlquiler);
