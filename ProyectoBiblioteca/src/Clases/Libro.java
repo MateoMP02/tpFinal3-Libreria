@@ -93,7 +93,7 @@ public class Libro {
 
     @Override
     public int hashCode() {
-        return Objects.hash(ISBN);
+        return 1;
     }
 
     @Override

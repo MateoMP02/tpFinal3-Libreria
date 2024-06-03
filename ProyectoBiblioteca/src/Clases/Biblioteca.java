@@ -264,4 +264,25 @@ public class Biblioteca implements Serializable {
         agregarRegistro(new RegistroAlquiler(id,libro,cliente));
     }
 
+    public void devolverLibro(Libro libro, Cliente cliente) throws ClienteNoEncontradoException, LibroNoEncontradoException, LibroNoAlquiladoException {
+
+        if (cliente == null) {
+            throw new ClienteNoEncontradoException("Cliente no encontrado");
+        }
+
+
+        if (libro == null) {
+            throw new LibroNoEncontradoException("Libro no encontrado");
+        }
+
+        // Verificar si el cliente tiene el libro en posesión
+        if (!cliente.getLibrosEnPosesion().contains(libro)) {
+            throw new LibroNoAlquiladoException("El cliente no tiene este libro alquilado");
+        }
+
+        // Devolver el libro
+        cliente.getLibrosEnPosesion().remove(libro);
+        libro.agregarCopiaLibro();  // Aumentar la cantidad de copias disponibles
+    }
+
 }

@@ -2,6 +2,9 @@ import Clases.*;
 import Excepciones.*;
 import org.json.JSONException;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -13,15 +16,16 @@ public class Main {
     static Scanner scanner = new Scanner(System.in);
 
 
-
     public static void main(String[] args) {
 
-
-
+        JsonUtiles.crearArchivoSiNoExiste(NOMBRE_ARCHIVO_CLIENTES);
+        JsonUtiles.crearArchivoSiNoExiste(NOMBRE_ARCHIVO_LIBROS);
+        JsonUtiles.crearArchivoSiNoExiste(NOMBRE_ARCHIVO_ALQUILERES);
 
         int opcion;
 
         do {
+
             //Cargar clientes desde un JSON
             biblioteca.cargarClientesDesdeJson(NOMBRE_ARCHIVO_CLIENTES);
             // Cargar libros desde un archivo JSON
@@ -29,7 +33,6 @@ public class Main {
 
             biblioteca.cargarRegistroAlquilerDesdeJson(NOMBRE_ARCHIVO_ALQUILERES);
 
-            System.out.println(biblioteca.getHashMapDeClientes());
 
             mostrarMenu();
             opcion = scanner.nextInt();
@@ -48,11 +51,24 @@ public class Main {
                 case 4:
                     busquedaLibros();
                     break;
-                case 5 :
+                case 5:
                     agregarCopias();
                     break;
                 case 6:
                     AlquilarLibro();
+                    break;
+                case 7:
+                    // Verificar si el cliente existe
+                    Cliente clienteEncontrado = biblioteca.buscarCliente(1001);
+                    // Verificar si el libro existe
+                    Libro libroEncontrado = biblioteca.buscarLibros(1124778796);
+                    try {
+                        biblioteca.devolverLibro(libroEncontrado,clienteEncontrado);
+                        System.out.println("Libro devuelto correctamente");
+                    } catch (ClienteNoEncontradoException | LibroNoEncontradoException | LibroNoAlquiladoException e) {
+                        System.out.println(e.getMessage());
+                    }
+                    System.out.println(biblioteca.getHashMapDeClientes());
                     break;
                 case 0:
                     System.out.println("Saliendo...");
@@ -64,7 +80,6 @@ public class Main {
             biblioteca.guardarLibrosEnJSON(NOMBRE_ARCHIVO_LIBROS);
             biblioteca.guardarClientesEnJSON(NOMBRE_ARCHIVO_CLIENTES);
             biblioteca.guardarRegistroAlquilerEnJSON(NOMBRE_ARCHIVO_ALQUILERES);
-            //Aca agregaria los toJSON
         } while (opcion != 0);
 
         scanner.close();
@@ -110,14 +125,13 @@ public class Main {
         }
     }
 
-    private static void AlquilarLibro(){
+    private static void AlquilarLibro() {
 
-        Libro libro=biblioteca.buscarLibros(284756472);
-        Cliente cliente=biblioteca.buscarCliente(789456);
+        Libro libro = biblioteca.buscarLibros(1124778796);
+        Cliente cliente = biblioteca.buscarCliente(1001);
         int diasDeAlquiler = scanner.nextInt();
         try {
             biblioteca.alquilarLibro(libro, cliente, diasDeAlquiler);
-            biblioteca.agregarRegistro(new RegistroAlquiler(123,libro,cliente));//esto pasa si se alquila correctamente
             System.out.println("Alquiler exitoso");
         } catch (ClienteNoEncontradoException | LibroNoEncontradoException | CopiasInsuficientesException |
                  SaldoInsuficienteException |
@@ -128,7 +142,7 @@ public class Main {
         System.out.println(biblioteca.getHashMapAlquileres());
     }
 
-    private static void agregarCopias(){
+    private static void agregarCopias() {
         System.out.println("Ingrese el ISBN del libro que quiera agregar copias");
         int ISBN = scanner.nextInt();
         biblioteca.agregarCopiaDeLibro(ISBN);
@@ -141,14 +155,14 @@ public class Main {
         }
     }
 
-    private static void busquedaCliente(){
+    private static void busquedaCliente() {
         System.out.print("Ingrese el ID del cliente a buscar: ");
         int idCliente = scanner.nextInt();
         Cliente cliente = biblioteca.buscarCliente(idCliente);
         System.out.println(cliente != null ? cliente : "Cliente no encontrado.");
     }
 
-    private static void busquedaLibros(){
+    private static void busquedaLibros() {
         int op;
         System.out.println("Ingrese la opcion de busqueda");
         System.out.println("1. Por genero");
@@ -156,7 +170,7 @@ public class Main {
         System.out.println("3. Por ISBN");
         System.out.println("0. Volver");
         op = scanner.nextInt();
-        switch (op){
+        switch (op) {
             case 1:
                 ArrayList<String> generos = biblioteca.obtenerGenerosDisponibles();
                 System.out.println("Géneros disponibles:");
@@ -209,11 +223,11 @@ public class Main {
         }
     }
 
-    private static void baja (){
+    private static void baja() {
         System.out.println("1. Bajar Libro");
         System.out.println("2. Bajar Cliente");
         int op = scanner.nextInt();
-        switch (op){
+        switch (op) {
             case 1:
                 System.out.print("Ingrese el ID del cliente a eliminar: ");
                 int idClienteEliminar = scanner.nextInt();
@@ -281,8 +295,7 @@ public class Main {
             {
                 comprobarFormatoMail = true;
             }
-            if (!comprobarFormatoMail)
-            {
+            if (!comprobarFormatoMail) {
                 System.out.println("Formato de correo electronico incorrecto, vuelva a ingresar");
             }
         } while (!comprobarFormatoMail);
@@ -293,11 +306,10 @@ public class Main {
         return new Cliente(nombreYapellido, edad, domicilio, idCliente, correoElectronico, saldo);
     }
 
-    public static boolean validarCorreo (String correoElectronico) //comprueba que el formato del correo sea el correcto
+    public static boolean validarCorreo(String correoElectronico) //comprueba que el formato del correo sea el correcto
     {
         return correoElectronico.contains("@") && correoElectronico.contains(".com") && (correoElectronico.contains("gmail") || correoElectronico.contains("outlook") || correoElectronico.contains("hotmail"));
     }
-
 
 
     public static Libro crearNuevoLibro(Scanner scanner, Biblioteca biblioteca) {

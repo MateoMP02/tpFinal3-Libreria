@@ -6,6 +6,7 @@ import org.json.JSONObject;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Cliente extends Persona{
 
@@ -58,6 +59,19 @@ public class Cliente extends Persona{
 
     public float getSaldo() {
         return saldo;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Cliente cliente = (Cliente) o;
+        return Objects.equals(idCliente, cliente.idCliente);
+    }
+
+    @Override
+    public int hashCode() {
+        return 1;
     }
 
     //Traduce el archivo JSON y devuelve un objeto Cliente
