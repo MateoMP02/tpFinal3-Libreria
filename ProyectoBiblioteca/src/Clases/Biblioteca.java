@@ -301,16 +301,25 @@ public class Biblioteca implements Serializable {
             if(registroAlquiler.getCliente().getNombreYapellido().equalsIgnoreCase(cliente.getNombreYapellido())){
                 System.out.println("Estoy buscando");
                 buscado = registroAlquiler;
-                fecha1 = LocalDateTime.parse(buscado.getFechaAlquiler());
-                fecha2 = LocalDateTime.parse(buscado.getFechaDeDevolucionEsperada());
-                daysBefore = ChronoUnit.DAYS.between(fecha1,fecha2);
+                fecha1 = LocalDateTime.now();
+                LocalDateTime fechaEspecifica = LocalDateTime.of(2024, 6, 06, 14, 30, 0);
 
-                System.out.println("Dias pasados : "+ daysBefore);
+                fecha2 = LocalDateTime.parse(buscado.getFechaDeDevolucionEsperada());
+                daysBefore = ChronoUnit.DAYS.between(fecha2,fechaEspecifica);
+
+
             }
         }
 
-        if(daysBefore > buscado.getDiasAlquilados()){
-            System.out.println("PAGA LA MULTA CARETA");
+        if(daysBefore == 1){
+            System.out.println("WARNING LA PROXIMA TE VIOLO");
+        }else if (daysBefore > 1 ){
+            System.out.println("Paga la multa");
+            System.out.println("Dias pasados : "+ daysBefore);
+            float multa = (float) ((float) daysBefore * libro.getPrecio());
+            System.out.println("Multa es de : "+ multa);
+        }else {
+            System.out.println("Devuelto en tiempo y forma");
         }
 
     }

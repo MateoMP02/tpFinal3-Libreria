@@ -1,0 +1,4 @@
+Cositas para agregar 
+saldo negativo ( vemo ) - crear excepcion
+cargar saldo
+buscar cliente por nombre y apellido
