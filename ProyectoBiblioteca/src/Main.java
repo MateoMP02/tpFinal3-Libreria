@@ -128,6 +128,8 @@ public class Main {
         System.out.println("5. Agregar copia de libro");
         System.out.println("6. Alquilar Libro");
         System.out.println("7. Devolver Libro");
+        System.out.println("8. Cargar archivo.data con libros alquilados");
+        System.out.println("9. Leer archivo,data de libros alquilados");
         System.out.println("0. Salir");
         System.out.print("Seleccione una opción: ");
     }
