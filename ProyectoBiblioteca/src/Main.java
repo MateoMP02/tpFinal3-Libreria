@@ -72,17 +72,7 @@ public class Main {
                     break;
                 case 8:
 
-                    HashMap<Cliente, ArrayList<Libro>> hashMap = new HashMap<>();
 
-                    // Suponiendo que biblioteca.getHashMapDeClientes() devuelve un HashMap<Integer, Cliente>
-                    for (Cliente cliente : biblioteca.getHashMapDeClientes().values()) {
-                        if (!cliente.getLibrosEnPosesion().isEmpty()) {
-                            hashMap.put(cliente, cliente.getLibrosEnPosesion());
-                        }
-                    }
-
-                    // Guardar el HashMap en un archivo binario
-                    ControladoraArchivosObjeto.guardarHashMap(hashMap, "clientesYLibros.data");
 
                     break;
                 case 9:
@@ -160,6 +150,21 @@ public class Main {
                 System.out.println("Opcion no valida");
                 break;
         }
+    }
+
+    private static void GuardarlibrosEnPosesion(){
+        HashMap<Cliente, ArrayList<Libro>> hashMap = new HashMap<>();
+
+        // Suponiendo que biblioteca.getHashMapDeClientes() devuelve un HashMap<Integer, Cliente>
+        for (Cliente cliente : biblioteca.getHashMapDeClientes().values()) {
+            if (!cliente.getLibrosEnPosesion().isEmpty()) {
+                hashMap.put(cliente, cliente.getLibrosEnPosesion());
+            }
+        }
+
+        // Guardar el HashMap en un archivo binario
+        ControladoraArchivosObjeto.guardarHashMap(hashMap, "clientesYLibros.data");
+
     }
 
     private static void AlquilarLibro() {
