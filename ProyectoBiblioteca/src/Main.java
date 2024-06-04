@@ -81,7 +81,7 @@ public class Main {
                 case 9:
                     //prueba de leer archivo de libros en posesion cliente.
                     Cliente cliente3= new Cliente();
-                    ArrayList<Libro>Libros=controladoraArchivosObjeto.leerColeccion();
+                    ArrayList<Libro>Libros=controladoraArchivosObjeto.leerColeccion("Coleccion123456.data");
                     cliente3.setLibrosEnPosesion(Libros);
                     System.out.println(cliente3.getLibrosEnPosesion());
 
