@@ -1,5 +1,6 @@
 import Clases.*;
 import Excepciones.*;
+import Generics.ControladoraArchivosObjeto;
 import org.json.JSONException;
 
 import java.io.File;
@@ -22,6 +23,7 @@ public class Main {
         JsonUtiles.crearArchivoSiNoExiste(NOMBRE_ARCHIVO_LIBROS);
         JsonUtiles.crearArchivoSiNoExiste(NOMBRE_ARCHIVO_ALQUILERES);
 
+        ControladoraArchivosObjeto<Libro> controladoraArchivosObjeto=new ControladoraArchivosObjeto<>();
         int opcion;
 
         do {
@@ -32,6 +34,7 @@ public class Main {
             biblioteca.cargarLibrosDesdeJson(NOMBRE_ARCHIVO_LIBROS);
 
             biblioteca.cargarRegistroAlquilerDesdeJson(NOMBRE_ARCHIVO_ALQUILERES);
+
 
 
             mostrarMenu();
@@ -69,6 +72,19 @@ public class Main {
                         System.out.println(e.getMessage());
                     }
                     break;
+                case 8:
+                    //prueba de grabar archivo de libros en posesion cliente.
+                    Cliente cliente = biblioteca.buscarCliente(123456);
+
+                    controladoraArchivosObjeto.grabarColeccion(cliente.getLibrosEnPosesion());
+                    break;
+                case 9:
+                    //prueba de leer archivo de libros en posesion cliente.
+                    Cliente cliente3= new Cliente();
+                    ArrayList<Libro>Libros=controladoraArchivosObjeto.leerColeccion();
+                    cliente3.setLibrosEnPosesion(Libros);
+                    System.out.println(cliente3.getLibrosEnPosesion());
+
                 case 0:
                     System.out.println("Saliendo...");
                     break;

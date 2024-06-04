@@ -1,6 +1,8 @@
 package Clases;
 
-public abstract class Persona {
+import java.io.Serializable;
+
+public abstract class Persona implements Serializable {
     private String nombreYapellido;
     private int edad;
     private Domicilio domicilio;
@@ -9,6 +11,12 @@ public abstract class Persona {
         this.nombreYapellido = nombreYapellido;
         this.edad = edad;
         this.domicilio = domicilio;
+    }
+
+    public Persona() {
+        this.nombreYapellido = "";
+        this.edad = 0;
+        this.domicilio = null;
     }
 
     public void setDomicilio(Domicilio domicilio) {

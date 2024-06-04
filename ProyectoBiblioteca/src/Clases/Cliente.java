@@ -18,12 +18,25 @@ public class Cliente extends Persona{
     private ArrayList<Libro> librosEnPosesion;
 
 
+
     public Cliente(String nombreYapellido, int edad, Domicilio domicilio, Integer idCliente, String correoElectronico, float saldo) {
         super(nombreYapellido, edad, domicilio);
         this.idCliente = idCliente;
         this.correoElectronico = correoElectronico;
         this.saldo = saldo;
         this.librosEnPosesion = new ArrayList<>();
+    }
+
+    public Cliente() {
+        this.idCliente = 0;
+        this.correoElectronico = "";
+        this.saldo = 0;
+        this.librosEnPosesion = new ArrayList<>();
+
+    }
+
+    public void setLibrosEnPosesion(ArrayList<Libro> librosEnPosesion) {
+        this.librosEnPosesion = librosEnPosesion;
     }
 
     public void modificarDomicilio (Domicilio domicilio){
