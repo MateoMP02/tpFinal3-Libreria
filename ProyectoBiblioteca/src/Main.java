@@ -84,6 +84,7 @@ public class Main {
                     ArrayList<Libro>Libros=controladoraArchivosObjeto.leerColeccion();
                     cliente3.setLibrosEnPosesion(Libros);
                     System.out.println(cliente3.getLibrosEnPosesion());
+
                 case 0:
                     System.out.println("Saliendo...");
                     break;
