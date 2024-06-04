@@ -73,13 +73,13 @@ public class Main {
                     }
                     break;
                 case 8:
-                    //prueba de grabar archivo de libros en posesion cliente
+                    //prueba de grabar archivo de libros en posesion cliente.
                     Cliente cliente = biblioteca.buscarCliente(123456);
 
                     controladoraArchivosObjeto.grabarColeccion(cliente.getLibrosEnPosesion());
                     break;
                 case 9:
-                    //prueba de leer archivo de libros en posesion cliente
+                    //prueba de leer archivo de libros en posesion cliente.
                     Cliente cliente3= new Cliente();
                     ArrayList<Libro>Libros=controladoraArchivosObjeto.leerColeccion();
                     cliente3.setLibrosEnPosesion(Libros);
