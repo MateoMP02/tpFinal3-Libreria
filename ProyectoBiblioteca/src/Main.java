@@ -6,8 +6,7 @@ import org.json.JSONException;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
 import static Clases.Constantes.*;
 
@@ -34,7 +33,6 @@ public class Main {
             biblioteca.cargarLibrosDesdeJson(NOMBRE_ARCHIVO_LIBROS);
 
             biblioteca.cargarRegistroAlquilerDesdeJson(NOMBRE_ARCHIVO_ALQUILERES);
-
 
 
             mostrarMenu();
@@ -73,19 +71,39 @@ public class Main {
                     }
                     break;
                 case 8:
-                    //prueba de grabar archivo de libros en posesion cliente.
-                    Cliente cliente = biblioteca.buscarCliente(123456);
 
-                    controladoraArchivosObjeto.grabarColeccion(cliente.getLibrosEnPosesion());
+                    HashMap<Cliente, ArrayList<Libro>> hashMap = new HashMap<>();
+
+                    // Suponiendo que biblioteca.getHashMapDeClientes() devuelve un HashMap<Integer, Cliente>
+                    for (Cliente cliente : biblioteca.getHashMapDeClientes().values()) {
+                        if (!cliente.getLibrosEnPosesion().isEmpty()) {
+                            hashMap.put(cliente, cliente.getLibrosEnPosesion());
+                        }
+                    }
+
+                    // Guardar el HashMap en un archivo binario
+                    ControladoraArchivosObjeto.guardarHashMap(hashMap, "clientesYLibros.data");
+
                     break;
                 case 9:
-                    //prueba de leer archivo de libros en posesion cliente.
-                    Cliente cliente2=biblioteca.buscarCliente(123456);
-                    Cliente cliente3= new Cliente();
-                    ArrayList<Libro>Libros=controladoraArchivosObjeto.leerColeccion("Coleccion"+cliente2.getIdCliente()+".data");
-                    cliente3.setLibrosEnPosesion(Libros);
-                    System.out.println(cliente3.getLibrosEnPosesion());
+                    // Cargar el HashMap desde el archivo binario
+                    HashMap<Cliente, ArrayList<Libro>> cargadoHashMap = ControladoraArchivosObjeto.cargarHashMap("clientesYLibros.data");
 
+                    // Mostrar el contenido del HashMap cargado
+                    System.out.println("HashMap cargado:");
+                    Iterator<Map.Entry<Cliente, ArrayList<Libro>>> it = cargadoHashMap.entrySet().iterator();
+                    while (it.hasNext()) {
+                        Map.Entry<Cliente, ArrayList<Libro>> entradaMapa = it.next();
+                        Cliente cliente = entradaMapa.getKey();
+                        ArrayList<Libro> libros = entradaMapa.getValue();
+                        System.out.println("Cliente: " + cliente.getNombreYapellido());
+                        System.out.println("Libros Alquilados:");
+                        for (Libro libro : libros) {
+                            System.out.println(libro.getTitulo());
+                        }
+                        System.out.println();
+                    }
+                    break;
                 case 0:
                     System.out.println("Saliendo...");
                     break;

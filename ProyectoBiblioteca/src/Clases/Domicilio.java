@@ -1,6 +1,9 @@
 package Clases;
 
-public class Domicilio {
+import java.awt.*;
+import java.io.Serializable;
+
+public class Domicilio implements Serializable {
     private String pais;
     private String provincia;
     private String ciudad;

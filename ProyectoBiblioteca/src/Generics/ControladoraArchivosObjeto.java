@@ -5,6 +5,7 @@ import Clases.Libro;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ControladoraArchivosObjeto  <T> implements Serializable {
 
@@ -26,8 +27,6 @@ public class ControladoraArchivosObjeto  <T> implements Serializable {
            {
                objectOutputStream.writeObject(objeto);
            }
-
-
        }
        catch (IOException ex)
        {
@@ -35,7 +34,6 @@ public class ControladoraArchivosObjeto  <T> implements Serializable {
        }
        catch(Exception ex){
            ex.printStackTrace();
-
        }
        finally {
            try{
@@ -50,12 +48,11 @@ public class ControladoraArchivosObjeto  <T> implements Serializable {
                {
                    ex.printStackTrace();
                }
-
        }
 
    }
 
-public ArrayList<T> leerColeccion (String archivo )
+public ArrayList<T> leerColeccion (String archivo)
 {
     ArrayList<T> coleccion=new ArrayList();
 
@@ -134,6 +131,26 @@ public ArrayList<T> leerColeccion (String archivo )
 
         }
 
+    }
+
+    public static void guardarHashMap(HashMap<Cliente, ArrayList<Libro>> hashMap, String nombreArchivo) {
+        try (FileOutputStream fos = new FileOutputStream(nombreArchivo);
+             ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+            oos.writeObject(hashMap);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static HashMap<Cliente, ArrayList<Libro>> cargarHashMap(String nombreArchivo) {
+        HashMap<Cliente, ArrayList<Libro>> hashMap = null;
+        try (FileInputStream fis = new FileInputStream(nombreArchivo);
+             ObjectInputStream ois = new ObjectInputStream(fis)) {
+            hashMap = (HashMap<Cliente, ArrayList<Libro>>) ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return hashMap;
     }
 
 
