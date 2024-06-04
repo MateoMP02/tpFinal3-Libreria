@@ -1,5 +1,8 @@
 package Generics;
 
+import Clases.Cliente;
+import Clases.Libro;
+
 import java.io.*;
 import java.util.ArrayList;
 
@@ -90,8 +93,49 @@ public ArrayList<T> leerColeccion ( )
     return coleccion;
 }
 
+/// recibe un cliente y crea el archivo por el id del cliente
+    public  void grabarColeccionCliente(Cliente cliente)
+    {
+        FileOutputStream fileOutputStream=null;
+        ObjectOutputStream objectOutputStream=null;
+
+        ArrayList<Libro> coleccion= cliente.getLibrosEnPosesion();
+        try{
+            fileOutputStream=new FileOutputStream("Coleccion"+cliente.getIdCliente()+".data");
+            objectOutputStream=new ObjectOutputStream(fileOutputStream);
+
+            for (Libro objeto :coleccion)
+            {
+                objectOutputStream.writeObject(objeto);
+            }
 
 
+        }
+        catch (IOException ex)
+        {
+            ex.printStackTrace();
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+
+        }
+        finally {
+            try{
+                if(fileOutputStream!=null){
+                    fileOutputStream.close();
+                }
+                if(objectOutputStream!=null){
+                    objectOutputStream.close();
+                }
+            }
+            catch(IOException ex)
+            {
+                ex.printStackTrace();
+            }
+
+        }
+
+    }
 
 
 
