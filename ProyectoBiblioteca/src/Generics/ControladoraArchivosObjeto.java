@@ -55,7 +55,7 @@ public class ControladoraArchivosObjeto  <T> implements Serializable {
 
    }
 
-public ArrayList<T> leerColeccion ( )
+public ArrayList<T> leerColeccion (String archivo )
 {
     ArrayList<T> coleccion=new ArrayList();
 
@@ -63,7 +63,7 @@ public ArrayList<T> leerColeccion ( )
     ObjectInputStream objectInputStream=null;
 
     try{
-        fileInputStream=new FileInputStream("Coleccion.data");
+        fileInputStream=new FileInputStream(archivo);
         objectInputStream=new ObjectInputStream(fileInputStream);
 
         while (true)
