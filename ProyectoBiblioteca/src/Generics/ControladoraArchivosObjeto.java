@@ -109,7 +109,6 @@ public ArrayList<T> leerColeccion ( )
                 objectOutputStream.writeObject(objeto);
             }
 
-
         }
         catch (IOException ex)
         {
