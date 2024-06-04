@@ -3,9 +3,10 @@ package Clases;
 import org.json.JSONObject;
 import org.json.JSONException;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Libro {
+public class Libro implements Serializable {
     private Integer ISBN;
     private String titulo;
     private String autor;
