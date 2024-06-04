@@ -80,8 +80,9 @@ public class Main {
                     break;
                 case 9:
                     //prueba de leer archivo de libros en posesion cliente.
+                    Cliente cliente2=biblioteca.buscarCliente(123456);
                     Cliente cliente3= new Cliente();
-                    ArrayList<Libro>Libros=controladoraArchivosObjeto.leerColeccion("Coleccion123456.data");
+                    ArrayList<Libro>Libros=controladoraArchivosObjeto.leerColeccion("Coleccion"+cliente2.getIdCliente()+".data");
                     cliente3.setLibrosEnPosesion(Libros);
                     System.out.println(cliente3.getLibrosEnPosesion());
 
