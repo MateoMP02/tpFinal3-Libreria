@@ -1,6 +1,6 @@
 # UTN-TPFINAL-LAB2 - Sistema de Reservas de Libros
 
-Este es el proyecto final para la Universidad Tecnológica Nacional (UTN), desarrollado por Federico Sosa , Mateo Martinez e Ivan Badosa. El proyecto es un sistema de reservas de libros para bibliotecas. Permite a los usuarios buscar, reservar y alquilar libros, ofreciendo una interfaz fácil de usar y un backend eficiente para la gestión de datos.
+Este es el proyecto final para la Universidad Tecnológica Nacional (UTN), desarrollado por Federico Sosa , Mateo Martinez e Ivan Badoza. El proyecto es un sistema de reservas de libros para bibliotecas. Permite a los usuarios buscar, reservar y alquilar libros, ofreciendo una interfaz fácil de usar y un backend eficiente para la gestión de datos.
 
 ## Diagrama
 
