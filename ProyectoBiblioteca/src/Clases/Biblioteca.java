@@ -13,6 +13,37 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
+/**
+ * Descripción de la Clase Biblioteca
+ * La clase Biblioteca representa una biblioteca y sus operaciones. Implementa la interfaz Serializable para permitir la serialización de sus datos. La clase contiene tres GestorHashMap que gestionan libros, clientes y registros de alquiler.
+ *
+ * Atributos Principales
+ * nombreBiblioteca: El nombre de la biblioteca.
+ * hashMapDeLibros: Mapa que gestiona los libros usando el ISBN como clave.
+ * hashMapClientes: Mapa que gestiona los clientes usando el ID del cliente como clave.
+ * hashMapAlquileres: Mapa que gestiona los registros de alquiler usando el ID del alquiler como clave.
+ * Métodos Principales
+ * Agregar/Buscar/Eliminar:
+ *
+ * agregarLibro, buscarLibros, eliminarLibro: Gestionan los libros en la biblioteca.
+ * agregarCliente, buscarCliente, eliminarCliente: Gestionan los clientes en la biblioteca.
+ * agregarRegistro, buscarRegistro: Gestionan los registros de alquiler.
+ * Funciones de Utilidad:
+ *
+ * obtenerGenerosDisponibles: Devuelve una lista de todos los géneros disponibles en la biblioteca.
+ * buscarLibrosPorAutor: Busca y devuelve todos los libros de un autor específico.
+ * buscarLibrosPorGenero: Busca y devuelve todos los libros de un género específico.
+ * Manejo de Archivos JSON:
+ *
+ * cargarLibrosDesdeJson, guardarLibrosEnJSON: Cargan y guardan libros desde/hacia un archivo JSON.
+ * cargarClientesDesdeJson, guardarClientesEnJSON: Cargan y guardan clientes desde/hacia un archivo JSON.
+ * guardarRegistroAlquilerEnJSON, cargarRegistroAlquilerDesdeJson: Cargan y guardan registros de alquiler desde/hacia un archivo JSON.
+ * Operaciones de Alquiler:
+ *
+ * alquilarLibro: Gestiona el proceso de alquilar un libro, incluyendo validaciones como existencia del cliente, disponibilidad del libro, saldo del cliente y límite de alquileres.
+ * devolverLibro: Gestiona el proceso de devolución de un libro, incluyendo verificación de posesión y posibles multas por devolución tardía.
+ */
+
 public class Biblioteca implements Serializable {
 
     private String nombreBiblioteca;
