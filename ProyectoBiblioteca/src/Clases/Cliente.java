@@ -1,14 +1,14 @@
 package Clases;
 
+import Interfaces.IJsonSerializable;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Cliente extends Persona{
+public class Cliente extends Persona implements IJsonSerializable<Cliente> {
 
 
 
@@ -88,7 +88,7 @@ public class Cliente extends Persona{
     }
 
     //Traduce el archivo JSON y devuelve un objeto Cliente
-    public static Cliente fromJson(JSONObject jsonObject) throws JSONException {
+    public Cliente fromJson(JSONObject jsonObject) throws JSONException {
         int idCliente = jsonObject.getInt("idCliente");
         String correoElectronico = jsonObject.getString("correoElectronico");
         float saldo = (float) jsonObject.getDouble("saldo");
@@ -106,9 +106,10 @@ public class Cliente extends Persona{
 
         // Deserializar librosEnPosesion
         JSONArray librosArray = jsonObject.getJSONArray("librosEnPosesion");
+        Libro aux = new Libro();
         for (int i = 0; i < librosArray.length(); i++) {
             JSONObject libroJson = librosArray.getJSONObject(i);
-            Libro libro = Libro.fromJson(libroJson);
+            Libro libro = aux.fromJson(libroJson);
             cliente.getLibrosEnPosesion().add(libro);
         }
 

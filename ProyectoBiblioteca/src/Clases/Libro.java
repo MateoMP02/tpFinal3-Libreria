@@ -1,12 +1,13 @@
 package Clases;
 
+import Interfaces.IJsonSerializable;
 import org.json.JSONObject;
 import org.json.JSONException;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Libro implements Serializable {
+public class Libro implements Serializable, IJsonSerializable<Libro> {
     private Integer ISBN;
     private String titulo;
     private String autor;
@@ -22,6 +23,11 @@ public class Libro implements Serializable {
         this.precio = precio;
         this.copias = 1; // Se establece la cantidad inicial de copias en 1
     }
+
+    public Libro(){
+
+    }
+
 
     public Libro(Integer ISBN, String titulo, String autor, String genero, double precio,int copias) {
         this.ISBN = ISBN;
@@ -124,7 +130,7 @@ public class Libro implements Serializable {
         return jsonObject;
     }
     //Traduce el archivo JSON y devuelve un objeto Libro
-    public static Libro fromJson(JSONObject jsonObject) {
+    public Libro fromJson(JSONObject jsonObject) {
         try {
             int ISBN = jsonObject.getInt("ISBN");
             String titulo = jsonObject.getString("titulo");

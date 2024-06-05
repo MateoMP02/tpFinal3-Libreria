@@ -1,14 +1,12 @@
 package Clases;
 
-import org.json.JSONArray;
+import Interfaces.IJsonSerializable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
-import java.util.ResourceBundle;
 
-public class RegistroAlquiler {
+public class RegistroAlquiler implements IJsonSerializable<RegistroAlquiler> {
 
     LocalDateTime now = LocalDateTime.now();
 
@@ -34,6 +32,10 @@ public class RegistroAlquiler {
         this.cliente = cliente;
         this.fechaAlquiler = fechaAlquiler;
         this.fechaDeDevolucionEsperada = fechaDeDevolucionEsperada;
+    }
+
+    public RegistroAlquiler(){
+
     }
 
     public String getFechaDeDevolucionEsperada() {
@@ -88,10 +90,12 @@ public class RegistroAlquiler {
     }
 
     //Traduce el archivo JSON y devuelve un objeto RegistroAlquiler
-    public static RegistroAlquiler fromJson(JSONObject jsonObject) throws JSONException {
+    public RegistroAlquiler fromJson(JSONObject jsonObject) throws JSONException {
         int idAlquiler = jsonObject.getInt("idAlquiler");
-        Libro libro = Libro.fromJson(jsonObject.getJSONObject("libroAlquilado"));
-        Cliente cliente = Cliente.fromJson(jsonObject.getJSONObject("cliente"));
+        Libro aux = new Libro();
+        Libro libro = aux.fromJson(jsonObject.getJSONObject("libroAlquilado"));
+        Cliente auxCliente = new Cliente();
+        Cliente cliente = auxCliente.fromJson(jsonObject.getJSONObject("cliente"));
         String fechaAlquiler = jsonObject.getString("fechaAlquiler");
         String fechaDeDevolucionEsperada = jsonObject.getString("fechaDeDevolucionEsperada");
 
