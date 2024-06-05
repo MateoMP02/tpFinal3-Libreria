@@ -9,6 +9,8 @@ Este es el proyecto final para la Universidad Tecnológica Nacional (UTN), desar
 ## Desarrolladores
 
 - Federico Sosa - [LinkedIn](https://www.linkedin.com/in/federico-sosa-533512239/)
+- Mateo Martínez Prieto
+- Badoza Ivan Isaias
 
 ## Instalación y Uso
 
