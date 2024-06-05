@@ -8,6 +8,53 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * Este código defines la clase Cliente, que representa a un cliente en un sistema de gestión de una biblioteca.
+ * Aquí se deja un breve comentario sobre cada función y un mini texto que resume el propósito del código:
+ *
+ * Constructor Cliente(String, int, Domicilio, Integer, String, float):
+ *
+ * Este constructor inicializa un objeto Cliente con los detalles proporcionados, incluyendo nombre, edad, domicilio,
+ * ID, correo electrónico y saldo.
+ * Constructor Cliente():
+ *
+ * Un constructor sin argumentos que inicializa un objeto Cliente con valores predeterminados.
+ * setLibrosEnPosesion(ArrayList<Libro>):
+ *
+ * Establece la lista de libros en posesión del cliente.
+ * modificarDomicilio(Domicilio):
+ *
+ * Permite modificar el domicilio del cliente.
+ * availableToRent():
+ *
+ * Devuelve true si el cliente puede alquilar más libros (menos de 3 libros en posesión), de lo contrario, devuelve false.
+ * toString():
+ *
+ * Genera una representación en cadena del objeto Cliente, incluyendo detalles como nombre, ID, correo electrónico,
+ * libros alquilados y saldo.
+ * getters y setters:
+ *
+ * Métodos para acceder y modificar los atributos del cliente, como ID, correo electrónico, saldo, etc.
+ * equals(Object):
+ *
+ * Sobrescrito para comparar dos objetos Cliente en función de su ID.
+ * fromJson(JSONObject):
+ *
+ * Convierte un objeto JSON en un objeto Cliente.
+ * toJson():
+ *
+ * Convierte un objeto Cliente en un objeto JSON.
+ * restarSaldoXAlquiler(float):
+ *
+ * Resta el precio de un libro alquilado del saldo total del cliente.
+ * getLibrosEnPosesion():
+ *
+ * Devuelve la lista de libros en posesión del cliente.
+ * Este código encapsula la información y el comportamiento relacionado con los clientes de la biblioteca, proporcionando
+ * métodos para interactuar con ellos, incluyendo la capacidad de alquilar libros, gestionar su saldo y realizar
+ * conversiones entre objetos Cliente y JSON.
+ */
+
 public class Cliente extends Persona implements IJsonSerializable<Cliente> {
 
 

@@ -6,6 +6,52 @@ import org.json.JSONObject;
 
 import java.time.LocalDateTime;
 
+/**
+ * Este código define la clase RegistroAlquiler, que representa el registro de un alquiler de un libro por
+ * parte de un cliente en la biblioteca. Aquí hay un comentario breve sobre cada método y un resumen del
+ * propósito del código:
+ *
+ * Constructor RegistroAlquiler(int, Libro, Cliente):
+ *
+ * Inicializa un objeto RegistroAlquiler con el ID de alquiler, el libro alquilado, el cliente y establece
+ * la fecha de alquiler como la fecha actual.
+ * Constructor RegistroAlquiler(int, Libro, Cliente, String, String):
+ *
+ * Inicializa un objeto RegistroAlquiler con el ID de alquiler, el libro alquilado, el cliente y establece
+ * las fechas de alquiler y devolución esperada según los parámetros proporcionados.
+ * getFechaDeDevolucionEsperada():
+ *
+ * Devuelve la fecha de devolución esperada del libro alquilado.
+ * getLibroAlquilado():
+ *
+ * Devuelve el libro alquilado.
+ * getCliente():
+ *
+ * Devuelve el cliente que realizó el alquiler.
+ * getFechaAlquiler():
+ *
+ * Devuelve la fecha en que se realizó el alquiler.
+ * toString():
+ *
+ * Genera una representación en cadena del registro de alquiler, mostrando el ID del alquiler,
+ * el título y ISBN del libro alquilado, el ID y nombre del cliente, y las fechas de alquiler y devolución esperada.
+ * toJson():
+ *
+ * Crea un objeto JSONObject a partir del registro de alquiler y lo devuelve.
+ * fromJson(JSONObject):
+ *
+ * Traduce un objeto JSON al registro de alquiler correspondiente y lo devuelve.
+ * equals(Object):
+ *
+ * Compara si dos registros de alquiler son iguales basándose en su ID de alquiler.
+ * getIdAlquiler():
+ * Devuelve el ID del alquiler.
+ * hashCode():
+ * Devuelve el hash code del objeto.
+ * Esta clase encapsula la información sobre un alquiler de libro realizado por un cliente en la biblioteca y
+ * proporciona métodos para representar esta información en formato JSON y para comparar registros de alquiler.
+ */
+
 public class RegistroAlquiler implements IJsonSerializable<RegistroAlquiler> {
 
     LocalDateTime now = LocalDateTime.now();
