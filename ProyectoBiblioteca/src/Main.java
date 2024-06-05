@@ -1,24 +1,24 @@
 /**
  * Este archivo Main.java es el punto de entrada de tu aplicación. Aquí se encuentra el método main que inicia
  * la ejecución del programa. Este archivo contiene la lógica principal de tu sistema de gestión de una biblioteca.
- *
+
  * Aquí está una descripción general de lo que hace el código:
- *
+
  * Inicialización y carga de datos: Antes de mostrar el menú principal, se cargan los datos de clientes, libros
  * y registros de alquiler desde archivos JSON existentes si los hay.
- *
+
  * Menú principal: Se muestra un menú con varias opciones, como agregar cliente o libro, buscar cliente o libro,
  * alquilar libro, devolver libro, entre otros.
- *
+
  * Operaciones del menú: Cada opción del menú llama a un método específico para realizar una acción determinada,
  * como agregar un nuevo cliente o libro, buscar un cliente o libro, alquilar un libro, devolver un libro, etc.
- *
+
  * Guardado de datos: Después de que el usuario elige una opción y se realiza la operación correspondiente,
  * los datos se guardan nuevamente en archivos JSON para persistencia.
- *
+
  * Manejo de excepciones: Se manejan diversas excepciones como ClienteNoEncontradoException, LibroNoEncontradoException, etc.,
  * para proporcionar mensajes adecuados al usuario en caso de errores.
- *
+
  * Métodos de utilidad: Se definen varios métodos de utilidad para realizar operaciones como crear un nuevo cliente o
  * libro, solicitar información al usuario, etc.
  */
@@ -43,8 +43,6 @@ public class Main {
         JsonUtiles.crearArchivoSiNoExiste(NOMBRE_ARCHIVO_CLIENTES);
         JsonUtiles.crearArchivoSiNoExiste(NOMBRE_ARCHIVO_LIBROS);
         JsonUtiles.crearArchivoSiNoExiste(NOMBRE_ARCHIVO_ALQUILERES);
-        ControladoraArchivosObjeto<Libro> controladoraArchivosObjeto=new ControladoraArchivosObjeto<>();
-
         int opcion;
 
         do {
