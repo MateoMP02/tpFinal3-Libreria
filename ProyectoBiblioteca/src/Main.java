@@ -21,8 +21,8 @@ public class Main {
         JsonUtiles.crearArchivoSiNoExiste(NOMBRE_ARCHIVO_CLIENTES);
         JsonUtiles.crearArchivoSiNoExiste(NOMBRE_ARCHIVO_LIBROS);
         JsonUtiles.crearArchivoSiNoExiste(NOMBRE_ARCHIVO_ALQUILERES);
-
         ControladoraArchivosObjeto<Libro> controladoraArchivosObjeto=new ControladoraArchivosObjeto<>();
+
         int opcion;
 
         do {
@@ -33,7 +33,7 @@ public class Main {
             biblioteca.cargarLibrosDesdeJson(NOMBRE_ARCHIVO_LIBROS);
 
             biblioteca.cargarRegistroAlquilerDesdeJson(NOMBRE_ARCHIVO_ALQUILERES);
-
+            cargarLibrosAlquilados();
 
             mostrarMenu();
             opcion = scanner.nextInt();
@@ -71,38 +71,8 @@ public class Main {
                     }
                     break;
                 case 8:
-
-                    HashMap<Cliente, ArrayList<Libro>> hashMap = new HashMap<>();
-
-                    // Suponiendo que biblioteca.getHashMapDeClientes() devuelve un HashMap<Integer, Cliente>
-                    for (Cliente cliente : biblioteca.getHashMapDeClientes().values()) {
-                        if (!cliente.getLibrosEnPosesion().isEmpty()) {
-                            hashMap.put(cliente, cliente.getLibrosEnPosesion());
-                        }
-                    }
-
-                    // Guardar el HashMap en un archivo binario
-                    ControladoraArchivosObjeto.guardarHashMap(hashMap, "clientesYLibros.data");
-
                     break;
                 case 9:
-                    // Cargar el HashMap desde el archivo binario
-                    HashMap<Cliente, ArrayList<Libro>> cargadoHashMap = ControladoraArchivosObjeto.cargarHashMap("clientesYLibros.data");
-
-                    // Mostrar el contenido del HashMap cargado
-                    System.out.println("HashMap cargado:");
-                    Iterator<Map.Entry<Cliente, ArrayList<Libro>>> it = cargadoHashMap.entrySet().iterator();
-                    while (it.hasNext()) {
-                        Map.Entry<Cliente, ArrayList<Libro>> entradaMapa = it.next();
-                        Cliente cliente = entradaMapa.getKey();
-                        ArrayList<Libro> libros = entradaMapa.getValue();
-                        System.out.println("Cliente: " + cliente.getNombreYapellido());
-                        System.out.println("Libros Alquilados:");
-                        for (Libro libro : libros) {
-                            System.out.println(libro.getTitulo());
-                        }
-                        System.out.println();
-                    }
                     break;
                 case 0:
                     System.out.println("Saliendo...");
@@ -114,9 +84,44 @@ public class Main {
             biblioteca.guardarLibrosEnJSON(NOMBRE_ARCHIVO_LIBROS);
             biblioteca.guardarClientesEnJSON(NOMBRE_ARCHIVO_CLIENTES);
             biblioteca.guardarRegistroAlquilerEnJSON(NOMBRE_ARCHIVO_ALQUILERES);
+            guardarLibrosAlquilados();
         } while (opcion != 0);
 
         scanner.close();
+    }
+
+    private static void cargarLibrosAlquilados(){
+        // Cargar el HashMap desde el archivo binario
+        HashMap<Cliente, ArrayList<Libro>> cargadoHashMap = ControladoraArchivosObjeto.cargarHashMap("clientesYLibros.data");
+
+        // Mostrar el contenido del HashMap cargado
+        System.out.println("HashMap cargado:");
+        Iterator<Map.Entry<Cliente, ArrayList<Libro>>> it = cargadoHashMap.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<Cliente, ArrayList<Libro>> entradaMapa = it.next();
+            Cliente cliente = entradaMapa.getKey();
+            ArrayList<Libro> libros = entradaMapa.getValue();
+            System.out.println("Cliente: " + cliente.getNombreYapellido());
+            System.out.println("Libros Alquilados:");
+            for (Libro libro : libros) {
+                System.out.println(libro.getTitulo());
+            }
+            System.out.println();
+        }
+    }
+
+    private static void guardarLibrosAlquilados(){
+        HashMap<Cliente, ArrayList<Libro>> hashMap = new HashMap<>();
+
+        // Suponiendo que biblioteca.getHashMapDeClientes() devuelve un HashMap<Integer, Cliente>
+        for (Cliente cliente : biblioteca.getHashMapDeClientes().values()) {
+            if (!cliente.getLibrosEnPosesion().isEmpty()) {
+                hashMap.put(cliente, cliente.getLibrosEnPosesion());
+            }
+        }
+
+        // Guardar el HashMap en un archivo binario
+        ControladoraArchivosObjeto.guardarHashMap(hashMap, "clientesYLibros.data");
     }
 
     private static void mostrarMenu() {
