@@ -4,7 +4,7 @@ Este es el proyecto final para la Universidad Tecnológica Nacional (UTN), desar
 
 ## Diagrama
 
-[Ver diagrama](https://app.diagrams.net/#G1T2MjlcxWRUTtldddjIvnXBCn9QNhOVPE)
+[Ver diagrama](https://drive.google.com/file/d/1jNlrDUaZSbxbuZqhDYndvDurd2DANxV5/view?usp=sharing)
 
 ## Desarrolladores
 
