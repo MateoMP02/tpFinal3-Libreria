@@ -15,19 +15,26 @@ Este es el proyecto final para la Universidad Tecnológica Nacional (UTN), desar
 ### Clonar el Repositorio
 Para comenzar, clona el repositorio a tu máquina local usando:
 
-```$ git clone https://github.com/fedesosa4848/tpFinal3-Libreria.git ```
-
-```$ cd tpFinal3-Libreria```
-
-```$ git fetch -a```
-
-```$ git checkout develop```
-### Clonar el Repositorio
 
 Para comenzar, clona el repositorio a tu máquina local usando:
-
-```bash
-$ git clone https://github.com/nictes1/UTN-TPFINAL-LAB2.git
-$ cd UTN-TPFINAL-LAB2
+```sh
+$ git clone https://github.com/fedesosa4848/tpFinal3-Libreria.git
+```
+```sh
+$ cd tpFinal3-Libreria
+```
+```sh
 $ git fetch -a
+```
+```sh
 $ git checkout develop
+```
+
+## Contribución
+Las contribuciones son lo que hacen que la comunidad de código abierto sea un lugar increíble para aprender, inspirar y crear. Cualquier contribución que hagas será muy apreciada.
+
+1. Haz un 'Fork' del proyecto.
+2. Crea tu rama de características (`git checkout -b feature/AmazingFeature`).
+3. Realiza tus cambios y haz un 'commit' (`git commit -m 'Add some AmazingFeature'`).
+4. Sube tu rama (`git push origin feature/AmazingFeature`).
+5. Abre un 'Pull Request'.
