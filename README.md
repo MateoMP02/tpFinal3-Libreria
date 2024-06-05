@@ -40,3 +40,7 @@ Las contribuciones son lo que hacen que la comunidad de código abierto sea un l
 3. Realiza tus cambios y haz un 'commit' (`git commit -m 'Add some AmazingFeature'`).
 4. Sube tu rama (`git push origin feature/AmazingFeature`).
 5. Abre un 'Pull Request'.
+
+## Manual de usuario
+
+[Ver Manual]()
