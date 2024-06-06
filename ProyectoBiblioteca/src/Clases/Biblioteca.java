@@ -302,7 +302,6 @@ public class Biblioteca implements Serializable {
         // Devolver el libro
         cliente.getLibrosEnPosesion().remove(libro);
         libro.agregarCopiaLibro();
-        System.out.println("LLegue hasta aca");
         // Aumentar la cantidad de copias disponibles
         RegistroAlquiler buscado = null;
         LocalDateTime fecha1 = null;

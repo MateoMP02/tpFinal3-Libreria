@@ -211,7 +211,7 @@ public class Main {
         int ISBN = scanner.nextInt();
         Libro libroEncontrado = biblioteca.buscarLibros(ISBN);
 
-        System.out.println("Ingrese su id");
+        System.out.println("Ingrese el id del cliente");
         int idCliente = scanner.nextInt();
         Cliente clienteEncontrado = biblioteca.buscarCliente(idCliente);
         try {
@@ -304,8 +304,8 @@ public class Main {
     }
 
     private static void baja() {
-        System.out.println("1. Bajar Libro");
-        System.out.println("2. Bajar Cliente");
+        System.out.println("1. Bajar Cliente");
+        System.out.println("2. Bajar Libro");
         int op = pedirNumeroAlUsuario(scanner);
         switch (op) {
             case 1:
