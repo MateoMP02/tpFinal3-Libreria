@@ -1,14 +1,61 @@
 package Clases;
 
+import Interfaces.IJsonSerializable;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Cliente extends Persona{
+/**
+ * Este código defines la clase Cliente, que representa a un cliente en un sistema de gestión de una biblioteca.
+ * Aquí se deja un breve comentario sobre cada función y un mini texto que resume el propósito del código:
+ *
+ * Constructor Cliente(String, int, Domicilio, Integer, String, float):
+ *
+ * Este constructor inicializa un objeto Cliente con los detalles proporcionados, incluyendo nombre, edad, domicilio,
+ * ID, correo electrónico y saldo.
+ * Constructor Cliente():
+ *
+ * Un constructor sin argumentos que inicializa un objeto Cliente con valores predeterminados.
+ * setLibrosEnPosesion(ArrayList<Libro>):
+ *
+ * Establece la lista de libros en posesión del cliente.
+ * modificarDomicilio(Domicilio):
+ *
+ * Permite modificar el domicilio del cliente.
+ * availableToRent():
+ *
+ * Devuelve true si el cliente puede alquilar más libros (menos de 3 libros en posesión), de lo contrario, devuelve false.
+ * toString():
+ *
+ * Genera una representación en cadena del objeto Cliente, incluyendo detalles como nombre, ID, correo electrónico,
+ * libros alquilados y saldo.
+ * getters y setters:
+ *
+ * Métodos para acceder y modificar los atributos del cliente, como ID, correo electrónico, saldo, etc.
+ * equals(Object):
+ *
+ * Sobrescrito para comparar dos objetos Cliente en función de su ID.
+ * fromJson(JSONObject):
+ *
+ * Convierte un objeto JSON en un objeto Cliente.
+ * toJson():
+ *
+ * Convierte un objeto Cliente en un objeto JSON.
+ * restarSaldoXAlquiler(float):
+ *
+ * Resta el precio de un libro alquilado del saldo total del cliente.
+ * getLibrosEnPosesion():
+ *
+ * Devuelve la lista de libros en posesión del cliente.
+ * Este código encapsula la información y el comportamiento relacionado con los clientes de la biblioteca, proporcionando
+ * métodos para interactuar con ellos, incluyendo la capacidad de alquilar libros, gestionar su saldo y realizar
+ * conversiones entre objetos Cliente y JSON.
+ */
+
+public class Cliente extends Persona implements IJsonSerializable<Cliente> {
 
 
 
@@ -88,7 +135,7 @@ public class Cliente extends Persona{
     }
 
     //Traduce el archivo JSON y devuelve un objeto Cliente
-    public static Cliente fromJson(JSONObject jsonObject) throws JSONException {
+    public Cliente fromJson(JSONObject jsonObject) throws JSONException {
         int idCliente = jsonObject.getInt("idCliente");
         String correoElectronico = jsonObject.getString("correoElectronico");
         float saldo = (float) jsonObject.getDouble("saldo");
@@ -106,9 +153,10 @@ public class Cliente extends Persona{
 
         // Deserializar librosEnPosesion
         JSONArray librosArray = jsonObject.getJSONArray("librosEnPosesion");
+        Libro aux = new Libro();
         for (int i = 0; i < librosArray.length(); i++) {
             JSONObject libroJson = librosArray.getJSONObject(i);
-            Libro libro = Libro.fromJson(libroJson);
+            Libro libro = aux.fromJson(libroJson);
             cliente.getLibrosEnPosesion().add(libro);
         }
 

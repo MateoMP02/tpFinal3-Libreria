@@ -7,129 +7,33 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Este código define una clase genérica llamada ControladoraArchivosObjeto que se utiliza para guardar
+ * y cargar objetos en archivos utilizando serialización de objetos en Java. Aquí está una descripción de los métodos:
+ *
+ * Constructor ControladoraArchivosObjeto():
+ *
+ * Un constructor vacío para la clase.
+ * guardarHashMap(HashMap<Cliente, ArrayList<Libro>> hashMap, String nombreArchivo):
+ *
+ * Este método estático guarda un HashMap en un archivo. Toma como argumentos el HashMap a guardar y
+ * el nombre del archivo en el que se guardará.
+ * Utiliza un flujo de salida de objetos para escribir el HashMap en el archivo.
+ * cargarHashMap(String nombreArchivo):
+ *
+ * Este método estático carga un HashMap desde un archivo. Toma el nombre del archivo como argumento y devuelve el HashMap cargado.
+ * Utiliza un flujo de entrada de objetos para leer el HashMap del archivo.
+ * Si el archivo no existe, se imprime un mensaje y se crea un nuevo HashMap vacío.
+ * El uso de una clase genérica permite que esta clase se utilice para guardar y cargar diferentes tipos de HashMaps.
+ * En este caso, se espera que el HashMap contenga claves de tipo Cliente y valores de tipo ArrayList<Libro>.
+ * @param <T>
+ */
+
 public class ControladoraArchivosObjeto  <T> implements Serializable {
 
     private T variable;
 
     public ControladoraArchivosObjeto() {
-
-    }
-
-   public  void grabarColeccion(ArrayList<T> coleccion)
-   {
-       FileOutputStream fileOutputStream=null;
-       ObjectOutputStream objectOutputStream=null;
-       try{
-           fileOutputStream=new FileOutputStream("Coleccion.data");
-           objectOutputStream=new ObjectOutputStream(fileOutputStream);
-
-           for (T objeto :coleccion)
-           {
-               objectOutputStream.writeObject(objeto);
-           }
-       }
-       catch (IOException ex)
-       {
-           ex.printStackTrace();
-       }
-       catch(Exception ex){
-           ex.printStackTrace();
-       }
-       finally {
-           try{
-               if(fileOutputStream!=null){
-                   fileOutputStream.close();
-               }
-               if(objectOutputStream!=null){
-                   objectOutputStream.close();
-               }
-           }
-               catch(IOException ex)
-               {
-                   ex.printStackTrace();
-               }
-       }
-
-   }
-
-public ArrayList<T> leerColeccion (String archivo)
-{
-    ArrayList<T> coleccion=new ArrayList();
-
-    FileInputStream fileInputStream=null;
-    ObjectInputStream objectInputStream=null;
-
-    try{
-        fileInputStream=new FileInputStream(archivo);
-        objectInputStream=new ObjectInputStream(fileInputStream);
-
-        while (true)
-        {
-            T objeto=(T)objectInputStream.readObject();
-            coleccion.add(objeto);
-        }
-
-    }
-    catch (EOFException ex){
-        System.out.println("Fin del archivo");
-    }
-    catch (ClassNotFoundException ex)
-    {
-        ex.printStackTrace();
-    }
-    catch (FileNotFoundException e) {
-        e.printStackTrace();
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-    catch (Exception e){
-        throw new RuntimeException(e);
-    }
-
-
-    return coleccion;
-}
-
-/// recibe un cliente y crea el archivo por el id del cliente
-    public  void grabarColeccionCliente(Cliente cliente)
-    {
-        FileOutputStream fileOutputStream=null;
-        ObjectOutputStream objectOutputStream=null;
-
-        ArrayList<Libro> coleccion= cliente.getLibrosEnPosesion();
-        try{
-            fileOutputStream=new FileOutputStream("Coleccion"+cliente.getIdCliente()+".data");
-            objectOutputStream=new ObjectOutputStream(fileOutputStream);
-
-            for (Libro objeto :coleccion)
-            {
-                objectOutputStream.writeObject(objeto);
-            }
-
-        }
-        catch (IOException ex)
-        {
-            ex.printStackTrace();
-        }
-        catch(Exception ex){
-            ex.printStackTrace();
-
-        }
-        finally {
-            try{
-                if(fileOutputStream!=null){
-                    fileOutputStream.close();
-                }
-                if(objectOutputStream!=null){
-                    objectOutputStream.close();
-                }
-            }
-            catch(IOException ex)
-            {
-                ex.printStackTrace();
-            }
-
-        }
 
     }
 
@@ -144,11 +48,17 @@ public ArrayList<T> leerColeccion (String archivo)
 
     public static HashMap<Cliente, ArrayList<Libro>> cargarHashMap(String nombreArchivo) {
         HashMap<Cliente, ArrayList<Libro>> hashMap = null;
-        try (FileInputStream fis = new FileInputStream(nombreArchivo);
-             ObjectInputStream ois = new ObjectInputStream(fis)) {
-            hashMap = (HashMap<Cliente, ArrayList<Libro>>) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+        File archivo = new File(nombreArchivo);
+        if (archivo.exists()) {
+            try (FileInputStream fis = new FileInputStream(nombreArchivo);
+                 ObjectInputStream ois = new ObjectInputStream(fis)) {
+                hashMap = (HashMap<Cliente, ArrayList<Libro>>) ois.readObject();
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("El archivo " + nombreArchivo + " no existe.");
+            hashMap = new HashMap<>();
         }
         return hashMap;
     }

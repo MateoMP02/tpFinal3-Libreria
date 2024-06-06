@@ -13,6 +13,37 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
+/**
+ * Descripción de la Clase Biblioteca
+ * La clase Biblioteca representa una biblioteca y sus operaciones. Implementa la interfaz Serializable para permitir la serialización de sus datos. La clase contiene tres GestorHashMap que gestionan libros, clientes y registros de alquiler.
+ *
+ * Atributos Principales
+ * nombreBiblioteca: El nombre de la biblioteca.
+ * hashMapDeLibros: Mapa que gestiona los libros usando el ISBN como clave.
+ * hashMapClientes: Mapa que gestiona los clientes usando el ID del cliente como clave.
+ * hashMapAlquileres: Mapa que gestiona los registros de alquiler usando el ID del alquiler como clave.
+ * Métodos Principales
+ * Agregar/Buscar/Eliminar:
+ *
+ * agregarLibro, buscarLibros, eliminarLibro: Gestionan los libros en la biblioteca.
+ * agregarCliente, buscarCliente, eliminarCliente: Gestionan los clientes en la biblioteca.
+ * agregarRegistro, buscarRegistro: Gestionan los registros de alquiler.
+ * Funciones de Utilidad:
+ *
+ * obtenerGenerosDisponibles: Devuelve una lista de todos los géneros disponibles en la biblioteca.
+ * buscarLibrosPorAutor: Busca y devuelve todos los libros de un autor específico.
+ * buscarLibrosPorGenero: Busca y devuelve todos los libros de un género específico.
+ * Manejo de Archivos JSON:
+ *
+ * cargarLibrosDesdeJson, guardarLibrosEnJSON: Cargan y guardan libros desde/hacia un archivo JSON.
+ * cargarClientesDesdeJson, guardarClientesEnJSON: Cargan y guardan clientes desde/hacia un archivo JSON.
+ * guardarRegistroAlquilerEnJSON, cargarRegistroAlquilerDesdeJson: Cargan y guardan registros de alquiler desde/hacia un archivo JSON.
+ * Operaciones de Alquiler:
+ *
+ * alquilarLibro: Gestiona el proceso de alquilar un libro, incluyendo validaciones como existencia del cliente, disponibilidad del libro, saldo del cliente y límite de alquileres.
+ * devolverLibro: Gestiona el proceso de devolución de un libro, incluyendo verificación de posesión y posibles multas por devolución tardía.
+ */
+
 public class Biblioteca implements Serializable {
 
     private String nombreBiblioteca;
@@ -114,11 +145,12 @@ public class Biblioteca implements Serializable {
     // Carga los libros del archivo JSON al hashmap
     public void cargarLibrosDesdeJson(String archivoJson) {
         String contenido = JsonUtiles.leer(archivoJson);
+        Libro aux = new Libro();
         try {
             JSONArray jsonArray = new JSONArray(contenido);
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-                Libro libro = Libro.fromJson(jsonObject);
+                Libro libro = aux.fromJson(jsonObject);
                 this.agregarLibro(libro.getISBN(), libro);
             }
         } catch (JSONException e) {
@@ -139,12 +171,13 @@ public class Biblioteca implements Serializable {
     // Agrega al hashmap todos los clientes del archivo JSON
     public void cargarClientesDesdeJson(String archivoJson) {
         String contenido = JsonUtiles.leer(archivoJson);
+        Cliente aux = new Cliente();
         try {
             JSONObject jsonObject = new JSONObject(contenido);
             JSONArray jsonArray = jsonObject.getJSONArray("clientes");
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject clienteObj = jsonArray.getJSONObject(i);
-                Cliente cliente = Cliente.fromJson(clienteObj);
+                Cliente cliente = aux.fromJson(clienteObj);
                 this.agregarCliente(cliente.getIdCliente(), cliente);
             }
         } catch (JSONException e) {
@@ -183,11 +216,12 @@ public class Biblioteca implements Serializable {
     // Agrega todos los registros de alquiler del archivo JSON al hashmap alquileres
     public void cargarRegistroAlquilerDesdeJson(String archivoJson) {
         String contenido = JsonUtiles.leer(archivoJson);
+        RegistroAlquiler aux = new RegistroAlquiler();
         try {
             JSONArray jsonArray = new JSONArray(contenido);
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-                RegistroAlquiler registro = RegistroAlquiler.fromJson(jsonObject);
+                RegistroAlquiler registro = aux.fromJson(jsonObject);
                 agregarRegistro(registro);
             }
         } catch (JSONException e) {
@@ -214,7 +248,7 @@ public class Biblioteca implements Serializable {
         LocalDateTime localDateTime = LocalDateTime.now();
         LocalDateTime localDateTime1 = localDateTime.plusDays(diasDeAlquiler);
 
-        cliente = buscarCliente(cliente.getIdCliente());
+
         if (cliente == null) {
             throw new ClienteNoEncontradoException("Cliente no encontrado");
         }
@@ -269,16 +303,13 @@ public class Biblioteca implements Serializable {
         cliente.getLibrosEnPosesion().remove(libro);
         libro.agregarCopiaLibro();
         System.out.println("LLegue hasta aca");
-        ;// Aumentar la cantidad de copias disponibles
+        // Aumentar la cantidad de copias disponibles
         RegistroAlquiler buscado = null;
         LocalDateTime fecha1 = null;
         LocalDateTime fecha2 = null;
         long daysBefore = 0;
         for (RegistroAlquiler registroAlquiler : hashMapAlquileres.obtenerTodos().values()) {
-            System.out.println("A comparar:" + registroAlquiler.getCliente().getNombreYapellido() + " a comprar: " + cliente.getNombreYapellido());
-
             if (registroAlquiler.getCliente().getNombreYapellido().equalsIgnoreCase(cliente.getNombreYapellido())) {
-                System.out.println("Estoy buscando");
                 buscado = registroAlquiler;
                 fecha1 = LocalDateTime.now();
                 LocalDateTime fechaEspecifica = LocalDateTime.of(2024, 6, 06, 14, 30, 0);
@@ -291,7 +322,7 @@ public class Biblioteca implements Serializable {
         }
 
         if (daysBefore == 1) {
-            System.out.println("WARNING LA PROXIMA TE VIOLO");
+            System.out.println("WARNING LA PROXIMA MULTA");
         } else if (daysBefore > 1) {
             System.out.println("Paga la multa");
             System.out.println("Dias pasados : " + daysBefore);

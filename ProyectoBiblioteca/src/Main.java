@@ -1,28 +1,48 @@
+/**
+ * Este archivo Main.java es el punto de entrada de tu aplicación. Aquí se encuentra el método main que inicia
+ * la ejecución del programa. Este archivo contiene la lógica principal de tu sistema de gestión de una biblioteca.
+
+ * Aquí está una descripción general de lo que hace el código:
+
+ * Inicialización y carga de datos: Antes de mostrar el menú principal, se cargan los datos de clientes, libros
+ * y registros de alquiler desde archivos JSON existentes si los hay.
+
+ * Menú principal: Se muestra un menú con varias opciones, como agregar cliente o libro, buscar cliente o libro,
+ * alquilar libro, devolver libro, entre otros.
+
+ * Operaciones del menú: Cada opción del menú llama a un método específico para realizar una acción determinada,
+ * como agregar un nuevo cliente o libro, buscar un cliente o libro, alquilar un libro, devolver un libro, etc.
+
+ * Guardado de datos: Después de que el usuario elige una opción y se realiza la operación correspondiente,
+ * los datos se guardan nuevamente en archivos JSON para persistencia.
+
+ * Manejo de excepciones: Se manejan diversas excepciones como ClienteNoEncontradoException, LibroNoEncontradoException, etc.,
+ * para proporcionar mensajes adecuados al usuario en caso de errores.
+
+ * Métodos de utilidad: Se definen varios métodos de utilidad para realizar operaciones como crear un nuevo cliente o
+ * libro, solicitar información al usuario, etc.
+ */
+
 import Clases.*;
 import Excepciones.*;
 import Generics.ControladoraArchivosObjeto;
-import org.json.JSONException;
-
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 
 import static Clases.Constantes.*;
+
+
 
 public class Main {
 
     private static Biblioteca biblioteca = new Biblioteca("Mi Biblioteca");
     static Scanner scanner = new Scanner(System.in);
-
+    static HashMap<Cliente, ArrayList<Libro>> cargadoHashMap;
 
     public static void main(String[] args) {
 
         JsonUtiles.crearArchivoSiNoExiste(NOMBRE_ARCHIVO_CLIENTES);
         JsonUtiles.crearArchivoSiNoExiste(NOMBRE_ARCHIVO_LIBROS);
         JsonUtiles.crearArchivoSiNoExiste(NOMBRE_ARCHIVO_ALQUILERES);
-
-        ControladoraArchivosObjeto<Libro> controladoraArchivosObjeto=new ControladoraArchivosObjeto<>();
         int opcion;
 
         do {
@@ -33,7 +53,7 @@ public class Main {
             biblioteca.cargarLibrosDesdeJson(NOMBRE_ARCHIVO_LIBROS);
 
             biblioteca.cargarRegistroAlquilerDesdeJson(NOMBRE_ARCHIVO_ALQUILERES);
-
+            cargarLibrosAlquilados();
 
             mostrarMenu();
             opcion = scanner.nextInt();
@@ -59,18 +79,10 @@ public class Main {
                     AlquilarLibro();
                     break;
                 case 7:
-                    // Verificar si el cliente existe
-                    Cliente clienteEncontrado = biblioteca.buscarCliente(123456);
-                    // Verificar si el libro existe
-                    Libro libroEncontrado = biblioteca.buscarLibros(476339284);
-                    try {
-                        biblioteca.devolverLibro(libroEncontrado,clienteEncontrado);
-                        System.out.println("Libro devuelto correctamente");
-                    } catch (ClienteNoEncontradoException | LibroNoEncontradoException | LibroNoAlquiladoException e) {
-                        System.out.println(e.getMessage());
-                    }
+                    devolverLibro();
                     break;
                 case 8:
+<<<<<<< HEAD
 
 
 
@@ -93,6 +105,10 @@ public class Main {
                         }
                         System.out.println();
                     }
+=======
+                    System.out.println("Libros en posesión ");
+                    librosAlquilados();
+>>>>>>> 629132e057c00bd58517e0bafdb0cbe5ed86d6a0
                     break;
                 case 0:
                     System.out.println("Saliendo...");
@@ -104,9 +120,46 @@ public class Main {
             biblioteca.guardarLibrosEnJSON(NOMBRE_ARCHIVO_LIBROS);
             biblioteca.guardarClientesEnJSON(NOMBRE_ARCHIVO_CLIENTES);
             biblioteca.guardarRegistroAlquilerEnJSON(NOMBRE_ARCHIVO_ALQUILERES);
+            guardarLibrosAlquilados();
         } while (opcion != 0);
 
         scanner.close();
+    }
+
+    private static void cargarLibrosAlquilados(){
+        // Cargar el HashMap desde el archivo binario
+         cargadoHashMap = ControladoraArchivosObjeto.cargarHashMap("clientesYLibros.data");
+    }
+
+    private static void librosAlquilados(){
+        // Mostrar el contenido del HashMap cargado
+        System.out.println("HashMap cargado:");
+        Iterator<Map.Entry<Cliente, ArrayList<Libro>>> it = cargadoHashMap.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<Cliente, ArrayList<Libro>> entradaMapa = it.next();
+            Cliente cliente = entradaMapa.getKey();
+            ArrayList<Libro> libros = entradaMapa.getValue();
+            System.out.println("Cliente: " + cliente.getNombreYapellido());
+            System.out.println("Libros Alquilados:");
+            for (Libro libro : libros) {
+                System.out.println(libro.getTitulo());
+            }
+            System.out.println();
+        }
+    }
+
+    private static void guardarLibrosAlquilados(){
+        HashMap<Cliente, ArrayList<Libro>> hashMap = new HashMap<>();
+
+        // Suponiendo que biblioteca.getHashMapDeClientes() devuelve un HashMap<Integer, Cliente>
+        for (Cliente cliente : biblioteca.getHashMapDeClientes().values()) {
+            if (!cliente.getLibrosEnPosesion().isEmpty()) {
+                hashMap.put(cliente, cliente.getLibrosEnPosesion());
+            }
+        }
+
+        // Guardar el HashMap en un archivo binario
+        ControladoraArchivosObjeto.guardarHashMap(hashMap, "clientesYLibros.data");
     }
 
     private static void mostrarMenu() {
@@ -118,8 +171,7 @@ public class Main {
         System.out.println("5. Agregar copia de libro");
         System.out.println("6. Alquilar Libro");
         System.out.println("7. Devolver Libro");
-        System.out.println("8. Cargar archivo.data con libros alquilados");
-        System.out.println("9. Leer archivo,data de libros alquilados");
+        System.out.println("8. Libros en préstamo");
         System.out.println("0. Salir");
         System.out.print("Seleccione una opción: ");
     }
@@ -133,7 +185,7 @@ public class Main {
 
         switch (opcion) {
             case 1:
-                Cliente nuevoCliente = crearNuevoCliente(scanner);
+                Cliente nuevoCliente = crearNuevoCliente(scanner,biblioteca);
                 biblioteca.agregarCliente(nuevoCliente.getIdCliente(), nuevoCliente);
                 System.out.println("Cliente agregado exitosamente.");
                 break;
@@ -168,9 +220,14 @@ public class Main {
     }
 
     private static void AlquilarLibro() {
+        System.out.println("Ingrese el ISBN del libro que desea alquilar");
+        int ISBN = scanner.nextInt();
+        Libro libro = biblioteca.buscarLibros(ISBN);
 
-        Libro libro = biblioteca.buscarLibros(476339284);
-        Cliente cliente = biblioteca.buscarCliente(123456);
+        System.out.println("Ingrese su id");
+        int idCliente = scanner.nextInt();
+        Cliente cliente = biblioteca.buscarCliente(idCliente);
+
         System.out.println("Dias a alquilar: ");
         int diasDeAlquiler = scanner.nextInt();
         try {
@@ -181,8 +238,23 @@ public class Main {
                  LimiteAlquilerException e) {
             System.out.println(e.getMessage());
         }
+    }
 
-        System.out.println(biblioteca.getHashMapAlquileres());
+    private static void devolverLibro()
+    {
+        System.out.println("Ingrese el ISBN del libro a devolver");
+        int ISBN = scanner.nextInt();
+        Libro libroEncontrado = biblioteca.buscarLibros(ISBN);
+
+        System.out.println("Ingrese su id");
+        int idCliente = scanner.nextInt();
+        Cliente clienteEncontrado = biblioteca.buscarCliente(idCliente);
+        try {
+            biblioteca.devolverLibro(libroEncontrado,clienteEncontrado);
+            System.out.println("Libro devuelto correctamente");
+        } catch (ClienteNoEncontradoException | LibroNoEncontradoException | LibroNoAlquiladoException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private static void agregarCopias() {
@@ -293,66 +365,115 @@ public class Main {
     }
 
 
-    private static Cliente crearNuevoCliente(Scanner scanner) {
-        boolean existeID, comprobarFormatoMail = false;
-
-        System.out.print("Ingrese el nombre y apellido del cliente: ");
-        String nombreYapellido = scanner.nextLine();
-
-        System.out.print("Ingrese la edad del cliente: ");
-        int edad = scanner.nextInt();
-
-        scanner.nextLine(); // Consumir el salto de línea
-
-        System.out.print("Ingrese el país: ");
-        String pais = scanner.nextLine();
-
-        System.out.print("Ingrese la provincia: ");
-        String provincia = scanner.nextLine();
-
-        System.out.print("Ingrese la ciudad: ");
-        String ciudad = scanner.nextLine();
-
-        System.out.print("Ingrese la calle y altura: ");
-        String calleYaltura = scanner.nextLine();
-
+    private static Cliente crearNuevoCliente(Scanner scanner, Biblioteca biblioteca) {
+        String nombreYapellido = solicitarCampoNoVacio(scanner, "Ingrese el nombre y apellido del cliente: ");
+        int edad = solicitarEdad(scanner);
+        String pais = solicitarCampoNoVacio(scanner, "Ingrese el país: ");
+        String provincia = solicitarCampoNoVacio(scanner, "Ingrese la provincia: ");
+        String ciudad = solicitarCampoNoVacio(scanner, "Ingrese la ciudad: ");
+        String calleYaltura = solicitarCampoNoVacio(scanner, "Ingrese la calle y altura: ");
         Domicilio domicilio = new Domicilio(calleYaltura, ciudad, pais, provincia);
 
-        System.out.print("Ingrese el ID del cliente: ");
-        int idCliente;
-        do {
-            idCliente = scanner.nextInt();
-            existeID = biblioteca.buscarCliente(idCliente) != null;
-
-            if (existeID) {
-                System.out.println("El id ya existe, vuelva a ingresar");
-            }
-        } while (existeID);
-        scanner.nextLine(); // Consumir el salto de línea
-        String correoElectronico;
-        do {
-            System.out.print("Ingrese el correo electrónico del cliente: ");
-            correoElectronico = scanner.nextLine();
-
-            if (validarCorreo(correoElectronico)) //comprueba que el formato sea correcto
-            {
-                comprobarFormatoMail = true;
-            }
-            if (!comprobarFormatoMail) {
-                System.out.println("Formato de correo electronico incorrecto, vuelva a ingresar");
-            }
-        } while (!comprobarFormatoMail);
-
-        System.out.println("Ingrese el saldo del cliente: ");
-        float saldo = scanner.nextFloat();
+        int idCliente = solicitarID(scanner, biblioteca);
+        String correoElectronico = solicitarCorreoElectronico(scanner);
+        float saldo = solicitarSaldo(scanner);
 
         return new Cliente(nombreYapellido, edad, domicilio, idCliente, correoElectronico, saldo);
     }
 
-    public static boolean validarCorreo(String correoElectronico) //comprueba que el formato del correo sea el correcto
-    {
-        return correoElectronico.contains("@") && correoElectronico.contains(".com") && (correoElectronico.contains("gmail") || correoElectronico.contains("outlook") || correoElectronico.contains("hotmail"));
+    private static int solicitarEdad(Scanner scanner) {
+        int edad;
+        while (true) {
+            System.out.print("Ingrese la edad del cliente: ");
+            if (scanner.hasNextInt()) {
+                edad = scanner.nextInt();
+                scanner.nextLine(); // Consumir el salto de línea
+                if (edad > 0) {
+                    break;
+                } else {
+                    System.out.println("La edad debe ser un número positivo. Inténtelo de nuevo.");
+                }
+            } else {
+                System.out.println("La edad debe ser un número. Inténtelo de nuevo.");
+                scanner.nextLine(); // Consumir el salto de línea incorrecto
+            }
+        }
+        return edad;
     }
+
+    private static int solicitarID(Scanner scanner, Biblioteca biblioteca) {
+        int idCliente;
+        boolean existeID;
+        while (true) {
+            System.out.print("Ingrese el ID del cliente: ");
+            if (scanner.hasNextInt()) {
+                idCliente = scanner.nextInt();
+                scanner.nextLine(); // Consumir el salto de línea
+                existeID = biblioteca.buscarCliente(idCliente) != null;
+                if (!existeID) {
+                    break;
+                } else {
+                    System.out.println("El ID ya existe. Vuelva a ingresar.");
+                }
+            } else {
+                System.out.println("El ID debe ser un número. Inténtelo de nuevo.");
+                scanner.nextLine(); // Consumir el salto de línea incorrecto
+            }
+        }
+        return idCliente;
+    }
+
+    private static String solicitarCorreoElectronico(Scanner scanner) {
+        String correoElectronico;
+        while (true) {
+            System.out.print("Ingrese el correo electrónico del cliente: ");
+            correoElectronico = scanner.nextLine();
+            if (validarCorreo(correoElectronico)) {
+                break;
+            } else {
+                System.out.println("Formato de correo electrónico incorrecto. Vuelva a ingresar.");
+            }
+        }
+        return correoElectronico;
+    }
+
+    private static float solicitarSaldo(Scanner scanner) {
+        float saldo;
+        while (true) {
+            System.out.print("Ingrese el saldo del cliente: ");
+            if (scanner.hasNextFloat()) {
+                saldo = scanner.nextFloat();
+                scanner.nextLine(); // Consumir el salto de línea
+                if (saldo >= 0) {
+                    break;
+                } else {
+                    System.out.println("El saldo debe ser un número no negativo. Inténtelo de nuevo.");
+                }
+            } else {
+                System.out.println("El saldo debe ser un número. Inténtelo de nuevo.");
+                scanner.nextLine(); // Consumir el salto de línea incorrecto
+            }
+        }
+        return saldo;
+    }
+
+    private static String solicitarCampoNoVacio(Scanner scanner, String mensaje) {
+        String campo;
+        do {
+            System.out.print(mensaje);
+            campo = scanner.nextLine();
+            if (campo.isEmpty()) {
+                System.out.println("Este campo no puede estar vacío. Inténtelo de nuevo.");
+            }
+        } while (campo.isEmpty());
+        return campo;
+    }
+
+    private static boolean validarCorreo(String correoElectronico) {
+        return correoElectronico.contains("@") && correoElectronico.contains(".com") &&
+                (correoElectronico.contains("gmail") || correoElectronico.contains("outlook") || correoElectronico.contains("hotmail"));
+    }
+
 
 
     public static Libro crearNuevoLibro(Scanner scanner, Biblioteca biblioteca) {
@@ -360,10 +481,7 @@ public class Main {
         boolean existeISBN;
 
         do {
-            System.out.print("Ingrese el ISBN del libro: ");
-            ISBN = scanner.nextInt();
-            scanner.nextLine(); // Consumir el salto de línea
-
+            ISBN = solicitarISBN(scanner);
             existeISBN = biblioteca.buscarLibros(ISBN) != null;
 
             if (existeISBN) {
@@ -371,25 +489,49 @@ public class Main {
             }
         } while (existeISBN);
 
-        System.out.print("Ingrese el título del libro: ");
-        String titulo = scanner.nextLine();
-
-        System.out.print("Ingrese el autor del libro: ");
-        String autor = scanner.nextLine();
-
-        System.out.print("Ingrese el género del libro: ");
-        String genero = scanner.nextLine();
-
-        double precio;
-        do {
-            System.out.print("Ingrese el precio del libro: ");
-            precio = scanner.nextDouble();
-            scanner.nextLine(); // Consumir el salto de línea
-            if (precio <= 0) {
-                System.out.println("El precio debe ser un número positivo. Inténtelo de nuevo.");
-            }
-        } while (precio <= 0);
+        String titulo = solicitarCampoNoVacio(scanner, "Ingrese el título del libro: ");
+        String autor = solicitarCampoNoVacio(scanner, "Ingrese el autor del libro: ");
+        String genero = solicitarCampoNoVacio(scanner, "Ingrese el género del libro: ");
+        double precio = solicitarPrecio(scanner);
 
         return new Libro(ISBN, titulo, autor, genero, precio);
     }
+
+    private static int solicitarISBN(Scanner scanner) {
+        int ISBN;
+        while (true) {
+            System.out.print("Ingrese el ISBN del libro: ");
+            if (scanner.hasNextInt()) {
+                ISBN = scanner.nextInt();
+                scanner.nextLine(); // Consumir el salto de línea
+                break;
+            } else {
+                System.out.println("El ISBN debe ser un número. Inténtelo de nuevo.");
+                scanner.nextLine(); // Consumir el salto de línea incorrecto
+            }
+        }
+        return ISBN;
+    }
+
+
+    private static double solicitarPrecio(Scanner scanner) {
+        double precio;
+        while (true) {
+            System.out.print("Ingrese el precio del libro: ");
+            if (scanner.hasNextDouble()) {
+                precio = scanner.nextDouble();
+                scanner.nextLine(); // Consumir el salto de línea
+                if (precio > 0) {
+                    break;
+                } else {
+                    System.out.println("El precio debe ser un número positivo. Inténtelo de nuevo.");
+                }
+            } else {
+                System.out.println("El precio debe ser un número. Inténtelo de nuevo.");
+                scanner.nextLine(); // Consumir el salto de línea incorrecto
+            }
+        }
+        return precio;
+    }
 }
+
