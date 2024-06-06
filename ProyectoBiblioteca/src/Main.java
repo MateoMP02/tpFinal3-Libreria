@@ -113,7 +113,6 @@ public class Main {
 
     private static void librosAlquilados() {
         // Mostrar el contenido del HashMap cargado
-        System.out.println("HashMap cargado:");
         Iterator<Map.Entry<Cliente, ArrayList<Libro>>> it = cargadoHashMap.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry<Cliente, ArrayList<Libro>> entradaMapa = it.next();
@@ -526,6 +525,7 @@ public class Main {
             System.out.println("Ingrese el monto a cargar: ");
             float newSaldo = pedirFloatAlUsuario(scanner);
             cliente.cargarSaldo(newSaldo);
+            System.out.println("Saldo cargado exitosamente. ");
         }else{
             System.out.println("Cliente no encontrado");
         }
