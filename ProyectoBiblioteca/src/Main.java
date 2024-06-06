@@ -84,8 +84,33 @@ public class Main {
                     devolverLibro();
                     break;
                 case 8:
+<<<<<<< HEAD
+
+
+
+                    break;
+                case 9:
+                    // Cargar el HashMap desde el archivo binario
+                    HashMap<Cliente, ArrayList<Libro>> cargadoHashMap = ControladoraArchivosObjeto.cargarHashMap("clientesYLibros.data");
+
+                    // Mostrar el contenido del HashMap cargado
+                    System.out.println("HashMap cargado:");
+                    Iterator<Map.Entry<Cliente, ArrayList<Libro>>> it = cargadoHashMap.entrySet().iterator();
+                    while (it.hasNext()) {
+                        Map.Entry<Cliente, ArrayList<Libro>> entradaMapa = it.next();
+                        Cliente cliente = entradaMapa.getKey();
+                        ArrayList<Libro> libros = entradaMapa.getValue();
+                        System.out.println("Cliente: " + cliente.getNombreYapellido());
+                        System.out.println("Libros Alquilados:");
+                        for (Libro libro : libros) {
+                            System.out.println(libro.getTitulo());
+                        }
+                        System.out.println();
+                    }
+=======
                     System.out.println("Libros en posesión ");
                     librosAlquilados();
+>>>>>>> 629132e057c00bd58517e0bafdb0cbe5ed86d6a0
                     break;
                 case 9:
                     cargarSaldoCliente();
@@ -183,6 +208,21 @@ public class Main {
                 System.out.println("Opcion no valida");
                 break;
         }
+    }
+
+    private static void GuardarlibrosEnPosesion(){
+        HashMap<Cliente, ArrayList<Libro>> hashMap = new HashMap<>();
+
+        // Suponiendo que biblioteca.getHashMapDeClientes() devuelve un HashMap<Integer, Cliente>
+        for (Cliente cliente : biblioteca.getHashMapDeClientes().values()) {
+            if (!cliente.getLibrosEnPosesion().isEmpty()) {
+                hashMap.put(cliente, cliente.getLibrosEnPosesion());
+            }
+        }
+
+        // Guardar el HashMap en un archivo binario
+        ControladoraArchivosObjeto.guardarHashMap(hashMap, "clientesYLibros.data");
+
     }
 
     private static void AlquilarLibro() {
