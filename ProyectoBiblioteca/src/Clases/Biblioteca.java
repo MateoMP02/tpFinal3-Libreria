@@ -322,7 +322,7 @@ public class Biblioteca implements Serializable {
         }
 
         if (daysBefore == 1) {
-            System.out.println("WARNING LA PROXIMA TE VIOLO");
+            System.out.println("WARNING LA PROXIMA MULTA");
         } else if (daysBefore > 1) {
             System.out.println("Paga la multa");
             System.out.println("Dias pasados : " + daysBefore);
