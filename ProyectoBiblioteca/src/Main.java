@@ -79,16 +79,7 @@ public class Main {
                     AlquilarLibro();
                     break;
                 case 7:
-                    // Verificar si el cliente existe
-                    Cliente clienteEncontrado = biblioteca.buscarCliente(123456);
-                    // Verificar si el libro existe
-                    Libro libroEncontrado = biblioteca.buscarLibros(476339284);
-                    try {
-                        biblioteca.devolverLibro(libroEncontrado,clienteEncontrado);
-                        System.out.println("Libro devuelto correctamente");
-                    } catch (ClienteNoEncontradoException | LibroNoEncontradoException | LibroNoAlquiladoException e) {
-                        System.out.println(e.getMessage());
-                    }
+                    devolverLibro();
                     break;
                 case 8:
                     System.out.println("Libros en posesión ");
@@ -189,9 +180,14 @@ public class Main {
     }
 
     private static void AlquilarLibro() {
+        System.out.println("Ingrese el ISBN del libro que desea alquilar");
+        int ISBN = scanner.nextInt();
+        Libro libro = biblioteca.buscarLibros(ISBN);
 
-        Libro libro = biblioteca.buscarLibros(476339284);
-        Cliente cliente = biblioteca.buscarCliente(123456);
+        System.out.println("Ingrese su id");
+        int idCliente = scanner.nextInt();
+        Cliente cliente = biblioteca.buscarCliente(idCliente);
+
         System.out.println("Dias a alquilar: ");
         int diasDeAlquiler = scanner.nextInt();
         try {
@@ -202,8 +198,23 @@ public class Main {
                  LimiteAlquilerException e) {
             System.out.println(e.getMessage());
         }
+    }
 
-        System.out.println(biblioteca.getHashMapAlquileres());
+    private static void devolverLibro()
+    {
+        System.out.println("Ingrese el ISBN del libro a devolver");
+        int ISBN = scanner.nextInt();
+        Libro libroEncontrado = biblioteca.buscarLibros(ISBN);
+
+        System.out.println("Ingrese su id");
+        int idCliente = scanner.nextInt();
+        Cliente clienteEncontrado = biblioteca.buscarCliente(idCliente);
+        try {
+            biblioteca.devolverLibro(libroEncontrado,clienteEncontrado);
+            System.out.println("Libro devuelto correctamente");
+        } catch (ClienteNoEncontradoException | LibroNoEncontradoException | LibroNoAlquiladoException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private static void agregarCopias() {

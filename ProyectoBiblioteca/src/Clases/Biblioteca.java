@@ -248,7 +248,7 @@ public class Biblioteca implements Serializable {
         LocalDateTime localDateTime = LocalDateTime.now();
         LocalDateTime localDateTime1 = localDateTime.plusDays(diasDeAlquiler);
 
-        cliente = buscarCliente(cliente.getIdCliente());
+
         if (cliente == null) {
             throw new ClienteNoEncontradoException("Cliente no encontrado");
         }
