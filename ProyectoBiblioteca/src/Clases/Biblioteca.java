@@ -317,7 +317,6 @@ public class Biblioteca implements Serializable {
                 fecha2 = LocalDateTime.parse(buscado.getFechaDeDevolucionEsperada());
                 daysBefore = ChronoUnit.DAYS.between(fecha2, fechaEspecifica);
 
-
             }
         }
 

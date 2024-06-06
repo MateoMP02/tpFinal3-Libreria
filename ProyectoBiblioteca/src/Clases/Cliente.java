@@ -82,14 +82,6 @@ public class Cliente extends Persona implements IJsonSerializable<Cliente> {
 
     }
 
-    public void setLibrosEnPosesion(ArrayList<Libro> librosEnPosesion) {
-        this.librosEnPosesion = librosEnPosesion;
-    }
-
-    public void modificarDomicilio (Domicilio domicilio){
-        super.setDomicilio(domicilio);
-    }
-
     //Devuelve true si el cliente posee menos de 3 libros alquilados, false si posee 3 o mas
     public boolean availableToRent(){
         boolean rta = true;
@@ -196,6 +188,10 @@ public class Cliente extends Persona implements IJsonSerializable<Cliente> {
 
     public ArrayList<Libro> getLibrosEnPosesion() {
         return librosEnPosesion;
+    }
+
+    public void cargarSaldo(float newSaldo){
+        saldo+=newSaldo;
     }
 
 }
