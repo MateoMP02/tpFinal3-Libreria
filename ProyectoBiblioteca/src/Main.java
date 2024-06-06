@@ -1,24 +1,24 @@
 /**
  * Este archivo Main.java es el punto de entrada de tu aplicación. Aquí se encuentra el método main que inicia
  * la ejecución del programa. Este archivo contiene la lógica principal de tu sistema de gestión de una biblioteca.
-
+ * <p>
  * Aquí está una descripción general de lo que hace el código:
-
+ * <p>
  * Inicialización y carga de datos: Antes de mostrar el menú principal, se cargan los datos de clientes, libros
  * y registros de alquiler desde archivos JSON existentes si los hay.
-
+ * <p>
  * Menú principal: Se muestra un menú con varias opciones, como agregar cliente o libro, buscar cliente o libro,
  * alquilar libro, devolver libro, entre otros.
-
+ * <p>
  * Operaciones del menú: Cada opción del menú llama a un método específico para realizar una acción determinada,
  * como agregar un nuevo cliente o libro, buscar un cliente o libro, alquilar un libro, devolver un libro, etc.
-
+ * <p>
  * Guardado de datos: Después de que el usuario elige una opción y se realiza la operación correspondiente,
  * los datos se guardan nuevamente en archivos JSON para persistencia.
-
+ * <p>
  * Manejo de excepciones: Se manejan diversas excepciones como ClienteNoEncontradoException, LibroNoEncontradoException, etc.,
  * para proporcionar mensajes adecuados al usuario en caso de errores.
-
+ * <p>
  * Métodos de utilidad: Se definen varios métodos de utilidad para realizar operaciones como crear un nuevo cliente o
  * libro, solicitar información al usuario, etc.
  */
@@ -26,10 +26,10 @@
 import Clases.*;
 import Excepciones.*;
 import Generics.ControladoraArchivosObjeto;
+
 import java.util.*;
 
 import static Clases.Constantes.*;
-
 
 
 public class Main {
@@ -56,8 +56,10 @@ public class Main {
             cargarLibrosAlquilados();
 
             mostrarMenu();
-            opcion = scanner.nextInt();
+
+            opcion = pedirNumeroAlUsuario(scanner);
             scanner.nextLine();  // Consumir el salto de línea
+
 
             switch (opcion) {
                 case 1:
@@ -101,12 +103,12 @@ public class Main {
         scanner.close();
     }
 
-    private static void cargarLibrosAlquilados(){
+    private static void cargarLibrosAlquilados() {
         // Cargar el HashMap desde el archivo binario
-         cargadoHashMap = ControladoraArchivosObjeto.cargarHashMap("clientesYLibros.data");
+        cargadoHashMap = ControladoraArchivosObjeto.cargarHashMap("clientesYLibros.data");
     }
 
-    private static void librosAlquilados(){
+    private static void librosAlquilados() {
         // Mostrar el contenido del HashMap cargado
         System.out.println("HashMap cargado:");
         Iterator<Map.Entry<Cliente, ArrayList<Libro>>> it = cargadoHashMap.entrySet().iterator();
@@ -123,7 +125,7 @@ public class Main {
         }
     }
 
-    private static void guardarLibrosAlquilados(){
+    private static void guardarLibrosAlquilados() {
         HashMap<Cliente, ArrayList<Libro>> hashMap = new HashMap<>();
 
         // Suponiendo que biblioteca.getHashMapDeClientes() devuelve un HashMap<Integer, Cliente>
@@ -155,12 +157,12 @@ public class Main {
         System.out.println("1. Crear cliente");
         System.out.println("2. Crear libro");
         System.out.println("0. Volver");
-        int opcion = scanner.nextInt();
+        int opcion = pedirNumeroAlUsuario(scanner);
         scanner.nextLine();  // Consumir el salto de línea
 
         switch (opcion) {
             case 1:
-                Cliente nuevoCliente = crearNuevoCliente(scanner,biblioteca);
+                Cliente nuevoCliente = crearNuevoCliente(scanner, biblioteca);
                 biblioteca.agregarCliente(nuevoCliente.getIdCliente(), nuevoCliente);
                 System.out.println("Cliente agregado exitosamente.");
                 break;
@@ -200,8 +202,7 @@ public class Main {
         }
     }
 
-    private static void devolverLibro()
-    {
+    private static void devolverLibro() {
         System.out.println("Ingrese el ISBN del libro a devolver");
         int ISBN = scanner.nextInt();
         Libro libroEncontrado = biblioteca.buscarLibros(ISBN);
@@ -210,7 +211,7 @@ public class Main {
         int idCliente = scanner.nextInt();
         Cliente clienteEncontrado = biblioteca.buscarCliente(idCliente);
         try {
-            biblioteca.devolverLibro(libroEncontrado,clienteEncontrado);
+            biblioteca.devolverLibro(libroEncontrado, clienteEncontrado);
             System.out.println("Libro devuelto correctamente");
         } catch (ClienteNoEncontradoException | LibroNoEncontradoException | LibroNoAlquiladoException e) {
             System.out.println(e.getMessage());
@@ -244,7 +245,7 @@ public class Main {
         System.out.println("2. Por autor");
         System.out.println("3. Por ISBN");
         System.out.println("0. Volver");
-        op = scanner.nextInt();
+        op = pedirNumeroAlUsuario(scanner);
         switch (op) {
             case 1:
                 ArrayList<String> generos = biblioteca.obtenerGenerosDisponibles();
@@ -301,7 +302,7 @@ public class Main {
     private static void baja() {
         System.out.println("1. Bajar Libro");
         System.out.println("2. Bajar Cliente");
-        int op = scanner.nextInt();
+        int op = pedirNumeroAlUsuario(scanner);
         switch (op) {
             case 1:
                 System.out.print("Ingrese el ID del cliente a eliminar: ");
@@ -434,7 +435,23 @@ public class Main {
                 (correoElectronico.contains("gmail") || correoElectronico.contains("outlook") || correoElectronico.contains("hotmail"));
     }
 
+    public static int pedirNumeroAlUsuario(Scanner scanner) {
+        int numero;
 
+        while (true) {
+            // Verificamos si la entrada es un número entero
+            if (scanner.hasNextInt()) {
+                numero = scanner.nextInt();
+                break; // Salimos del bucle si el usuario ingresó un número válido
+            } else {
+                // Si la entrada no es un número, mostramos un mensaje de error y limpiamos la entrada
+                System.out.println("Entrada no válida. Intente nuevamente.");
+                scanner.next(); // Limpiamos la entrada no válida
+            }
+        }
+
+        return numero;
+    }
 
     public static Libro crearNuevoLibro(Scanner scanner, Biblioteca biblioteca) {
         int ISBN;
