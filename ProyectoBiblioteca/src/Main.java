@@ -87,6 +87,9 @@ public class Main {
                     System.out.println("Libros en posesión ");
                     librosAlquilados();
                     break;
+                case 9:
+                    cargarSaldoCliente();
+                    break;
                 case 0:
                     System.out.println("Saliendo...");
                     break;
@@ -149,6 +152,7 @@ public class Main {
         System.out.println("6. Alquilar Libro");
         System.out.println("7. Devolver Libro");
         System.out.println("8. Libros en préstamo");
+        System.out.println("9. Cargar Saldo cliente");
         System.out.println("0. Salir");
         System.out.print("Seleccione una opción: ");
     }
@@ -509,6 +513,39 @@ public class Main {
             }
         }
         return precio;
+    }
+
+
+    private static void cargarSaldoCliente(){
+
+        System.out.println("Ingrese el iD del cliente a cargar el saldo: ");
+        int id = pedirNumeroAlUsuario(scanner);
+        Cliente cliente = biblioteca.buscarCliente(id);
+        if(cliente != null){
+            System.out.println("Saldo actual: "+cliente.getSaldo());
+            System.out.println("Ingrese el monto a cargar: ");
+            float newSaldo = pedirFloatAlUsuario(scanner);
+            cliente.cargarSaldo(newSaldo);
+        }else{
+            System.out.println("Cliente no encontrado");
+        }
+    }
+
+    public static float pedirFloatAlUsuario(Scanner scanner) {
+        float numero;
+
+        while (true) {
+            // Verificamos si la entrada es un número entero
+            if (scanner.hasNextFloat()) {
+                numero = scanner.nextFloat();
+                break; // Salimos del bucle si el usuario ingresó un número válido
+            } else {
+                // Si la entrada no es un número, mostramos un mensaje de error y limpiamos la entrada
+                System.out.println("Entrada no válida. Intente nuevamente.");
+                scanner.next(); // Limpiamos la entrada no válida
+            }
+        }
+        return numero;
     }
 }
 
