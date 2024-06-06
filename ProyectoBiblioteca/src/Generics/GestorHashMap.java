@@ -45,10 +45,6 @@ public class GestorHashMap<Integer,T> {
         return mapa.get(clave);
     }
 
-    public void actualizar(Integer clave, T nuevoValor) {
-        mapa.put(clave, nuevoValor);
-    }
-
     public void eliminar(Integer clave) {
         mapa.remove(clave);
     }
