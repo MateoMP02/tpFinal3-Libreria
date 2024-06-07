@@ -223,7 +223,7 @@ public class Main {
 
     private static void agregarCopias() {
         System.out.println("Ingrese el ISBN del libro que quiera agregar copias");
-        int ISBN = scanner.nextInt();
+        int ISBN = pedirNumeroAlUsuario(scanner);
         biblioteca.agregarCopiaDeLibro(ISBN);
         // Mostrar el número de copias del libro actualizado
         Libro libroActualizado = biblioteca.buscarLibros(ISBN);
@@ -249,6 +249,7 @@ public class Main {
                 break;
             case 2:
                 System.out.println("Ingrese nombre y apellido a buscar");
+                scanner.nextLine();
                 String nombre = scanner.nextLine();
                 cliente = buscarClientePorNombreApellido(nombre);
                 if(cliente != null){
@@ -319,7 +320,7 @@ public class Main {
                 break;
             case 3:
                 System.out.print("Ingrese el ISBN del libro a buscar: ");
-                int isbn = scanner.nextInt();
+                int isbn = pedirNumeroAlUsuario(scanner);
                 Libro abuscar = biblioteca.buscarLibros(isbn);
                 if (abuscar != null) {
                     System.out.println(abuscar);
@@ -343,15 +344,25 @@ public class Main {
         switch (op) {
             case 1:
                 System.out.print("Ingrese el ID del cliente a eliminar: ");
-                int idClienteEliminar = scanner.nextInt();
-                biblioteca.eliminarCliente(idClienteEliminar);
-                System.out.println("Cliente eliminado exitosamente.");
+                int idClienteEliminar = pedirNumeroAlUsuario(scanner);
+                Cliente cliente = biblioteca.buscarCliente(idClienteEliminar);
+                if(cliente != null){
+                    biblioteca.eliminarCliente(idClienteEliminar);
+                    System.out.println("Cliente eliminado exitosamente.");
+                }else {
+                    System.out.println("No se puede eliminar un cliente inexistente");
+                }
                 break;
             case 2:
                 System.out.print("Ingrese el ISBN del libro a eliminar: ");
-                int isbnEliminar = scanner.nextInt();
-                biblioteca.eliminarLibro(isbnEliminar);
-                System.out.println("Libro eliminado exitosamente.");
+                int isbnEliminar = pedirNumeroAlUsuario(scanner);
+                Libro aBorrar = biblioteca.buscarLibros(isbnEliminar);
+                if(aBorrar != null){
+                    biblioteca.eliminarCliente(isbnEliminar);
+                    System.out.println("Libro eliminado exitosamente.");
+                }else {
+                    System.out.println("No se puede eliminar un Libro inexistente");
+                }
                 break;
             case 0:
                 System.out.println("Volviendo al menu principal");
