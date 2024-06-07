@@ -186,15 +186,15 @@ public class Main {
 
     private static void AlquilarLibro() {
         System.out.println("Ingrese el ISBN del libro que desea alquilar");
-        int ISBN = scanner.nextInt();
+        int ISBN = pedirNumeroAlUsuario(scanner);
         Libro libro = biblioteca.buscarLibros(ISBN);
 
         System.out.println("Ingrese su id");
-        int idCliente = scanner.nextInt();
+        int idCliente = pedirNumeroAlUsuario(scanner);
         Cliente cliente = biblioteca.buscarCliente(idCliente);
 
         System.out.println("Dias a alquilar: ");
-        int diasDeAlquiler = scanner.nextInt();
+        int diasDeAlquiler = pedirNumeroAlUsuario(scanner);
         try {
             biblioteca.alquilarLibro(libro, cliente, diasDeAlquiler);
             System.out.println("Alquiler exitoso");
@@ -485,19 +485,22 @@ public class Main {
 
     public static int pedirNumeroAlUsuario(Scanner scanner) {
         int numero;
-
         while (true) {
             // Verificamos si la entrada es un número entero
             if (scanner.hasNextInt()) {
                 numero = scanner.nextInt();
-                break; // Salimos del bucle si el usuario ingresó un número válido
+                // Verificamos si el número es positivo
+                if (numero >= 0) {
+                    break;
+                } else {
+                    System.out.println("El número debe ser positivo. Intente nuevamente.");
+                }
             } else {
                 // Si la entrada no es un número, mostramos un mensaje de error y limpiamos la entrada
                 System.out.println("Entrada no válida. Intente nuevamente.");
                 scanner.next(); // Limpiamos la entrada no válida
             }
         }
-
         return numero;
     }
 
