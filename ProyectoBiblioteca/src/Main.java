@@ -63,16 +63,16 @@ public class Main {
 
             switch (opcion) {
                 case 1:
-                    crear();
+                    crear(); //Libro o Cliente
                     break;
                 case 2:
                     busquedaCliente();
                     break;
                 case 3:
-                    baja();
+                    baja(); //Eliminar Definitivo
                     break;
                 case 4:
-                    busquedaLibros();
+                    busquedaLibros(); //Buscar por ...
                     break;
                 case 5:
                     agregarCopias();
@@ -85,7 +85,7 @@ public class Main {
                     break;
                 case 8:
                     System.out.println("Libros en posesión ");
-                    librosAlquilados();
+                    librosAlquilados(); //Alquileres pendientes de devolución
                     break;
                 case 9:
                     cargarSaldoCliente();
@@ -207,11 +207,11 @@ public class Main {
 
     private static void devolverLibro() {
         System.out.println("Ingrese el ISBN del libro a devolver");
-        int ISBN = scanner.nextInt();
+        int ISBN = pedirNumeroAlUsuario(scanner);
         Libro libroEncontrado = biblioteca.buscarLibros(ISBN);
 
         System.out.println("Ingrese el id del cliente");
-        int idCliente = scanner.nextInt();
+        int idCliente = pedirNumeroAlUsuario(scanner);
         Cliente clienteEncontrado = biblioteca.buscarCliente(idCliente);
         try {
             biblioteca.devolverLibro(libroEncontrado, clienteEncontrado);
@@ -268,12 +268,13 @@ public class Main {
     }
 
     private static Cliente buscarClientePorNombreApellido(String nombreYapellido) {
+        Cliente aBuscar = null;
         for (Cliente cliente : biblioteca.getHashMapDeClientes().values()) {
             if (cliente.getNombreYapellido().equalsIgnoreCase(nombreYapellido)) {
-                return cliente;
+                aBuscar = cliente;
             }
         }
-        return null; // Retorna null si no se encuentra ningún cliente con el nombre y apellido dado
+        return aBuscar; // Retorna null si no se encuentra ningún cliente con el nombre y apellido dado
     }
 
     private static void busquedaLibros() {
@@ -483,26 +484,6 @@ public class Main {
                 (correoElectronico.contains("gmail") || correoElectronico.contains("outlook") || correoElectronico.contains("hotmail"));
     }
 
-    public static int pedirNumeroAlUsuario(Scanner scanner) {
-        int numero;
-        while (true) {
-            // Verificamos si la entrada es un número entero
-            if (scanner.hasNextInt()) {
-                numero = scanner.nextInt();
-                // Verificamos si el número es positivo
-                if (numero >= 0) {
-                    break;
-                } else {
-                    System.out.println("El número debe ser positivo. Intente nuevamente.");
-                }
-            } else {
-                // Si la entrada no es un número, mostramos un mensaje de error y limpiamos la entrada
-                System.out.println("Entrada no válida. Intente nuevamente.");
-                scanner.next(); // Limpiamos la entrada no válida
-            }
-        }
-        return numero;
-    }
 
     public static Libro crearNuevoLibro(Scanner scanner, Biblioteca biblioteca) {
         int ISBN;
@@ -586,7 +567,11 @@ public class Main {
             // Verificamos si la entrada es un número entero
             if (scanner.hasNextFloat()) {
                 numero = scanner.nextFloat();
-                break; // Salimos del bucle si el usuario ingresó un número válido
+                if (numero >= 0) {
+                    break;
+                } else {
+                    System.out.println("El número debe ser positivo. Intente nuevamente.");
+                }
             } else {
                 // Si la entrada no es un número, mostramos un mensaje de error y limpiamos la entrada
                 System.out.println("Entrada no válida. Intente nuevamente.");
@@ -595,5 +580,27 @@ public class Main {
         }
         return numero;
     }
+
+    public static int pedirNumeroAlUsuario(Scanner scanner) {
+        int numero;
+        while (true) {
+            // Verificamos si la entrada es un número entero
+            if (scanner.hasNextInt()) {
+                numero = scanner.nextInt();
+                // Verificamos si el número es positivo
+                if (numero >= 0) {
+                    break;
+                } else {
+                    System.out.println("El número debe ser positivo. Intente nuevamente.");
+                }
+            } else {
+                // Si la entrada no es un número, mostramos un mensaje de error y limpiamos la entrada
+                System.out.println("Entrada no válida. Intente nuevamente.");
+                scanner.next(); // Limpiamos la entrada no válida
+            }
+        }
+        return numero;
+    }
+
 }
 
