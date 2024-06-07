@@ -17,8 +17,6 @@ Este es el proyecto final para la Universidad Tecnológica Nacional (UTN), desar
 ### Clonar el Repositorio
 Para comenzar, clona el repositorio a tu máquina local usando:
 
-
-Para comenzar, clona el repositorio a tu máquina local usando:
 ```sh
 $ git clone https://github.com/fedesosa4848/tpFinal3-Libreria.git
 ```
@@ -43,4 +41,4 @@ Las contribuciones son lo que hacen que la comunidad de código abierto sea un l
 
 ## Manual de usuario
 
-[Ver Manual]()
+[Ver Manual](https://docs.google.com/document/d/1F5QEm0ohAlqy0OhILYw2R02FOG2buXpb/edit?usp=sharing&ouid=105488777283654859153&rtpof=true&sd=true)
