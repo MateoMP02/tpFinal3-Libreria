@@ -235,10 +235,44 @@ public class Main {
     }
 
     private static void busquedaCliente() {
-        System.out.print("Ingrese el ID del cliente a buscar: ");
-        int idCliente = scanner.nextInt();
-        Cliente cliente = biblioteca.buscarCliente(idCliente);
-        System.out.println(cliente != null ? cliente : "Cliente no encontrado.");
+
+        System.out.println("1. Por Id");
+        System.out.println("2. Por Nombre y Apellido");
+        int op = pedirNumeroAlUsuario(scanner);
+        Cliente cliente;
+        switch (op){
+            case 1:
+                System.out.print("Ingrese el ID del cliente a buscar: ");
+                int idCliente = scanner.nextInt();
+                cliente = biblioteca.buscarCliente(idCliente);
+                System.out.println(cliente != null ? cliente : "Cliente no encontrado.");
+                break;
+            case 2:
+                System.out.println("Ingrese nombre y apellido a buscar");
+                String nombre = scanner.nextLine();
+                cliente = buscarClientePorNombreApellido(nombre);
+                if(cliente != null){
+                    System.out.println("Datos del cliente: "+ cliente);
+                }else {
+                    System.out.println("Cliente no encontrado. Verifique en la base de datos");
+                }
+                break;
+            case 0:
+                System.out.println("Volviendo");
+                break;
+            default:
+                System.out.println("Opcion no valida");
+                break;
+        }
+    }
+
+    private static Cliente buscarClientePorNombreApellido(String nombreYapellido) {
+        for (Cliente cliente : biblioteca.getHashMapDeClientes().values()) {
+            if (cliente.getNombreYapellido().equalsIgnoreCase(nombreYapellido)) {
+                return cliente;
+            }
+        }
+        return null; // Retorna null si no se encuentra ningún cliente con el nombre y apellido dado
     }
 
     private static void busquedaLibros() {
