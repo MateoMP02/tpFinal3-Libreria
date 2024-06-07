@@ -1,0 +1,5 @@
+# Ignorar todos los archivos .json
+*.json
+
+# Ignorar todos los archivos .data
+*.data
